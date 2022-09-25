@@ -9,6 +9,7 @@ export default function Navbar(){
                     <div className="flex items-center mx-4 select-none hover:cursor-pointer hover:brightness-[.80] py-4 px-4 transition-[filter] duration-300">
                         <Image draggable="false" alt="Praying Hands" width="32" height="32" src="/images/el.png"/>
                         <Image draggable="false" alt="Horse" width="32" height="32" src="/images/at.png"/>
+                        <Image draggable="false" alt="Girl" width="32" height="32" src="/images/kız.png"/>
                         <Image draggable="false" alt="Music" width="32" height="32" src="/images/muzik.png"/>
                     </div>
                 </Link>
@@ -39,6 +40,7 @@ export function NavItem(data: {href:string, text:string}) {
 const NAVBAR_ITEMS = {
     HOME: {href: "/", text: "Home"}, //decide whether to keep or not
     TRACKS: {href: "/tracks", text: "Tracks"},
+    ALBUMS: {href: "/albums", text: "Albums"},
     ARTISTS: {href: "/artists", text: "Artists"},
     SOTD: {href:"/sotd", text: "Song of the day"},
     ABOUT: {href: "/about", text: "About"}
