@@ -7,7 +7,7 @@ import Link from "next/link";
 const Tracks: NextPageWithLayout = ({ playlist }: InferGetStaticPropsType<typeof getStaticProps>) => {
     return (
         <div className="p-3">
-            <div className="text-white bg-slate-700/60 backdrop-blur shadow p-3 rounded grid gap-5 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 ">
+            <div className="text-white bg-slate-700/60 shadow p-3 rounded grid gap-5 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 ">
                 {(playlist as SpotifyPlaylist).tracks.items.map(({track}) => { //IDK WHY THE HELL THAT MY IDE YELLS AT ME SO I FORCEFULLY CASTED TYPES
                     return (
                         <div key={track.id}>
