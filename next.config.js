@@ -5,6 +5,9 @@ const nextConfig = {
   images: {
     domains: ['i.scdn.co'],
   },
+  experimental: {
+    newNextLinkBehavior: true
+  }
 }
 
 module.exports = nextConfig
