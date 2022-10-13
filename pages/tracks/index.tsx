@@ -45,7 +45,7 @@ export function TracksGridItem({track}: {track: Spotify.Track}) {
                         <Image alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width="80" height="80" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300"/>
                     </Link>
                 </div>
-                <div className="flex flex-col min-w-0 hover:min-w-fit hover:z-40">
+                <div className="flex flex-col min-w-0 hover:min-w-fit hover:z-20">
                     <div className="font-semibold text-lg md:truncate hover:text-clip">
                         {track.name}
                     </div>
