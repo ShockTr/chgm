@@ -40,11 +40,9 @@ export function TracksGridItem({track}: {track: Spotify.Track}) {
     return (
         <Link href={`/tracks/${track.id}`}>
             <div className="bg-slate-600/75 hover:bg-slate-500/75 rounded flex p-2 space-x-3 transition-colors duration-300 hover:cursor-pointer">
-                <div className="shrink-0 flex h-fit w-fit my-auto">
-                    <Link href={`albums/${track.album.id}`}>
-                        <Image alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width="80" height="80" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300"/>
-                    </Link>
-                </div>
+                <Link href={`albums/${track.album.id}`} className="shrink-0 flex h-fit w-fit my-auto">
+                    <Image alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width="80" height="80" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300"/>
+                </Link>
                 <div className="flex flex-col min-w-0 hover:min-w-fit hover:z-20">
                     <div className="font-semibold text-lg md:truncate hover:text-clip">
                         {track.name}
