@@ -9,10 +9,10 @@ export default function Navbar(){
             <div className="flex mx-auto justify-between">
                 <Link href="/" className="">
                     <div className="flex items-center md:ml-4 select-none hover:cursor-pointer hover:brightness-[.80] py-4 px-4 transition-[filter] duration-300" onClick={() => setOpen(false)}>
-                        <Image draggable="false" alt="Praying Hands" width="32" height="32" src="/images/el.png"/>
-                        <Image draggable="false" alt="Horse" width="32" height="32" src="/images/at.png"/>
-                        <Image draggable="false" alt="Girl" width="32" height="32" src="/images/kız.png"/>
-                        <Image draggable="false" alt="Music" width="32" height="32" src="/images/muzik.png"/>
+                        <Image priority={true} draggable="false" alt="Praying Hands" width="32" height="32" src="/images/el.png"/>
+                        <Image priority={true} draggable="false" alt="Horse" width="32" height="32" src="/images/at.png"/>
+                        <Image priority={true} draggable="false" alt="Girl" width="32" height="32" src="/images/kız.png"/>
+                        <Image priority={true} draggable="false" alt="Music" width="32" height="32" src="/images/muzik.png"/>
                     </div>
                 </Link>
                 <div className="hidden md:flex space-x-2 mr-5 whitespace-nowrap">
