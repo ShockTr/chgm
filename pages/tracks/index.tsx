@@ -13,7 +13,7 @@ const Tracks = ({ playlist }: {playlist: SpotifyPlaylist}) => {
             <div className="text-white bg-slate-700/60 shadow p-3 rounded grid gap-5 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 ">
                 {(playlist).tracks.items.map(({track}) => { //IDK WHY THE HELL THAT MY IDE YELLS AT ME SO I FORCEFULLY CASTED TYPES
                     return (
-                        <div key={track.id}>
+                        <div className="min-w-0" key={track.id}>
                             <TracksGridItem track={track} />
                         </div>
                     )
@@ -45,7 +45,7 @@ export function TracksGridItem({track}: {track: Spotify.Track}) {
                     <Image placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width="80" height="80" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300"/>
                 </Link>
                 <div className="flex flex-col min-w-0">
-                    <div className="font-semibold text-lg md:truncate">
+                    <div className="font-semibold text-lg truncate">
                         {track.name}
                     </div>
                     <div className="font-italic text-xs z-10">
