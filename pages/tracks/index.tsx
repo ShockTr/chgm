@@ -39,26 +39,27 @@ export default Tracks
 
 export function TracksGridItem({track}: {track: Spotify.Track}) {
     return (
-        <Link href={`/tracks/${track.id}`}>
-            <div className="bg-slate-600/75 hover:bg-slate-500/75 rounded flex p-2 space-x-3 transition-colors duration-300 hover:cursor-pointer">
-                <Link href={`albums/${track.album.id}`} className="shrink-0 flex h-fit w-fit my-auto">
+        <div className="bg-slate-600/75 hover:bg-slate-500/75 rounded p-2 transition-colors duration-300 relative">
+            <div className="flex space-x-3">
+                <Link href={`albums/${track.album.id}`} className="shrink-0 flex h-fit w-fit my-auto z-10">
                     <Image placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width="80" height="80" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300"/>
                 </Link>
                 <div className="flex flex-col min-w-0">
                     <div className="font-semibold text-lg md:truncate">
                         {track.name}
                     </div>
-                    <div className="font-italic text-xs">
+                    <div className="font-italic text-xs z-10">
                         by {track.artists.map((artist,index,array) => {
-                            return (
-                                <span key={artist.id}>
+                        return (
+                            <span key={artist.id}>
                                     <Link href={`/artists/${artist.id}`}><span className="hover:cursor-pointer hover:underline">{artist.name}</span></Link>{((array.length - index - 1) !== 0)? ', ': ''}
-                                </span>
-                            )
-                        })}
+                            </span>
+                        )
+                    })}
                     </div>
                 </div>
             </div>
-        </Link>
+            <Link className="absolute top-0 bottom-0 left-0 right-0 z-0" href={`/tracks/${track.id}`}/>
+        </div>
     )
 }
