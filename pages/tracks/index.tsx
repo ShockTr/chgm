@@ -5,6 +5,7 @@ import Link from "next/link";
 import {Spotify} from "../../types/spotify";
 import SpotifyPlaylist = Spotify.SpotifyPlaylist;
 import fetchPlaylist from "../../lib/util/fetchPlaylist";
+import shimmer from "../../lib/util/shimmer";
 
 const Tracks = ({ playlist }: {playlist: SpotifyPlaylist}) => {
     return (
@@ -41,10 +42,10 @@ export function TracksGridItem({track}: {track: Spotify.Track}) {
         <Link href={`/tracks/${track.id}`}>
             <div className="bg-slate-600/75 hover:bg-slate-500/75 rounded flex p-2 space-x-3 transition-colors duration-300 hover:cursor-pointer">
                 <Link href={`albums/${track.album.id}`} className="shrink-0 flex h-fit w-fit my-auto">
-                    <Image alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width="80" height="80" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300"/>
+                    <Image placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width="80" height="80" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300"/>
                 </Link>
-                <div className="flex flex-col min-w-0 hover:min-w-fit hover:z-20">
-                    <div className="font-semibold text-lg md:truncate hover:text-clip">
+                <div className="flex flex-col min-w-0">
+                    <div className="font-semibold text-lg md:truncate">
                         {track.name}
                     </div>
                     <div className="font-italic text-xs">
