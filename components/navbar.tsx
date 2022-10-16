@@ -7,8 +7,8 @@ export default function Navbar(){
     return(
         <nav className="bg-slate-800/70 z-40 top-0 sticky shadow backdrop-blur flex-none w-full">
             <div className="flex mx-auto justify-between">
-                <Link href="/" className="">
-                    <div className="flex items-center md:ml-4 select-none hover:cursor-pointer hover:brightness-[.80] py-4 px-4 transition-[filter] duration-300" onClick={() => setOpen(false)}>
+                <Link href="/" className="md:ml-4">
+                    <div className="flex items-center select-none hover:cursor-pointer hover:brightness-[.80] py-4 px-4 transition-[filter] duration-300" onClick={() => setOpen(false)}>
                         <Image priority={true} draggable="false" alt="Praying Hands" width="32" height="32" src="/images/el.png"/>
                         <Image priority={true} draggable="false" alt="Horse" width="32" height="32" src="/images/at.png"/>
                         <Image priority={true} draggable="false" alt="Girl" width="32" height="32" src="/images/kız.png"/>
