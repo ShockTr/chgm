@@ -8,16 +8,20 @@ export interface caches {
 }
 
 export class cacheManager {
-    static getByID<T extends keyof caches>(id: T): caches[T] | null {
+    static getByID<T extends keyof caches>(id: T): caches[T] {
         let data = this.getAll()
-        if (data) return data[id]
-        return null
+        return data[id]
     }
-    static getAll(): caches | null {
-        const json = readFileSync(path.join(process.cwd(), 'cache.json'))
-        const data: caches = JSON.parse(json as unknown as string)
-        if (data) return data
-        return null
+    static getAll(): caches {
+        try {
+            const json = readFileSync(path.join(process.cwd(), 'cache.json'))
+            const data: caches = JSON.parse(json as unknown as string)
+            if (data) return data
+            return {}
+        }
+        catch (err) {
+            return {}
+        }
     }
     static setByID<T extends keyof caches>(id: T, data?:caches[T]) {
         let current = this.getAll() ?? {}
