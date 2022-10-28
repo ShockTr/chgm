@@ -2,22 +2,23 @@ import DefaultLayout from "../../components/layouts/DefaultLayout";
 import Image from 'next/image'
 import {GetStaticProps} from "next";
 import Link from "next/link";
-import {Spotify} from "../../types/spotify";
-import SpotifyPlaylist = Spotify.PlaylistObjectFull;
 import fetchPlaylist from "../../lib/util/fetchPlaylist";
 import shimmer from "../../lib/util/shimmer";
+import {Spotify} from "../../types/spotify";
+import PagingObject = Spotify.PagingObject;
+import PlaylistTrackObject = Spotify.PlaylistTrackObject;
 
-const Tracks = ({ playlist }: {playlist: SpotifyPlaylist}) => {
+const Tracks = ({ tracks }: {tracks: PagingObject<PlaylistTrackObject>}) => {
     return (
         <div className="p-3">
             <div className="text-white bg-slate-800 shadow p-3 rounded grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                {(playlist).tracks.items.map(({track}) => { //IDK WHY THE HELL THAT MY IDE YELLS AT ME SO I FORCEFULLY CASTED TYPES
+                {tracks.items.map(({track}) => {
                     return (
                         track ?
                         <div className="min-w-0" key={track.id}>
                             <TracksGridItem track={track} />
                         </div> :
-                        <></>
+                        null
                     )
                 }) }
             </div>
@@ -27,11 +28,11 @@ const Tracks = ({ playlist }: {playlist: SpotifyPlaylist}) => {
 Tracks.getLayout = DefaultLayout
 
 export const getStaticProps: GetStaticProps = async () => {
-    const playlist: SpotifyPlaylist = await fetchPlaylist()
+    const playlist = await fetchPlaylist()
 
     return {
         props: {
-            playlist,
+            tracks: playlist.tracks,
         }
     }
 }
