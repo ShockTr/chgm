@@ -1,10 +1,9 @@
 import path from 'path'
 import { readFileSync, writeFileSync } from 'fs'
 import {Spotify} from "../../types/spotify";
-import SpotifyPlaylist = Spotify.SpotifyPlaylist;
 
 export interface caches {
-    playlist?: SpotifyPlaylist
+    playlist?: Spotify.PlaylistObjectFull
 }
 
 export class cacheManager {

@@ -3,19 +3,21 @@ import Image from 'next/image'
 import {GetStaticProps} from "next";
 import Link from "next/link";
 import {Spotify} from "../../types/spotify";
-import SpotifyPlaylist = Spotify.SpotifyPlaylist;
+import SpotifyPlaylist = Spotify.PlaylistObjectFull;
 import fetchPlaylist from "../../lib/util/fetchPlaylist";
 import shimmer from "../../lib/util/shimmer";
 
 const Tracks = ({ playlist }: {playlist: SpotifyPlaylist}) => {
     return (
         <div className="p-3">
-            <div className="text-white bg-slate-800 shadow p-3 rounded grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 ">
+            <div className="text-white bg-slate-800 shadow p-3 rounded grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                 {(playlist).tracks.items.map(({track}) => { //IDK WHY THE HELL THAT MY IDE YELLS AT ME SO I FORCEFULLY CASTED TYPES
                     return (
+                        track ?
                         <div className="min-w-0" key={track.id}>
                             <TracksGridItem track={track} />
-                        </div>
+                        </div> :
+                        <></>
                     )
                 }) }
             </div>
@@ -37,7 +39,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
 export default Tracks
 
-export function TracksGridItem({track}: {track: Spotify.Track}) {
+export function TracksGridItem({track}: {track: Spotify.TrackObjectFull}) {
     return (
         <div className="bg-slate-700 hover:bg-slate-600 rounded p-2 transition-colors duration-300">
             <div className="flex space-x-3">

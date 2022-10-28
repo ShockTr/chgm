@@ -1,5 +1,4 @@
 import {Spotify} from "../../types/spotify";
-import SpotifyPlaylist = Spotify.SpotifyPlaylist;
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function () {
@@ -15,11 +14,11 @@ export default async function () {
         method: "POST"
     })
         .then(res => res.json()) as { access_token: string, token_type: string, expires_in: number }
-    let final_playlist: SpotifyPlaylist
-    let current_playlist = await fetch(`https://api.spotify.com/v1/playlists/${process.env.PLAYLIST}?market=US`, {headers: {Authorization: `Bearer ${token}`}}).then(r => r.json()) as SpotifyPlaylist
+    let final_playlist: Spotify.PlaylistObjectFull
+    let current_playlist = await fetch(`https://api.spotify.com/v1/playlists/${process.env.PLAYLIST}?market=US`, {headers: {Authorization: `Bearer ${token}`}}).then(r => r.json()) as Spotify.PlaylistObjectFull
     final_playlist = current_playlist
     while (current_playlist.tracks.next !== null) {
-        let next = await fetch(current_playlist.tracks.next, {headers: {Authorization: `Bearer ${token}`}}).then(r => r.json()) as SpotifyPlaylist
+        let next = await fetch(current_playlist.tracks.next, {headers: {Authorization: `Bearer ${token}`}}).then(r => r.json()) as Spotify.PlaylistObjectFull
         final_playlist.tracks.items.push(...next.tracks.items)
         current_playlist = next
     }
