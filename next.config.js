@@ -4,9 +4,6 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ['i.scdn.co'],
-  },
-  experimental: {
-    newNextLinkBehavior: true
   }
 }
 
