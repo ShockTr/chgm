@@ -1,6 +1,6 @@
 import DefaultLayout from "../../components/layouts/DefaultLayout";
 import {GetStaticPaths, GetStaticProps} from "next";
-import fetchPlaylist from "../../lib/util/fetchPlaylist";
+import fetchPlaylist from "../../lib/util/spotify/fetchPlaylist";
 import {Spotify} from "../../types/spotify";
 import SpotifyPlaylist = Spotify.PlaylistObjectFull
 import {cacheManager} from "../../lib/cache/fileCache";
