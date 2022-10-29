@@ -12,17 +12,19 @@ import getAccessToken from "../../lib/util/spotify/getAccessToken";
 
 const Artists = ({ artists }: {artists: ArtistObjectFull[]}) => {
     return (
-        <div className="p-3">
-            <div className="text-white bg-slate-800 shadow p-3 rounded grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                {artists.map((artist) => {
-                    return (
-                        artist ?
-                            <div className="min-w-0" key={artist.id}>
-                                <ArtistsGridItem artist={artist} />
-                            </div> :
-                            null
-                    )
-                }) }
+        <div className="p-3 flex-grow flex">
+            <div className="bg-slate-800 shadow rounded flex-grow">
+                <div className="text-white p-3 grid gap-5 grid-cols-[repeat(auto-fit,_minmax(11rem,_1fr))]">
+                    {artists.map((artist) => {
+                        return (
+                            artist ?
+                                <div key={artist.id}>
+                                    <ArtistsGridItem artist={artist} />
+                                </div> :
+                                null
+                        )
+                    }) }
+                </div>
             </div>
         </div>
     )
@@ -60,19 +62,18 @@ export const getStaticProps: GetStaticProps = async () => {
 export default Artists
 
 export function ArtistsGridItem({artist}: {artist: Spotify.ArtistObjectFull}) {
-    //TODO: MAKE STYLES SIMILAR TO SPOTIFY LATEST SEARCH ARTIST CARDS
     return (
-        <div className="bg-slate-700 hover:bg-slate-600 rounded p-2 transition-colors duration-300">
-            <div className="flex space-x-3">
-                <Link href={`albums/${artist.id}`} className="shrink-0 h-20 w-20 flex my-auto relative">
-                    <Image title={artist.name} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300" fill={true}/>
-                </Link>
-                <div className="flex flex-col min-w-0">
-                    <Link href={`albums/${artist.id}`} className="font-semibold text-lg truncate hover:underline">
-                        <span title={artist.name}>{artist.name}</span>
-                    </Link>
+        <div title={artist.name} className="bg-slate-700 hover:bg-slate-600 rounded min-w-44 transition-colors duration-300">
+            <Link href={`/artists/${artist.id}`} className="flex flex-col p-3 items-center">
+                <div className="space-y-3">
+                    <div className="shrink-0 w-40 h-40 flex relative" >
+                        <Image placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" fill/>
+                    </div>
+                    <div className="font-semibold text-lg truncate">
+                        {artist.name}
+                    </div>
                 </div>
-            </div>
+            </Link>
         </div>
     )
 }
