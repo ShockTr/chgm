@@ -2,13 +2,10 @@ import DefaultLayout from "../../components/layouts/DefaultLayout";
 import Image from 'next/image'
 import {GetStaticProps} from "next";
 import Link from "next/link";
-import fetchPlaylist from "../../lib/util/spotify/fetchPlaylist";
 import shimmer from "../../lib/util/shimmer";
 import {Spotify} from "../../types/spotify";
-import ArtistObjectSimplified = Spotify.ArtistObjectSimplified;
 import ArtistObjectFull = Spotify.ArtistObjectFull;
-import fetchArtists from "../../lib/util/spotify/fetchArtists";
-import getAccessToken from "../../lib/util/spotify/getAccessToken";
+import getAllArtists from "../../lib/util/spotify/getAllArtists";
 
 const Artists = ({ artists }: {artists: ArtistObjectFull[]}) => {
     return (
@@ -32,22 +29,10 @@ const Artists = ({ artists }: {artists: ArtistObjectFull[]}) => {
 Artists.getLayout = DefaultLayout
 
 export const getStaticProps: GetStaticProps = async () => {
-    const playlist = await fetchPlaylist()
-    let token = await getAccessToken().then(r=>r.access_token)
-    let artists_array = playlist.tracks.items.map(item => item.track?.artists).filter((e) => e !== undefined).flat(1) as ArtistObjectSimplified[]
-    let uniqueIds = new Set<string>(artists_array.map(item => item.id))
-    let remainingIds = [...uniqueIds]
-    let finalObject: ArtistObjectFull[] = []
-    for (let i = remainingIds.length; i > 0; i >= 50 ? i = i-50: i=0) {
-        let idsToRequest:string[]
-        idsToRequest = remainingIds.slice(0, i>=50?49:i-1)
-        remainingIds = remainingIds.slice(i>=50?49:i-1)
-        let result = await fetchArtists(idsToRequest, token)
-        finalObject.push(...result)
-    }
+    let artists = await getAllArtists()
     return {
         props: {
-            artists: finalObject
+            artists
         }
     }
 }
