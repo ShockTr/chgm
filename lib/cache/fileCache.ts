@@ -4,6 +4,7 @@ import {Spotify} from "../../types/spotify";
 
 export interface caches {
     playlist?: Spotify.PlaylistObjectFull
+    artists?: Spotify.ArtistObjectFull[]
 }
 
 export class cacheManager {
