@@ -12,7 +12,7 @@ const Tracks = ({ tracks }: {tracks: PagingObject<PlaylistTrackObject>}) => {
     return (
         <div className="p-3 flex-grow flex">
             <div className="bg-slate-800 shadow rounded flex-grow">
-                <div className="text-white p-3 grid gap-5 grid-cols-[repeat(auto-fit,_minmax(16rem,_1fr))]">
+                <div className="text-white p-3 grid gap-5 sm:grid-cols-[repeat(auto-fit,_minmax(16rem,_1fr))]">
                     {tracks.items.map(({track}) => {
                         return (
                             track ?
