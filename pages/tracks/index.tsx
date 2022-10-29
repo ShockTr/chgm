@@ -9,6 +9,7 @@ import PagingObject = Spotify.PagingObject;
 import PlaylistTrackObject = Spotify.PlaylistTrackObject;
 
 const Tracks = ({ tracks }: {tracks: PagingObject<PlaylistTrackObject>}) => {
+    //TODO: Improve styling on here with the techniques used in /artists
     return (
         <div className="p-3">
             <div className="text-white bg-slate-800 shadow p-3 rounded grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">

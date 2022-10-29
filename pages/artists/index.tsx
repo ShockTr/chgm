@@ -40,14 +40,8 @@ export const getStaticProps: GetStaticProps = async () => {
     let finalObject: ArtistObjectFull[] = []
     for (let i = remainingIds.length; i > 0; i >= 50 ? i = i-50: i=0) {
         let idsToRequest:string[]
-        if (i >= 50) {
-            idsToRequest = remainingIds.slice(0,49)
-            remainingIds = remainingIds.slice(49)
-        }
-        else {
-            idsToRequest = remainingIds.slice(0,i-1)
-            remainingIds = remainingIds.slice(i-1)
-        }
+        idsToRequest = remainingIds.slice(0, i>=50?49:i-1)
+        remainingIds = remainingIds.slice(i>=50?49:i-1)
         let result = await fetchArtists(idsToRequest, token)
         finalObject.push(...result)
     }
