@@ -8,19 +8,20 @@ import {Spotify} from "../../types/spotify";
 import AlbumObjectSimplified = Spotify.AlbumObjectSimplified;
 
 const Albums = ({ albums }: {albums: AlbumObjectSimplified[]}) => {
-    //TODO: Improve styling on here with the techniques used in /artists
     return (
-        <div className="p-3">
-            <div className="text-white bg-slate-800 shadow p-3 rounded grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                {albums.map((album) => {
-                    return (
-                        album ?
-                            <div className="min-w-0" key={album.id}>
-                                <AlbumsGridItem album={album} />
-                            </div> :
-                            null
-                    )
-                }) }
+        <div className="p-3 flex-grow flex">
+            <div className="bg-slate-800 shadow rounded flex-grow">
+                <div className="text-white p-3 grid gap-5 grid-cols-[repeat(auto-fit,_minmax(16rem,_1fr))]">
+                    {albums.map((album) => {
+                        return (
+                            album ?
+                                <div className="min-w-0" key={album.id}>
+                                    <AlbumsGridItem album={album} />
+                                </div> :
+                                null
+                        )
+                    })}
+                </div>
             </div>
         </div>
     )

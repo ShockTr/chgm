@@ -20,7 +20,7 @@ const Artists = ({ artists }: {artists: ArtistObjectFull[]}) => {
                                 </div> :
                                 null
                         )
-                    }) }
+                    })}
                 </div>
             </div>
         </div>
