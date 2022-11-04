@@ -11,5 +11,5 @@ export default (w: number, h: number) => `
   </defs>
   <rect width="${w}" height="${h}" fill="#334155" />
   <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
-  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+  <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"/>
 </svg>`

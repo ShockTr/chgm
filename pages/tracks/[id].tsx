@@ -4,7 +4,7 @@ import fetchPlaylist from "../../lib/util/spotify/fetchPlaylist";
 import {Spotify} from "../../types/spotify";
 import SpotifyPlaylist = Spotify.PlaylistObjectFull
 import {cacheManager} from "../../lib/cache/fileCache";
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import shimmer from "../../lib/util/shimmer";
 import Link from 'next/link'
 

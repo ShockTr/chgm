@@ -1,5 +1,5 @@
 import DefaultLayout from "../../components/layouts/DefaultLayout";
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {GetStaticProps} from "next";
 import Link from "next/link";
 import shimmer from "../../lib/util/shimmer";
@@ -46,7 +46,7 @@ export function ArtistsGridItem({artist}: {artist: Spotify.ArtistObjectFull}) {
             <Link href={`/artists/${artist.id}`} className="flex flex-col p-3 items-center">
                 <div className="space-y-3">
                     <div className="shrink-0 w-40 h-40 flex relative" >
-                        <Image placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" fill/>
+                        <Image placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill"/>
                     </div>
                     <div className="font-semibold text-lg truncate">
                         {artist.name}

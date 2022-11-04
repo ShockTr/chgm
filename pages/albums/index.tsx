@@ -1,5 +1,5 @@
 import DefaultLayout from "../../components/layouts/DefaultLayout";
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import {GetStaticProps} from "next";
 import Link from "next/link";
 import fetchPlaylist from "../../lib/util/spotify/fetchPlaylist";
