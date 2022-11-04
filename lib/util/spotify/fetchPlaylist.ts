@@ -1,6 +1,9 @@
 import {Spotify} from "../../../types/spotify";
 import getAccessToken from "./getAccessToken";
 
+/**
+ * @param token Provide a token to skip built-in token requester.
+ */
 export default async function fetchPlaylist (token?:string) {
     let realToken = token ?? await getAccessToken().then(r => r.access_token)
     let final_playlist: Spotify.PlaylistObjectFull
