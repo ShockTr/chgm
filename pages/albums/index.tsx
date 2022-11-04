@@ -47,11 +47,11 @@ export function AlbumsGridItem({album}: {album: Spotify.AlbumObjectSimplified}) 
     return (
         <div className="bg-slate-700 hover:bg-slate-600 rounded p-2 transition-colors duration-300">
             <div className="flex space-x-3">
-                <Link href={`albums/${album.id}`} className="shrink-0 flex h-fit w-fit my-auto">
+                <Link href={`/albums/${album.id}`} className="shrink-0 flex h-fit w-fit my-auto">
                     <Image title={album.name} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={ album.name + " Album Cover"} src={album.images[0].url} width="80" height="80" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300"/>
                 </Link>
                 <div className="flex flex-col min-w-0">
-                    <Link href={`albums/${album.id}`} className="font-semibold text-lg truncate hover:underline">
+                    <Link href={`/albums/${album.id}`} className="font-semibold text-lg truncate hover:underline">
                         <span title={album.name}>{album.name}</span>
                     </Link>
                     <div className="font-italic text-xs">
