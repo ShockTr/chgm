@@ -1,4 +1,4 @@
-import {Spotify} from "../../../types/spotify";
+import {Spotify} from "../../types/spotify";
 import PagingObject = Spotify.PagingObject;
 import getAccessToken from "./getAccessToken";
 

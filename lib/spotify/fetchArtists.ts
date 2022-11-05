@@ -1,5 +1,5 @@
 import getAccessToken from "./getAccessToken";
-import {Spotify} from "../../../types/spotify";
+import {Spotify} from "../../types/spotify";
 
 /**
  * @param ids IDs of the artists to get. max50

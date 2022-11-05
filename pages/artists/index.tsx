@@ -5,7 +5,7 @@ import Link from "next/link";
 import shimmer from "../../lib/util/shimmer";
 import {Spotify} from "../../types/spotify";
 import ArtistObjectFull = Spotify.ArtistObjectFull;
-import getAllArtists from "../../lib/util/spotify/getAllArtists";
+import getAllArtists from "../../lib/spotify/getAllArtists";
 
 const Artists = ({ artists }: {artists: ArtistObjectFull[]}) => {
     return (

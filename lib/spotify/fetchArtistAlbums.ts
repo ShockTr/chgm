@@ -1,5 +1,5 @@
 import getAccessToken from "./getAccessToken";
-import {Spotify} from "../../../types/spotify";
+import {Spotify} from "../../types/spotify";
 import ArtistsAlbumsResponse = Spotify.ArtistsAlbumsResponse;
 import AlbumObjectSimplified = Spotify.AlbumObjectSimplified
 import fetchAllPages from "./fetchAllPages";

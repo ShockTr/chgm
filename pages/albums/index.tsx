@@ -2,7 +2,7 @@ import DefaultLayout from "../../components/layouts/DefaultLayout";
 import Image from 'next/legacy/image'
 import {GetStaticProps} from "next";
 import Link from "next/link";
-import fetchPlaylist from "../../lib/util/spotify/fetchPlaylist";
+import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
 import shimmer from "../../lib/util/shimmer";
 import {Spotify} from "../../types/spotify";
 import AlbumObjectSimplified = Spotify.AlbumObjectSimplified;

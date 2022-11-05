@@ -1,13 +1,16 @@
 import fetchPlaylist from "./fetchPlaylist";
 import getAccessToken from "./getAccessToken";
 import fetchArtists from "./fetchArtists";
-import {Spotify} from "../../../types/spotify";
+import {Spotify} from "../../types/spotify";
 import ArtistObjectFull = Spotify.ArtistObjectFull;
 import ArtistObjectSimplified = Spotify.ArtistObjectSimplified;
 
-export default async function getAllArtists() {
-    const playlist = await fetchPlaylist()
-    let token = await getAccessToken().then(r=>r.access_token)
+/**
+ * @param token Provide a token to skip built-in token requester.
+ */
+export default async function getAllArtists(token?:string) {
+    let realToken = token ?? await getAccessToken().then(r => r.access_token)
+    const playlist = await fetchPlaylist(realToken)
     let artists_array = playlist.tracks.items.map(item => item.track?.artists).filter((e) => e !== undefined).flat(1) as ArtistObjectSimplified[]
     let uniqueIds = new Set<string>(artists_array.map(item => item.id))
     let remainingIds = [...uniqueIds]
@@ -16,7 +19,7 @@ export default async function getAllArtists() {
         let idsToRequest:string[]
         idsToRequest = remainingIds.slice(0, i>=50?49:i-1)
         remainingIds = remainingIds.slice(i>=50?49:i-1)
-        let result = await fetchArtists(idsToRequest, token)
+        let result = await fetchArtists(idsToRequest, realToken)
         finalObject.push(...result)
     }
     return finalObject

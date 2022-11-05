@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import fetchPlaylist from "../../lib/util/spotify/fetchPlaylist";
+import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse) => {

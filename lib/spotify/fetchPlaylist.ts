@@ -1,4 +1,4 @@
-import {Spotify} from "../../../types/spotify";
+import {Spotify} from "../../types/spotify";
 import getAccessToken from "./getAccessToken";
 
 /**
