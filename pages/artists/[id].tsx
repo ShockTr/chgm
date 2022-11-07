@@ -12,9 +12,11 @@ import getAccessToken from "../../lib/spotify/getAccessToken";
 
 const Artists = ({artist, albums, topTracks}: {artist: ArtistObjectFull, albums: AlbumObjectSimplified[], topTracks:TrackObjectFull[]}) => {
     return (
-        <div className="text-white p-5">
-            <div className="text-2xl ">
-                Artist page of: {artist.name}
+        <div className="flex-grow flex">
+            <div className="h-72 m-3 pt-24 flex w-full flex space-x-3">
+                <div className="font-bold mt-auto text-6xl text-white">
+                    {artist.name}
+                </div>
             </div>
         </div>
     )
