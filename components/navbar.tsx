@@ -1,11 +1,24 @@
 import Link from "next/link";
 import Image from 'next/image'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function Navbar(){
     const [open, setOpen] = useState(false)
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const handleScroll = () => {
+        const position = window.scrollY;
+        setScrollPosition(position);
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
     return(
-        <nav className="bg-slate-800/70 z-40 top-0 sticky shadow backdrop-blur flex-none w-full">
+        <nav className={`z-40 bg-slate-900 md:bg-transparent top-0 sticky flex-none w-full transition-all border-b duration-200 border-slate-800 md:border-slate-800/0 ${(scrollPosition > 0) ? "md:bg-slate-900 shadow md:border-slate-800" : ""}`}>
             <div className="flex mx-auto justify-between">
                 <Link href="/" className="md:ml-4">
                     <div className="flex items-center select-none hover:cursor-pointer hover:brightness-[.80] py-4 px-4 transition-[filter] duration-300" onClick={() => setOpen(false)}>
@@ -15,7 +28,7 @@ export default function Navbar(){
                         <Image priority={true} draggable="false" alt="Music" width="32" height="32" src="/images/muzik.png"/>
                     </div>
                 </Link>
-                <div className="hidden md:flex space-x-2 mr-5 whitespace-nowrap">
+                <div className="hidden md:flex space-x-2 mr-5 whitespace-nowrap items-center">
                     { Object.entries(NAVBAR_ITEMS).map(([key,data]) => {
                         return (
                             <div key={key} className="my-3">
@@ -30,7 +43,7 @@ export default function Navbar(){
                     </svg>
                 </div>
             </div>
-            <div className={`${open? "": "hidden"} ${"md:hidden border-t border-slate-700 h-max flex flex-col"}`}>
+            <div className={`${open? "": "hidden"} ${"md:hidden border-t border-slate-800 h-max flex flex-col"}`}>
                 { Object.entries(NAVBAR_ITEMS).map(([key,data]) => {
                     return (
                         <div key={key} onClick={()=>setOpen(false)} className="my-2">
@@ -46,7 +59,7 @@ export default function Navbar(){
 export function NavItem(data: {href:string, text:string}) {
     return(
         <Link href={data.href}>
-            <div className="rounded py-2 text-white px-4 hover:shadow hover:bg-gray-700 hover:cursor-pointer active:shadow active:bg-gray-700 transition-colors duration-200">
+            <div className="rounded py-2 text-white px-4 hover:shadow hover:bg-gray-800 active:shadow active:bg-gray-800 transition-colors duration-200">
                 {data.text}
             </div>
         </Link>
