@@ -10,7 +10,7 @@ import getAllArtists from "../../lib/spotify/getAllArtists";
 const Artists = ({ artists }: {artists: ArtistObjectFull[]}) => {
     return (
         <div className="p-3 flex-grow flex">
-            <div className="bg-slate-800 shadow rounded flex-grow">
+            <div className="shadow rounded flex-grow">
                 <div className="text-white p-3 grid gap-5 grid-cols-[repeat(auto-fit,_minmax(11rem,_1fr))]">
                     {artists.map((artist) => {
                         return (
@@ -42,7 +42,7 @@ export default Artists
 
 export function ArtistsGridItem({artist}: {artist: Spotify.ArtistObjectFull}) {
     return (
-        <div title={artist.name} className="bg-slate-700 hover:bg-slate-600 rounded min-w-44 transition-colors duration-300">
+        <div title={artist.name} className="bg-slate-800 hover:bg-slate-700 rounded min-w-44 h-60 transition-colors duration-300">
             <Link href={`/artists/${artist.id}`} className="flex flex-col p-3 items-center">
                 <div className="space-y-3">
                     <div className="shrink-0 w-40 h-40 flex relative" >
