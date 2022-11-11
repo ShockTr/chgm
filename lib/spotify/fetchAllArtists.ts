@@ -8,7 +8,7 @@ import ArtistObjectSimplified = Spotify.ArtistObjectSimplified;
 /**
  * @param token Provide a token to skip built-in token requester.
  */
-export default async function getAllArtists(token?:string) {
+export default async function fetchAllArtists(token?:string) {
     let realToken = token ?? await getAccessToken().then(r => r.access_token)
     const playlist = await fetchPlaylist(realToken)
     let artists_array = playlist.tracks.items.map(item => item.track?.artists).filter((e) => e !== undefined).flat(1) as ArtistObjectSimplified[]

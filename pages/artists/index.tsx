@@ -5,7 +5,7 @@ import Link from "next/link";
 import shimmer from "../../lib/util/shimmer";
 import {Spotify} from "../../types/spotify";
 import ArtistObjectFull = Spotify.ArtistObjectFull;
-import getAllArtists from "../../lib/spotify/getAllArtists";
+import fetchAllArtists from "../../lib/spotify/fetchAllArtists";
 
 const Artists = ({ artists }: {artists: ArtistObjectFull[]}) => {
     return (
@@ -29,7 +29,7 @@ const Artists = ({ artists }: {artists: ArtistObjectFull[]}) => {
 Artists.getLayout = DefaultLayout
 
 export const getStaticProps: GetStaticProps = async () => {
-    let artists = await getAllArtists()
+    let artists = await fetchAllArtists()
     return {
         props: {
             artists
