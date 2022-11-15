@@ -1,5 +1,5 @@
 import {ReactElement} from "react";
-import Navbar from "../navbar";
+import Navbar from "../Navbar";
 
 export default function DefaultLayout(page: ReactElement) {
     return (
