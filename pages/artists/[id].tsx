@@ -11,11 +11,14 @@ import getAccessToken from "../../lib/spotify/getAccessToken";
 import Image from 'next/legacy/image'
 import shimmer from "../../lib/util/shimmer";
 import fetchAllAlbums from "../../lib/spotify/fetchAllAlbums";
+import {TrackList} from "../../components/TrackList"
+import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
 
-const Artists = ({artist, albums, topTracks}: {artist: ArtistObjectFull, albums: AlbumObjectSimplified[], topTracks:TrackObjectFull[]}) => {
+const Artists = ({artist, albums, topTracks, chgmTracks}: {artist: ArtistObjectFull, albums: AlbumObjectSimplified[], topTracks:TrackObjectFull[], chgmTracks:TrackObjectFull[]}) => {
     return (
-        <div className="flex-grow flex">
+        <div className="flex-grow flex flex-col m-5 space-y-2">
             <ArtistHeader artist={artist}/>
+            <TrackList tracks={topTracks} chgmTracks={chgmTracks}/>
         </div>
     )
 }
@@ -33,12 +36,19 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         cacheManager.setByID("albums", allAlbums)
     }
     let albums = allAlbums.filter(album => album.artists.find(art => art.id === artist?.id))
-    let topTracks = artist ? await fetchArtistTopTracks(artist.id, token) : null
+    let {tracks : topTracks} = artist ? await fetchArtistTopTracks(artist.id, token) : {tracks: null}
+    let playlist = cacheManager.getByID("playlist")
+    if (!playlist) {
+        playlist = await fetchPlaylist()
+        cacheManager.setByID("playlist", playlist)
+    }
+    let chgmTracks = playlist.tracks.items.map(item => item.track).filter(track => track?.artists.find(art => art.id === artist?.id))
     return {
         props: {
             artist,
             albums,
-            topTracks
+            topTracks,
+            chgmTracks
         }
     }
 }
@@ -64,7 +74,7 @@ export default Artists
 
 export function ArtistHeader({artist}: {artist: ArtistObjectFull}) {
     return (
-        <div className="flex p-3 m-5 h-72 space-x-10 items-center border-b border-slate-800 w-full">
+        <div className="flex p-3 h-72 space-x-10 items-center border-b border-slate-800 w-full">
             <div className="relative h-64 w-64">
                 <Image alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} />
             </div>
