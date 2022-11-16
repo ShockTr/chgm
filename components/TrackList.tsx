@@ -28,7 +28,7 @@ export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | T
     const [hovering, setHover] = useState(false)
     return (
         <div className={`flex max-h-12 text-white p-3 rounded justify-between ${chgm? "bg-gradient-to-r from-cyan-800 to-blue-800": "hover:bg-slate-800 "}`} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} >
-            <div className="flex items-center space-x-2">
+            <div className="flex min-w-0 items-center space-x-2">
                 <div className={`w-[18px] shrink-0 text-right ${hovering? "text-white": "text-gray-400"}`}>
                     {/*TODO: ADD PREVIEW PLAYER*/}
                     {
