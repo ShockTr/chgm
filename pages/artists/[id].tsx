@@ -20,7 +20,7 @@ const Artists = ({artist, albums, topTracks, chgmTracks}: {artist: ArtistObjectF
         <div className="flex-grow flex flex-col m-5 space-y-3">
             <ArtistHeader artist={artist}/>
             <Header>
-                Popular Tracksart
+                Popular Tracks
             </Header>
             <TrackList tracks={topTracks} chgmTracks={chgmTracks}/>
             <div className="pt-10">
