@@ -13,12 +13,34 @@ import shimmer from "../../lib/util/shimmer";
 import fetchAllAlbums from "../../lib/spotify/fetchAllAlbums";
 import {TrackList} from "../../components/TrackList"
 import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
+import Link from "next/link";
 
 const Artists = ({artist, albums, topTracks, chgmTracks}: {artist: ArtistObjectFull, albums: AlbumObjectSimplified[], topTracks:TrackObjectFull[], chgmTracks:TrackObjectFull[]}) => {
     return (
-        <div className="flex-grow flex flex-col m-5 space-y-2">
+        <div className="flex-grow flex flex-col m-5 space-y-3">
             <ArtistHeader artist={artist}/>
+            <Header>
+                Popular Tracksart
+            </Header>
             <TrackList tracks={topTracks} chgmTracks={chgmTracks}/>
+            <div className="pt-10">
+                <Header>
+                    CHGM Discography
+                </Header>
+            </div>
+            <div className="flex-grow flex">
+                <div className="text-white flex-grow grid gap-5 grid-cols-[repeat(auto-fit,_minmax(11rem,_1fr))]">
+                        {albums.map((album) => {
+                            return (
+                                album ?
+                                    <div key={album.id}>
+                                        <AlbumCardGrid album={album}/>
+                                    </div> :
+                                    null
+                            )
+                        })}
+                    </div>
+            </div>
         </div>
     )
 }
@@ -88,6 +110,30 @@ export function ArtistHeader({artist}: {artist: ArtistObjectFull}) {
                     </div>
                 </div>
             </div>
+        </div>
+    )
+}
+export function Header({children} : {children:string}) {
+    return (
+        <div className="text-white text-2xl font-bold">
+            {children}
+        </div>
+    )
+}
+
+export function AlbumCardGrid({album}: {album: Spotify.AlbumObjectSimplified}) {
+    return (
+        <div title={album.name} className="bg-slate-800 hover:bg-slate-700 rounded h-60 transition-colors duration-300">
+            <Link href={`/artists/${album.id}`} className="flex flex-col p-3">
+                <div className="space-y-3">
+                    <div className="shrink-0 w-40 h-40 flex relative mx-auto">
+                        <Image src={album.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={album.name + " Album Cover"} />
+                    </div>
+                    <div className="font-semibold text-lg truncate">
+                        {album.name}
+                    </div>
+                </div>
+            </Link>
         </div>
     )
 }

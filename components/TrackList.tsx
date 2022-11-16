@@ -12,7 +12,12 @@ export function TrackList({tracks, chgmTracks}: { tracks: TrackObjectFull[] | Tr
         <div className="flex flex-col space-y-1">
             {tracks.map((track, index) => {
                 return (
-                    <TrackListItem key={track.id} track={track} index={index} chgm={!!chgmTracks.find(trck => trck.id === track.id)}/>
+                    <TrackListItem
+                        key={track.id}
+                        track={track}
+                        index={index}
+                        chgm={!!chgmTracks.find(trck => (trck.id === track.id) || ("external_ids" in track ? JSON.stringify(trck.external_ids) === JSON.stringify(track.external_ids) : false))}
+                    />
                 )
             })}
         </div>
@@ -24,7 +29,7 @@ export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | T
     return (
         <div className={`flex max-h-12 text-white p-3 rounded justify-between ${chgm? "bg-gradient-to-r from-cyan-800 to-blue-800": "hover:bg-slate-800 "}`} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} >
             <div className="flex items-center space-x-2">
-                <div className={`w-[18px] text-right ${hovering? "text-white": "text-gray-400"}`}>
+                <div className={`md:w-[18px] text-right ${hovering? "text-white": "text-gray-400"}`}>
                     {/*TODO: ADD PREVIEW PLAYER*/}
                     {
                         hovering?
@@ -40,16 +45,16 @@ export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | T
                 </div>
                 {
                     ("album" in track && track.album)?
-                        <div className="h-10">
+                        <div className="h-10 shrink-0">
                             <Image className="overflow-hidden" title={track.album.name} src={track.album.images[0].url} width="40" height="40" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(40, 40)).toString('base64')}`} alt={track.album.name + " Album Cover"} />
                         </div>
                         :<></>
                 }
-                <div className="font-medium">
+                <div className="truncate font-medium">
                     {track.name}
                 </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="hidden sm:flex items-center space-x-2">
                 {
                     chgm?
                         <div className="text-pink-500">
