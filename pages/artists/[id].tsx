@@ -98,11 +98,11 @@ export default Artists
 export function ArtistHeader({artist}: {artist: ArtistObjectFull}) {
     return (
         <div className="flex flex-col sm:flex-row sm:p-3 sm:h-72 sm:space-x-10 space-y-3 md:my-0 items-center border-b border-slate-800 w-full">
-            <div className="relative h-64 w-64">
-                <Image alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} />
+            <div className="relative shrink-0 h-64 w-64">
+                <Image alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} quality="100"/>
             </div>
             <div className="flex w-full sm:w-fit flex-col relative">
-                <div className="text-white text-4xl sm:text-6xl md:text-8xl font-bold my-auto">
+                <div title={artist.name} className="text-white text-4xl sm:text-6xl md:text-8xl font-bold my-auto">
                     {artist.name}
                 </div>
                 <div className="text-white mb-2 sm:mb-0 mt-5 font-semibold">
