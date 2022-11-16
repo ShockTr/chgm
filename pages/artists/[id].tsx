@@ -14,6 +14,7 @@ import fetchAllAlbums from "../../lib/spotify/fetchAllAlbums";
 import {TrackList} from "../../components/TrackList"
 import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
 import Link from "next/link";
+import {AlbumsGridItem} from "../albums";
 
 const Artists = ({artist, albums, topTracks, chgmTracks}: {artist: ArtistObjectFull, albums: AlbumObjectSimplified[], topTracks:TrackObjectFull[], chgmTracks:TrackObjectFull[]}) => {
     return (
@@ -29,17 +30,17 @@ const Artists = ({artist, albums, topTracks, chgmTracks}: {artist: ArtistObjectF
                 </Header>
             </div>
             <div className="flex-grow flex">
-                <div className="text-white flex-grow grid gap-5 grid-cols-[repeat(auto-fit,_minmax(11rem,_1fr))]">
-                        {albums.map((album) => {
-                            return (
-                                album ?
-                                    <div key={album.id}>
-                                        <AlbumCardGrid album={album}/>
-                                    </div> :
-                                    null
-                            )
-                        })}
-                    </div>
+                <div className="text-white grid gap-5 sm:grid-cols-[repeat(auto-fit,_minmax(16rem,_1fr))] flex-grow">
+                    {albums.map((album) => {
+                        return (
+                            album ?
+                                <div className="min-w-0" key={album.id}>
+                                    <AlbumsGridItem album={album} />
+                                </div> :
+                                null
+                        )
+                    })}
+                </div>
             </div>
         </div>
     )
@@ -96,15 +97,15 @@ export default Artists
 
 export function ArtistHeader({artist}: {artist: ArtistObjectFull}) {
     return (
-        <div className="flex p-3 h-72 space-x-10 items-center border-b border-slate-800 w-full">
+        <div className="flex flex-col sm:flex-row sm:p-3 sm:h-72 sm:space-x-10 space-y-3 md:my-0 items-center border-b border-slate-800 w-full">
             <div className="relative h-64 w-64">
                 <Image alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} />
             </div>
-            <div className="flex flex-col relative">
-                <div className="text-white text-8xl font-bold my-auto">
+            <div className="flex w-full sm:w-fit flex-col relative">
+                <div className="text-white text-4xl sm:text-6xl md:text-8xl font-bold my-auto">
                     {artist.name}
                 </div>
-                <div className="text-white mt-5 font-semibold">
+                <div className="text-white mb-2 sm:mb-0 mt-5 font-semibold">
                     <div>
                         Followers: {new Intl.NumberFormat('en-gb', {notation: "compact"}).format(artist.followers.total)}
                     </div>
@@ -121,6 +122,7 @@ export function Header({children} : {children:string}) {
     )
 }
 
+//TODO: Experiment on this
 export function AlbumCardGrid({album}: {album: Spotify.AlbumObjectSimplified}) {
     return (
         <div title={album.name} className="bg-slate-800 hover:bg-slate-700 rounded h-60 transition-colors duration-300">
