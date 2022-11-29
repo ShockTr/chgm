@@ -36,14 +36,12 @@ const Tracks = ({track}: {track: Spotify.TrackObjectFull}) => {
                         </div>
                     </div>
                 </div>
-                {/*TODO: ADD AUDIO PLAYER FOR THE PREVIEW AFTER FINISHING THE AUDIO COMPONENT FOR SOTDY PAGE*/}
             </div>
         </div>
     )
 }
 Tracks.getLayout = DefaultLayout
 export const getStaticProps: GetStaticProps = async ({params}) => {
-    //TODO: add support for non-chgm tracks of chgm artists.
     let playlist = cacheManager.getByID("playlist")
     if (!playlist) {
         playlist = await fetchPlaylist()

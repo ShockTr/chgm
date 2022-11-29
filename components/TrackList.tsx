@@ -97,15 +97,6 @@ export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | T
                 </div>
             </div>
             <div className="hidden sm:flex items-center space-x-2">
-                {
-                    // removed in favour of badges
-                    /*{
-                    chgm?
-                        <div className="text-pink-500">
-                            CHGM ✨
-                        </div>
-                        : <></>
-                }*/}
                 <Link className="rounded-full text-gray-400 hover:text-white" href={track.external_urls.spotify}>
                     <SpotifyIcon/>
                 </Link>
