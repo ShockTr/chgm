@@ -27,7 +27,7 @@ export function TrackList({tracks, chgmTracks}: { tracks: TrackObjectFull[] | Tr
 export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | TrackObjectSimplified, index: number, chgm: boolean}) {
     const [hovering, setHover] = useState(false)
     return (
-        <div className={`flex h-12 text-white px-3 p-1 rounded justify-between ${chgm? "bg-gradient-to-r from-cyan-800 to-blue-800": "hover:bg-slate-800 "}`} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} >
+        <div className={`flex h-14 text-white px-3 p-1 rounded justify-between ${chgm? "bg-gradient-to-r from-sky-900 hover:from-sky-800": "hover:bg-slate-800 "}`} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} >
             <div className="flex min-w-0 items-center space-x-2">
                 <div className={`w-[18px] shrink-0 text-right ${hovering? "text-white": "text-gray-400"}`}>
                     {/*TODO: ADD PREVIEW PLAYER*/}
@@ -58,41 +58,52 @@ export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | T
                         </div>
                         :<></>
                 }
-                <div className="truncate sm:pl-2 min-w-0 font-medium">
-                    {
-                        ("album" in track && track.album)?
-                            track.name
-                            :
-                            <div className="flex flex-col">
-                                <div>
-                                    {track.name}
-                                </div>
-                                <div className="font-italic font-normal text-xs text-gray-400">
-                                    {track.artists.map((artist,index,array) => {
-                                        return (
-                                            <span title={artist.name} key={artist.id}>
-                                                <Link href={`/artists/${artist.id}`}>
-                                                    <span className="hover:cursor-pointer hover:underline">
-                                                        {artist.name}
-                                                    </span>
-                                                </Link>
-                                                {((array.length - index - 1) !== 0)? ', ': ''}
-                                            </span>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                    }
+                <div className="sm:pl-2 min-w-0">
+                    <div className="flex font-medium flex-col">
+                        <div className="min-w-0 truncate">
+                            {track.name}
+                        </div>
+                        <div className="flex space-x-1 items-center">
+                            {
+                                chgm?
+                                    <div className="p-1 text-[9px] bg-slate-600 rounded">
+                                        CHGM
+                                    </div>:
+                                    <></>
+                            }
+                            {
+                                !("album" in track && track.album) ?
+                                    <div className="font-italic text-sm text-gray-400">
+                                        {track.artists.map((artist,index,array) => {
+                                            return (
+                                                <span title={artist.name} key={artist.id}>
+                                                    <Link href={`/artists/${artist.id}`}>
+                                                        <span className="hover:cursor-pointer hover:underline">
+                                                            {artist.name}
+                                                        </span>
+                                                    </Link>
+                                                    {((array.length - index - 1) !== 0)? ', ': ''}
+                                                </span>
+                                            )
+                                        })}
+                                    </div>
+                                    :
+                                    <></>
+                        }
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="hidden sm:flex items-center space-x-2">
                 {
+                    // removed in favour of badges
+                    /*{
                     chgm?
                         <div className="text-pink-500">
                             CHGM ✨
                         </div>
                         : <></>
-                }
+                }*/}
                 <Link className="rounded-full text-gray-400 hover:text-white" href={track.external_urls.spotify}>
                     <SpotifyIcon/>
                 </Link>
