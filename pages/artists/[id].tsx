@@ -15,6 +15,8 @@ import {TrackList} from "../../components/TrackList"
 import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
 import Link from "next/link";
 import {AlbumsGridItem} from "../albums";
+import {FitText} from "../../components/FitText";
+import {useEffect, useState} from "react";
 
 const Artists = ({artist, albums, topTracks, chgmTracks}: {artist: ArtistObjectFull, albums: AlbumObjectSimplified[], topTracks:TrackObjectFull[], chgmTracks:TrackObjectFull[]}) => {
     return (
@@ -96,14 +98,32 @@ Artists.getLayout = DefaultLayout
 export default Artists
 
 export function ArtistHeader({artist}: {artist: ArtistObjectFull}) {
+    const [width, setWidth] = useState(0)
+    useEffect(() => {
+        setWidth(window.screen.width)
+        window.addEventListener('resize', (() => {
+            setWidth(window.screen.width)
+        }))
+    }, [])
+
     return (
         <div className="flex flex-col sm:flex-row sm:p-3 sm:h-72 sm:space-x-10 space-y-3 md:my-0 items-center border-b border-slate-800 w-full">
             <div className="relative shrink-0 h-64 w-64">
                 <Image alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} quality="100"/>
             </div>
-            <div className="flex min-w-0 w-full sm:w-fit flex-col relative">
-                <div title={artist.name} className="text-white w-full text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold my-auto">
-                    {artist.name}
+            <div className="flex min-w-0 w-full flex-col relative">
+                <div title={artist.name} className="text-white w-full font-bold my-auto sm:whitespace-nowrap overflow-hidden">
+                    {
+                        (width >= 640)?
+                            <FitText minFontSize="32" maxFontSize="96" multiLine={true}>
+                                {artist.name}
+                            </FitText>
+                            :
+                            <div className="text-3xl">
+                                {artist.name}
+                            </div>
+                    }
+
                 </div>
                 <div className="text-white mb-2 sm:mb-0 mt-5 font-semibold">
                     <div>

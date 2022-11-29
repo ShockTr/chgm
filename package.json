@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "autoprefixer": "^10.4.12",
+    "fitty": "^2.3.6",
     "next": "^13.0.0",
     "postcss": "^8.4.16",
     "react": "^18.2.0",

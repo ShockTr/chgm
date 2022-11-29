@@ -8,9 +8,11 @@ import {Spotify} from "../../types/spotify";
 import AlbumObjectFull = Spotify.AlbumObjectFull;
 import TrackObjectFull = Spotify.TrackObjectFull;
 import Image from "next/legacy/image";
-import shimmer, { ShimmerElement } from "../../lib/util/shimmer";
+import shimmer from "../../lib/util/shimmer";
 import Link from "next/link";
 import {TrackList} from "../../components/TrackList"
+import {FitText} from "../../components/FitText";
+import {useEffect, useState} from "react";
 
 const Albums = ({album, chgmTracks} : {album: AlbumObjectFull, chgmTracks: TrackObjectFull[]}) => {
     return (
@@ -64,14 +66,32 @@ export const getStaticPaths: GetStaticPaths = async function () {
 }
 
 export function AlbumHeader({album}: {album: AlbumObjectFull}) {
+    const [width, setWidth] = useState(0)
+    useEffect(() => {
+        setWidth(window.screen.width)
+        window.addEventListener('resize', (() => {
+            setWidth(window.screen.width)
+        }))
+    }, [])
+
     return (
         <div className="flex flex-col sm:flex-row sm:p-3 sm:h-72 sm:space-x-10 space-y-3 md:my-0 items-center border-b border-slate-800 w-full">
             <div className="relative shrink-0 h-64 w-64">
                 <Image alt={album.name + " Photo"} src={album.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} quality="100"/>
             </div>
-            <div className="flex min-w-0 w-full sm:w-fit flex-col relative">
-                <div title={album.name} className="text-white w-full text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold my-auto">
-                    {album.name}
+            <div className="flex min-w-0 w-full flex-col relative">
+                <div title={album.name} className="text-white w-full font-bold my-auto sm:whitespace-nowrap overflow-hidden">
+                    {
+                        (width >= 640)?
+                            <FitText minFontSize="32" maxFontSize="96" multiLine={true}>
+                                {album.name}
+                            </FitText>
+                        :
+                            <div className="text-3xl">
+                                {album.name}
+                            </div>
+                    }
+
                 </div>
                 <div className="text-white mb-2 sm:mb-0 mt-5 font-semibold flex space-x-3">
                     <div>
