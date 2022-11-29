@@ -101,8 +101,8 @@ export function ArtistHeader({artist}: {artist: ArtistObjectFull}) {
             <div className="relative shrink-0 h-64 w-64">
                 <Image alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} quality="100"/>
             </div>
-            <div className="flex w-full sm:w-fit flex-col relative">
-                <div title={artist.name} className="text-white text-4xl sm:text-6xl md:text-8xl font-bold my-auto">
+            <div className="flex min-w-0 w-full sm:w-fit flex-col relative">
+                <div title={artist.name} className="text-white w-full text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold my-auto">
                     {artist.name}
                 </div>
                 <div className="text-white mb-2 sm:mb-0 mt-5 font-semibold">
