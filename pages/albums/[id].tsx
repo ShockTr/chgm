@@ -16,7 +16,7 @@ import {useEffect, useState} from "react";
 
 const Albums = ({album, chgmTracks} : {album: AlbumObjectFull, chgmTracks: TrackObjectFull[]}) => {
     return (
-        <div className="flex-grow flex flex-col m-5 space-y-3">
+        <div className="flex-grow flex flex-col m-3 sm:m-5 space-y-3">
             <AlbumHeader album={album}/>
             <TrackList tracks={album.tracks.items} chgmTracks={chgmTracks}/>
 
@@ -83,7 +83,7 @@ export function AlbumHeader({album}: {album: AlbumObjectFull}) {
                 <div title={album.name} className="text-white w-full font-bold my-auto sm:whitespace-nowrap overflow-hidden">
                     {
                         (width >= 640)?
-                            <FitText minFontSize="32" maxFontSize="96" multiLine={true}>
+                            <FitText minFontSize="30" maxFontSize="96" multiLine={true}>
                                 {album.name}
                             </FitText>
                         :

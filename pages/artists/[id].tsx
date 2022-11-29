@@ -115,7 +115,7 @@ export function ArtistHeader({artist}: {artist: ArtistObjectFull}) {
                 <div title={artist.name} className="text-white w-full font-bold my-auto sm:whitespace-nowrap overflow-hidden">
                     {
                         (width >= 640)?
-                            <FitText minFontSize="32" maxFontSize="96" multiLine={true}>
+                            <FitText minFontSize="30" maxFontSize="96" multiLine={true}>
                                 {artist.name}
                             </FitText>
                             :
