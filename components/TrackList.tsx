@@ -76,13 +76,15 @@ export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | T
                                     <div className="font-italic text-sm text-gray-400">
                                         {track.artists.map((artist,index,array) => {
                                             return (
-                                                <span title={artist.name} key={artist.id}>
+                                                <span className={(index !== 0   )? "hidden sm:inline" : ""} title={artist.name} key={artist.id}>
                                                     <Link href={`/artists/${artist.id}`}>
                                                         <span className="hover:cursor-pointer hover:underline">
                                                             {artist.name}
                                                         </span>
                                                     </Link>
-                                                    {((array.length - index - 1) !== 0)? ', ': ''}
+                                                    <span className="hidden sm:inline">
+                                                        {((array.length - index - 1) !== 0)? ', ': ''}
+                                                    </span>
                                                 </span>
                                             )
                                         })}
