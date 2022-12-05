@@ -59,7 +59,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         allAlbums = await fetchAllAlbums(token)
         cacheManager.setByID("albums", allAlbums)
     }
-    let albums = allAlbums.filter(album => album.artists.find(art => art.id === artist?.id))
     let {tracks : topTracks} = artist ? await fetchArtistTopTracks(artist.id, token) : {tracks: null}
     let playlist = cacheManager.getByID("playlist")
     if (!playlist) {
@@ -67,6 +66,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         cacheManager.setByID("playlist", playlist)
     }
     let chgmTracks = playlist.tracks.items.map(item => item.track).filter(track => track?.artists.find(art => art.id === artist?.id))
+    let albums = allAlbums.filter(album => ((album.artists.find(art => art.id === artist?.id)) || album.tracks.items.find(track => chgmTracks.find(trck => trck?.id === track.id))))
     return {
         props: {
             artist,
@@ -107,9 +107,13 @@ export function ArtistHeader({artist}: {artist: ArtistObjectFull}) {
 
     return (
         <div className="flex flex-col sm:flex-row sm:p-3 sm:h-72 sm:space-x-10 space-y-3 md:my-0 items-center border-b border-slate-800 w-full">
-            <div className="relative shrink-0 h-64 w-64">
-                <Image alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} quality="100"/>
-            </div>
+            {
+                !!(artist.images[0])?
+                    <div className="relative shrink-0 h-64 w-64">
+                        <Image alt={artist.name + " Photo"} src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} quality="100"/>
+                    </div>
+                    : null
+            }
             <div className="flex min-w-0 w-full flex-col relative">
                 <div title={artist.name} className="text-white w-full font-bold my-auto sm:whitespace-nowrap overflow-hidden">
                     {
