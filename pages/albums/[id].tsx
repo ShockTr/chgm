@@ -96,6 +96,7 @@ export function AlbumHeader({album}: {album: AlbumObjectFull}) {
                 <div className="text-white mb-2 sm:mb-0 mt-5 font-semibold flex space-x-3">
                     <div>
                         {album.artists.map((artist,index,array) => {
+                            if (artist.id === "0LyfQWJT6nXafLPZqxe9Of") return (<span title={artist.name} key={artist.id}>{artist.name}</span>)
                             return (
                                 <span title={artist.name} key={artist.id}>
                                     <Link href={`/artists/${artist.id}`}><span className="hover:underline">{artist.name}</span></Link>{((array.length - index - 1) !== 0)? ', ': ''}

@@ -56,10 +56,11 @@ export function AlbumsGridItem({album}: {album: Spotify.AlbumObjectSimplified}) 
                     </Link>
                     <div className="font-italic text-xs">
                         {album.artists.map((artist,index,array) => {
-                        return (
-                            <span title={artist.name} key={artist.id}>
+                            if (artist.id === "0LyfQWJT6nXafLPZqxe9Of") return (<span title={artist.name} key={artist.id}>{artist.name}</span>)
+                            return (
+                                <span title={artist.name} key={artist.id}>
                                     <Link href={`/artists/${artist.id}`}><span className="hover:cursor-pointer hover:underline">{artist.name}</span></Link>{((array.length - index - 1) !== 0)? ', ': ''}
-                            </span>
+                                </span>
                         )
                     })}
                     </div>
