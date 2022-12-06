@@ -1,13 +1,11 @@
 import {ReactElement} from "react";
-import Navbar from "../navbar";
+import Navbar from "../Navbar";
 
 export default function DefaultLayout(page: ReactElement) {
     return (
-        <div className="bg-slate-900 min-h-screen">
+        <div className="min-h-screen flex flex-col">
             <Navbar/>
-            <div>
-                {page}
-            </div>
+            {page}
         </div>
     )
 }
