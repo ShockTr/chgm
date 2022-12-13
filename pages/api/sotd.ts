@@ -54,5 +54,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         game = document.games[diff]
     }
 
+    res.setHeader("Cache-Control", "s-maxage=300")
     res.send(game)
 }
