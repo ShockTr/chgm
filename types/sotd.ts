@@ -18,3 +18,8 @@ export interface currentGame {
     guesses: TrackObjectFull[]
     finished: boolean
 }
+
+//API Response
+export interface sotdAPIResponse extends sotdGameData {
+    day: number
+}
