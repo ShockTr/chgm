@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<sotdAPIResponse 
                     //played: false
                 }
             }),
-            playlist
+            playlist: playlist.tracks.items.filter((track) => !!track.track).map((trck) => trck.track) as TrackObjectFull[]
         })
         return await collection.findOne({
             snapshot_id: {$eq: currentSnapshot}
@@ -47,6 +47,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<sotdAPIResponse 
     let epoch = DateTime.fromISO(document.epoch, {zone: "Asia/Seoul"})
     let diff = Math.floor(today.diff(epoch, 'days').toObject().days ?? 0)
     let game = document.games[diff]
+    let playlist = document.playlist
 
     //If all the tracks are played before
     if (game === undefined) {
@@ -55,8 +56,9 @@ export default async (req: NextApiRequest, res: NextApiResponse<sotdAPIResponse 
         let epoch = DateTime.fromISO(document.epoch, {zone: "Asia/Seoul"})
         let diff = Math.floor(today.diff(epoch, 'days').toObject().days ?? 0)
         game = document.games[diff]
+        playlist = document.playlist
     }
 
     res.setHeader("Cache-Control", "s-maxage=300")
-    res.send({...game, day: diff})
+    res.send({...game, playlist, day: diff})
 }
