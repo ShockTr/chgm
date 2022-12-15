@@ -6,7 +6,6 @@ export interface sotdGamesData {
     snapshot_id: string
     games: sotdGameData[]
     epoch: string // Start of the first game ever played in ISO Date (KST)
-    playlist: TrackObjectFull[]
 }
 export interface sotdGameData {
     track: TrackObjectFull
@@ -23,5 +22,4 @@ export interface currentGame {
 //API Response
 export interface sotdAPIResponse extends sotdGameData {
     day: number
-    playlist: TrackObjectFull[]
 }
