@@ -36,7 +36,8 @@ export default async (req: NextApiRequest, res: NextApiResponse<sotdAPIResponse 
                     track: trck.track as TrackObjectFull,
                     //played: false
                 }
-            })
+            }),
+            playlist
         })
         return await collection.findOne({
             snapshot_id: {$eq: currentSnapshot}

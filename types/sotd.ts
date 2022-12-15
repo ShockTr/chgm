@@ -1,11 +1,13 @@
 import {Spotify} from "./spotify";
 import TrackObjectFull = Spotify.TrackObjectFull;
+import PlaylistObjectFull = Spotify.PlaylistObjectFull;
 
 //Database objects:
 export interface sotdGamesData {
     snapshot_id: string
     games: sotdGameData[]
     epoch: string // Start of the first game ever played in ISO Date (KST)
+    playlist: PlaylistObjectFull
 }
 export interface sotdGameData {
     track: TrackObjectFull
