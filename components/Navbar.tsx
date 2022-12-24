@@ -6,11 +6,11 @@ export default function Navbar(){
     const [open, setOpen] = useState(false)
     const [scrollPosition, setScrollPosition] = useState(0);
     const handleScroll = () => {
-        const position = window.scrollY;
-        setScrollPosition(position);
-    };
+        setScrollPosition(window.scrollY)
+    }
 
     useEffect(() => {
+        setScrollPosition(window.scrollY)
         window.addEventListener('scroll', handleScroll, { passive: true });
 
         return () => {
