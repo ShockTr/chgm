@@ -1,11 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { DateTime } from 'luxon'
-import {MongoClient, WithId} from "mongodb";
+import {WithId} from "mongodb";
 import {sotdAPIResponse} from "../../types/sotd";
 import {nodeCrypto, shuffle} from "random-js";
 import {PlaylistData, sotdGamesData} from "../../types/database";
 import {PlaylistObjectTransformed} from "../../lib/util/transformPlaylist";
 import {revalidatePlaylist} from "../../lib/util/revalidatePlaylist";
+import clientPromise from "../../lib/mongodb";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async (req: NextApiRequest, res: NextApiResponse<sotdAPIResponse | string>) => {
@@ -13,8 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<sotdAPIResponse 
     let today = DateTime.now().setZone("Asia/Seoul")
 
     //Init mongo client
-    const client = new MongoClient(process.env.MONGODB_URI ?? "")
-    await client.connect()
+    let client = await clientPromise
     let SOTD = client.db("CHGM").collection<sotdGamesData>("SOTD")
     await SOTD.createIndex({snapshot_id: 1}, {unique: true})
     let Playlists = client.db("CHGM").collection<PlaylistData>("playlists")

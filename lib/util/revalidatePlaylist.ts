@@ -31,9 +31,9 @@ export async function revalidatePlaylist(collection: Collection<PlaylistData>) {
             }
         })
         else await insertNewDoc()
+        doc = await collection.findOne({
+            valid_until: {$gte: new Date()}
+        }) as NonNullable<typeof doc>
     }
-    doc = await collection.findOne({
-        valid_until: {$gte: new Date()}
-    }) as NonNullable<typeof doc>
     return doc
 }
