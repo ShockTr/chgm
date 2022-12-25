@@ -33,6 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<sotdAPIResponse 
             snapshot_id: {$eq: playlist.snapshot_id}
         }) as WithId<sotdGamesData>
     }
+
     let playlist = await revalidatePlaylist(Playlists)
     let document = await SOTD.findOne({
         snapshot_id: {$eq: playlist?.snapshot_id}
@@ -43,15 +44,20 @@ export default async (req: NextApiRequest, res: NextApiResponse<sotdAPIResponse 
     let game = document.games[diff]
 
     if (game === undefined) {
-        await SOTD.drop()
+        await SOTD.updateOne({
+            _id: { $eq: document._id }
+            },
+            {
+                $set: {
+                    snapshot_id: `${document?.snapshot_id}_${document._id}`
+                }
+            })
         document = await insertData(playlist?.playlist)
         let startDate = DateTime.fromISO(document.startDate, {zone: "Asia/Seoul"})
         let diff = Math.floor(today.diff(startDate, 'days').toObject().days ?? 0)
         game = document.games[diff]
     }
 
-
-
     res.setHeader("Cache-Control", "s-maxage=300")
-    res.send({...game, day: diff})
+    res.send({...game, snapshot_id: document.snapshot_id, day: diff})
 }

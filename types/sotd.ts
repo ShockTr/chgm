@@ -13,4 +13,5 @@ export interface currentGame {
 //API Response
 export interface sotdAPIResponse extends sotdGameData {
     day: number
+    snapshot_id: string
 }
