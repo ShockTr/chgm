@@ -6,8 +6,14 @@ import {sotdGameData} from "./database";
 //Clientside objects:
 export interface currentGame {
     track: TrackObjectFull
-    guesses: TrackObjectFull[]
+    guesses: sotdGuess[]
     finished: boolean
+    won: boolean
+}
+
+export interface sotdGuess {
+    correct: boolean
+    track: TrackObjectFull
 }
 
 //API Response
