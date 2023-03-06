@@ -27,7 +27,7 @@ export async function revalidatePlaylist(collection: Collection<PlaylistData>) {
 
         if (oldObject) await collection.updateOne({_id: {$eq: oldObject._id}},{
             $set: {
-                valid_until: DateTime.fromJSDate(oldObject.valid_until ?? new Date()).plus({day: 1}).toJSDate()
+                valid_until: DateTime.fromISO(DateTime.now().setZone("Asia/Seoul").plus({day: 1}).toISODate(), {zone: "Asia/Seoul"}).toJSDate()
             }
         })
         else await insertNewDoc()
