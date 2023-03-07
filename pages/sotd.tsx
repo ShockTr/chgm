@@ -5,9 +5,9 @@ import {revalidatePlaylist} from "../lib/util/revalidatePlaylist";
 import {PlaylistObjectTransformed} from "../lib/util/transformPlaylist";
 import useSWR from "swr";
 import clientPromise from "../lib/mongodb";
-import {sotdAPIResponse, sotdGuess} from "../types/sotd";
+import {sotdAPIResponse} from "../types/sotd";
 import {DateTime} from "luxon";
-import {TracksGridItem} from "./tracks";
+import {HeardleGame} from "../components/Heardle/game";
 
 const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
 
@@ -47,48 +47,3 @@ export const getServerSideProps: GetServerSideProps<{playlist: PlaylistObjectTra
 }
 SongOfTheDay.getLayout = DefaultLayout
 export default SongOfTheDay
-
-export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransformed, sotd?: sotdAPIResponse}){
-    const maxGuesses = 5
-
-    return (
-        <div className="flex flex-col items-center p-3 rounded space-y-3">
-            <div className="flex flex-col space-y-3">
-                <HeardleGuess guess={
-                    sotd? {correct: true, track: sotd.track} : undefined
-                }/>
-                <HeardleGuess/>
-                <HeardleGuess/>
-                <HeardleGuess/>
-                <HeardleGuess/>
-            </div>
-            <HeardleTypeBox playlist={playlist}/>
-        </div>
-    )
-}
-
-export function HeardleGuess({guess}: {guess?: sotdGuess}){
-    if (!guess) return (
-        <div className="w-96 h-24 border border-slate-700 rounded">
-
-        </div>
-    )
-    else return (
-        <div className={`h-24 rounded ring ${guess.correct? "ring-green-500": "ring-red-600"} `}>
-            <TracksGridItem track={guess.track}/>
-        </div>
-    )
-}
-export function HeardleTypeBox({playlist}: {playlist:PlaylistObjectTransformed}){
-    return (
-        <input className="rounded bg-slate-700 w-full h-12 p-3" placeholder="Guess Here" type="text"/>
-    )
-}
-
-export function HeardlePlayer() {
-
-}
-
-export function HeardleResultPane(){
-
-}
