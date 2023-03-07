@@ -13,7 +13,7 @@ export function HeardleTypeBox({playlist}: {playlist:PlaylistObjectTransformed})
         query === ''
             ? playlist.tracks
             : playlist.tracks.filter((track) => {
-                return track.name.toLowerCase().includes(query.toLowerCase())
+                return generateName(track).toLowerCase().includes(query.toLowerCase())
             })
 
     return (
@@ -24,10 +24,12 @@ export function HeardleTypeBox({playlist}: {playlist:PlaylistObjectTransformed})
                 displayValue={((track: TrackObjectFull) => generateName(track))}
                 onChange={(event) => setQuery(event.target.value)}
             />
-            <Combobox.Options>
+            <Combobox.Options className="bg-slate-700 max-h-60 w-full rounded py-3 overflow-y-auto overflow-x-hidden">
                 {filteredTracks.map((track) => (
                     <Combobox.Option key={track.id} value={track}>
-                        {track.artists[0].name}: {track.name}
+                        <div className="py-2 pl-10 pr-4 hover:bg-slate-600 hover:cursor-pointer">
+                            <span className="block truncate min-w-0">{generateName(track)}</span>
+                        </div>
                     </Combobox.Option>
                 ))}
             </Combobox.Options>

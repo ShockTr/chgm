@@ -7,8 +7,8 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
     const maxGuesses = 5
 
     return (
-        <div className="flex flex-col items-center p-3 rounded space-y-3">
-            <div className="flex flex-col space-y-3">
+        <div className="flex flex-col max-w-screen-sm w-full items-center p-3 rounded space-y-3">
+            <div className="flex flex-col w-full space-y-3">
                 <HeardleGuess guess={
                     sotd? {correct: true, track: sotd.track} : undefined
                 }/>

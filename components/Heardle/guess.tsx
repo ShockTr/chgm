@@ -3,7 +3,7 @@ import {TracksGridItem} from "../../pages/tracks";
 
 export function HeardleGuess({guess}: {guess?: sotdGuess}){
     if (!guess) return (
-        <div className="w-96 h-24 border border-slate-700 rounded">
+        <div className="w-full h-24 border border-slate-700 rounded">
 
         </div>
     )
