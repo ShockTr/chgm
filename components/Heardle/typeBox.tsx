@@ -20,12 +20,19 @@ export function HeardleTypeBox({playlist}: {playlist:PlaylistObjectTransformed})
 
     return (
         <Combobox value={selected} onChange={setSelected}>
-            <Combobox.Input
-                className="rounded bg-slate-700 w-full h-12 p-3"
-                placeholder="Guess Here"
-                displayValue={((track: TrackObjectFull) => track.name)}
-                onChange={(event) => setQuery(event.target.value)}
-            />
+            <div className="relative rounded bg-slate-700 w-full h-12">
+                <Combobox.Input
+                    className="rounded bg-slate-700 w-full h-full p-3"
+                    placeholder="Guess Here"
+                    displayValue={((track: TrackObjectFull) => track.name)}
+                    onChange={(event) => setQuery(event.target.value)}
+                />
+                <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                    </svg>
+                </Combobox.Button>
+            </div>
             <Combobox.Options className="bg-slate-700 max-h-60 w-full rounded py-3 overflow-y-auto overflow-x-hidden">
                 {filteredTracks.map((track) => (
                     <Combobox.Option key={track.id} value={track}>
@@ -49,7 +56,7 @@ export function HeardleTypeBox({playlist}: {playlist:PlaylistObjectTransformed})
                                         {track.artists.map((artist,index,array) => {
                                             return (
                                                 <span title={artist.name} key={artist.id}>
-                                                    <span className="hover:cursor-pointer hover:underline">{artist.name}</span>
+                                                    {artist.name}
                                                     {((array.length - index - 1) !== 0)? ', ': ''}
                                                 </span>
                                             )
