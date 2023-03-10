@@ -34,7 +34,8 @@ export function HeardleTypeBox({playlist}: {playlist:PlaylistObjectTransformed})
                 </Combobox.Button>
             </div>
             <Combobox.Options className="bg-slate-700 max-h-60 w-full rounded py-3 overflow-y-auto overflow-x-hidden">
-                {filteredTracks.map((track) => (
+                { filteredTracks.length !== 0?
+                    filteredTracks.map((track) => (
                     <Combobox.Option key={track.id} value={track}>
                             <div className={`py-2 pr-4 hover:bg-slate-600 hover:cursor-pointer ${track === selected? "pl-2 font-semibold": "pl-11"}`}>
                             <div className="flex items-center w-full h-full space-x-3">
@@ -66,7 +67,11 @@ export function HeardleTypeBox({playlist}: {playlist:PlaylistObjectTransformed})
                             </div>
                         </div>
                     </Combobox.Option>
-                ))}
+                )):
+                    <div className="p-3 select-none">
+                        No results found.
+                    </div>
+                }
             </Combobox.Options>
         </Combobox>
     )
