@@ -22,12 +22,12 @@ export function HeardleTypeBox({playlist}: {playlist:PlaylistObjectTransformed})
         <Combobox value={selected} onChange={setSelected}>
             <div className="relative rounded bg-slate-700 w-full h-12">
                 <Combobox.Input
-                    className="rounded bg-slate-700 w-full h-full p-3"
+                    className="rounded bg-slate-700 w-full h-full p-3 pr-10"
                     placeholder="Guess Here"
                     displayValue={((track: TrackObjectFull) => track.name)}
                     onChange={(event) => setQuery(event.target.value)}
                 />
-                <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+                <Combobox.Button className="absolute inset-y-0 right-0 flex items-center px-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                     </svg>
