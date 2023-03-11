@@ -2,9 +2,13 @@ import {PlaylistObjectTransformed} from "../../lib/util/transformPlaylist";
 import {sotdAPIResponse} from "../../types/sotd";
 import {HeardleGuess} from "./guess";
 import {HeardleTypeBox} from "./typeBox";
+import {useState} from "react";
+import {Spotify} from "../../types/spotify";
+import TrackObjectFull = Spotify.TrackObjectFull;
 
 export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransformed, sotd?: sotdAPIResponse}){
     const maxGuesses = 5
+    const [selected, setSelected] = useState<TrackObjectFull>()
 
     return (
         <div className="flex flex-col max-w-screen-sm w-full items-center p-3 rounded space-y-3">
@@ -17,7 +21,7 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
                 <HeardleGuess/>
                 <HeardleGuess/>
             </div>
-            <HeardleTypeBox playlist={playlist}/>
+            <HeardleTypeBox onChange={setSelected} playlist={playlist}/>
         </div>
     )
 }
