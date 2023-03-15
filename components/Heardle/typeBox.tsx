@@ -7,13 +7,8 @@ import {generateName} from "../../lib/util/generateName";
 import Image from "next/legacy/image";
 import shimmer from "../../lib/util/shimmer";
 
-export function HeardleTypeBox({playlist, onChange}: {playlist:PlaylistObjectTransformed, onChange: (value:TrackObjectFull) => void}){
-    const [selected, setSelected] = useState<TrackObjectFull>()
+export function HeardleTypeBox({playlist, selected, onChange}: {playlist:PlaylistObjectTransformed, selected:TrackObjectFull | undefined, onChange: (value:TrackObjectFull) => void}){
     const [query, setQuery] = useState('')
-    let handleChange = (value: TrackObjectFull) => {
-        setSelected(value)
-        onChange(value)
-    }
 
     const filteredTracks =
         query === ''
@@ -23,7 +18,7 @@ export function HeardleTypeBox({playlist, onChange}: {playlist:PlaylistObjectTra
             })
 
     return (
-        <Combobox<TrackObjectFull> value={selected} onChange={handleChange}>
+        <Combobox<TrackObjectFull> value={selected} onChange={onChange}>
             <div className="relative rounded bg-slate-700 w-full h-12">
                 <Combobox.Input
                     className="rounded bg-slate-700 w-full h-full p-3 pr-10"

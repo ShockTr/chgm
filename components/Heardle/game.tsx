@@ -21,7 +21,7 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
                 <HeardleGuess/>
                 <HeardleGuess/>
             </div>
-            <HeardleTypeBox onChange={setSelected} playlist={playlist}/>
+            <HeardleTypeBox selected={selected} onChange={setSelected} playlist={playlist}/>
         </div>
     )
 }
