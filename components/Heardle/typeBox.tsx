@@ -6,8 +6,9 @@ import TrackObjectFull = Spotify.TrackObjectFull;
 import {generateName} from "../../lib/util/generateName";
 import Image from "next/legacy/image";
 import shimmer from "../../lib/util/shimmer";
+import {Nullable} from "mongodb/src/mongo_types";
 
-export function HeardleTypeBox({playlist, selected, onChange}: {playlist:PlaylistObjectTransformed, selected:TrackObjectFull | undefined, onChange: (value:TrackObjectFull) => void}){
+export function HeardleTypeBox({playlist, selected, onChange}: {playlist:PlaylistObjectTransformed, selected:Nullable<TrackObjectFull>, onChange: (value:TrackObjectFull) => void}){
     const [query, setQuery] = useState('')
 
     const filteredTracks =
@@ -18,12 +19,12 @@ export function HeardleTypeBox({playlist, selected, onChange}: {playlist:Playlis
             })
 
     return (
-        <Combobox<TrackObjectFull> value={selected} onChange={onChange}>
+        <Combobox<TrackObjectFull> value={selected} onChange={onChange} nullable>
             <div className="relative rounded bg-slate-700 w-full h-12">
                 <Combobox.Input
                     className="rounded bg-slate-700 w-full h-full p-3 pr-10"
                     placeholder="Guess Here"
-                    displayValue={((track: TrackObjectFull) => track.name)}
+                    displayValue={((track: TrackObjectFull) => track?.name)}
                     onChange={(event) => setQuery(event.target.value)}
                 />
                 <Combobox.Button className="absolute inset-y-0 right-0 flex items-center px-2">
