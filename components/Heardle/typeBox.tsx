@@ -6,9 +6,9 @@ import TrackObjectFull = Spotify.TrackObjectFull;
 import {generateName} from "../../lib/util/generateName";
 import Image from "next/legacy/image";
 import shimmer from "../../lib/util/shimmer";
-import {Nullable} from "mongodb/src/mongo_types";
+import {Nullable} from "../../types/sotd";
 
-export function HeardleTypeBox({playlist, selected, onChange}: {playlist:PlaylistObjectTransformed, selected:Nullable<TrackObjectFull>, onChange: (value:TrackObjectFull) => void}){
+export function HeardleTypeBox({playlist, selected, onChange}: {playlist:PlaylistObjectTransformed, selected: Nullable<TrackObjectFull>, onChange: (value:TrackObjectFull) => void}){
     const [query, setQuery] = useState('')
 
     const filteredTracks =

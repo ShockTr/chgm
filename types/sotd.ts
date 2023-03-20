@@ -21,3 +21,5 @@ export interface sotdAPIResponse extends sotdGameData {
     day: number
     snapshot_id: string
 }
+
+export type Nullable<T> = T | null | undefined;
