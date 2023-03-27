@@ -20,7 +20,11 @@ const SongOfTheDay = ({ playlist }: InferGetServerSidePropsType<typeof getServer
     return (
         <div className="flex-grow flex flex-col m-3 space-y-3 text-white">
             <div className="flex flex-grow justify-center self-center w-full h-full">
-                <HeardleGame playlist={playlist} sotd={data}/>
+                {
+                    data?
+                        <HeardleGame playlist={playlist} sotd={data}/>
+                        : null
+                }
             </div>
             <div className="fixed bottom-0 left-0 text-gray-400 text-[0.5rem]">
                 {`Snapshot id: ${(data?.snapshot_id === playlist.snapshot_id)? playlist.snapshot_id: "❌ Snapshot id mismatch"} | Date: ${DateTime.now().setZone("Asia/Seoul").setLocale("en-GB").toLocaleString({dateStyle: "long"})} ${(data)? `Day: ${data?.day}`: ""}`}

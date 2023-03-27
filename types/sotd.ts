@@ -5,6 +5,10 @@ import {sotdGameData} from "./database";
 
 //Clientside objects:
 export interface currentGame {
+    game: {
+        snapshot_id: string
+        day: number
+    }
     track: TrackObjectFull
     guesses: sotdGuess[]
     finished: boolean
