@@ -26,6 +26,7 @@ export function TrackList({tracks, chgmTracks}: { tracks: TrackObjectFull[] | Tr
 }
 
 export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | TrackObjectSimplified, index: number, chgm: boolean}) {
+    /*TODO: Make audio players not stack*/
     const [hovering, setHover] = useState(false)
     const [playing, setPlaying] = useState(false)
     const playerRef = useRef<AudioPlayer>(null)
