@@ -16,7 +16,7 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
             day: sotd.day,
         },
         track: sotd.track,
-        guesses: [{correct: true, track: sotd.track}],
+        guesses: [],
         finished: false,
         won: false,
     }
