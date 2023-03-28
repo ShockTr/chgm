@@ -19,11 +19,31 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
         guesses: [{correct: true, track: sotd.track}],
         finished: false,
         won: false,
-
     }
     const [gameState, setGameState] = useSavedState<currentGame>("gameState", initalState)
-    if (JSON.stringify(gameState.game) !== JSON.stringify(initalState.game)) {
-        setGameState(initalState)
+    if (JSON.stringify(gameState.game) !== JSON.stringify(initalState.game)) setGameState(initalState)
+
+    function submitGuess(){
+        if (selected === null) return
+        let correct = selected.id === gameState.track.id
+        let newGuesses = [...gameState.guesses, {correct, track: selected}]
+        setGameState({
+            ...gameState,
+            guesses: newGuesses,
+            finished: correct || newGuesses.length === maxGuesses,
+            won: correct,
+        })
+        setSelected(null)
+    }
+    function skipGuess(){
+        let newGuesses = [...gameState.guesses, {correct: false, track: null}]
+        setGameState({
+            ...gameState,
+            guesses: newGuesses,
+            finished: newGuesses.length === maxGuesses,
+            won: false,
+        })
+        setSelected(null)
     }
 
     return (
@@ -37,14 +57,16 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
                     })
                 }
             </div>
-            <HeardleTypeBox selected={selected} onChange={setSelected} playlist={playlist}/>
-            <div className="flex flex-row w-full space-x-3">
-                <button className="w-full h-10 rounded bg-green-700 hover:bg-green-600" onClick={() => console.log(selected)}>
-                    Submit
-                </button>
-                <button className="w-full h-10 rounded bg-slate-800 hover:bg-slate-600" onClick={() => console.log(selected)}>
-                    Skip
-                </button>
+            <div className={`flex flex-col w-full space-y-3${gameState.finished? " hidden": ""}`}>
+                <HeardleTypeBox selected={selected} onChange={setSelected} playlist={playlist}/>
+                <div className="flex flex-row w-full space-x-3">
+                    <button className="w-full h-10 rounded bg-green-700 hover:bg-green-600" onClick={() => submitGuess()}>
+                        Submit
+                    </button>
+                    <button className="w-full h-10 rounded bg-slate-800 hover:bg-slate-600" onClick={() => skipGuess()}>
+                        Skip
+                    </button>
+                </div>
             </div>
         </div>
     )

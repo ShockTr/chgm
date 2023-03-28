@@ -17,7 +17,7 @@ export interface currentGame {
 
 export interface sotdGuess {
     correct: boolean
-    track: TrackObjectFull
+    track: TrackObjectFull | null
 }
 
 //API Response
