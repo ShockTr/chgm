@@ -48,7 +48,7 @@ export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | T
             <div className="flex min-w-0 items-center space-x-2">
                 <div className="w-[18px] shrink-0 text-right group-hover:text-white text-gray-400">
                     {
-                        hovering?
+                        hovering || playing?
                             <button className="flex" onClick={onClick}>
                                 {playing?
                                     <div>
