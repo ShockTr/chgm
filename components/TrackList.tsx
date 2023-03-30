@@ -44,7 +44,7 @@ export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | T
     }
     return (
         <div className={`flex h-14 text-white px-3 p-1 rounded justify-between group ${chgm? "bg-gradient-to-r from-sky-900 hover:from-sky-800": "hover:bg-slate-800 "}`} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} >
-            <AudioPlayer volume={0.3} src={track.preview_url as string} ref={playerRef} loop/>
+            <AudioPlayer volume={0.2} src={track.preview_url as string} ref={playerRef} loop/>
             <div className="flex min-w-0 items-center space-x-2">
                 <div className="w-[18px] shrink-0 text-right group-hover:text-white text-gray-400">
                     {
