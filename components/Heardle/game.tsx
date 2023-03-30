@@ -6,6 +6,7 @@ import {useState} from "react";
 import {Spotify} from "../../types/spotify";
 import TrackObjectFull = Spotify.TrackObjectFull;
 import {useSavedState} from "../../lib/util/useSavedState";
+import {HeardlePlayer} from "./player";
 
 export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransformed, sotd: sotdAPIResponse}){
     const maxGuesses = 5
@@ -68,6 +69,7 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
                     </button>
                 </div>
             </div>
+            <HeardlePlayer gameState={gameState}/>
         </div>
     )
 }

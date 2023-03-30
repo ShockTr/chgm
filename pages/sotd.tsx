@@ -7,7 +7,6 @@ import {getSotd, getSotdResponse} from "../lib/getSotd";
 import dynamic from 'next/dynamic'
 
 const DynamicHeardleGame = dynamic(() => import('../components/Heardle/game').then((mod) => mod.HeardleGame), {
-    loading: () => <p>Loading...</p>,
     ssr: false,
 })
 
@@ -15,11 +14,7 @@ const SongOfTheDay = ({ sotdData }: InferGetServerSidePropsType<typeof getServer
     return (
         <div className="flex-grow flex flex-col m-3 space-y-3 text-white">
             <div className="flex flex-grow justify-center self-center w-full h-full">
-                {
-                    sotdData?
-                        <DynamicHeardleGame playlist={sotdData.playlist} sotd={sotdData}/>
-                        : null
-                }
+                <DynamicHeardleGame playlist={sotdData.playlist} sotd={sotdData}/>
             </div>
             <div className="fixed bottom-0 left-0 text-gray-400 text-[0.5rem]">
                 {`Snapshot id: ${sotdData.snapshot_id} | Date: ${DateTime.now().setZone("Asia/Seoul").setLocale("en-GB").toLocaleString({dateStyle: "long"})} Day: ${sotdData?.day}`}
