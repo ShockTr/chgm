@@ -34,7 +34,7 @@ export function HeardleTypeBox({playlist, selected, onChange}: {playlist:Playlis
                         </svg>
                     </Combobox.Button>
                 </div>
-                <Combobox.Options className="absolute right-0 bg-slate-700 max-h-60 w-full rounded py-3 overflow-y-auto overflow-x-hidden">
+                <Combobox.Options className="absolute right-0 bg-slate-700 max-h-60 w-full rounded py-3 overflow-y-auto overflow-x-hidden z-10">
                     { filteredTracks.length !== 0?
                         filteredTracks.map((track) => (
                             <Combobox.Option key={track.id} value={track}>
