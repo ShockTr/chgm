@@ -1,5 +1,5 @@
 import {Duration} from "luxon";
-import {useRef, useState, useCallback, useEffect} from "react";
+import {useRef, useState, useCallback, useEffect, useMemo} from "react";
 import AudioPlayer from 'react-audio-player';
 import {currentGame} from "../../types/sotd";
 
@@ -7,6 +7,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
     const playerRef = useRef<AudioPlayer>(null)
     const [playing, setPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
+    const currentSegment = useMemo(() => !gameState.finished ? segments[gameState.guesses.length]: Infinity, [segments, gameState])
 
     function numberToHms(number: number) {
         return Duration.fromObject({seconds: number}).toFormat('mm:ss')
@@ -15,7 +16,6 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
     const onTimeupdate = useCallback(() => {
         if (!playerRef.current || !playerRef.current.audioEl.current) return
 
-        const currentSegment = segments[gameState.guesses.length]
         const currentTime = playerRef.current.audioEl.current.currentTime
         setCurrentTime(currentTime)
 
@@ -57,7 +57,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
                                 return (
                                     <div
                                         key={index}
-                                        className="absolute h-3 border-r border-white max-w-full"
+                                        className={`absolute h-3 border-r border-white max-w-full${gameState.finished? " hidden": ""}`}
                                         style={{width: `${(segment / Math.round((playerRef.current?.audioEl.current?.duration?? 30))) * 100}%`}}
                                     />
                                 )
