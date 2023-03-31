@@ -9,7 +9,8 @@ import {useSavedState} from "../../lib/util/useSavedState";
 import {HeardlePlayer} from "./player";
 
 export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransformed, sotd: sotdAPIResponse}){
-    const maxGuesses = 5
+    const maxGuesses = 5 // Maximum number of guesses
+    const segments = [2, 6, 13, 23] // Which second to stop at for each guess
     const [selected, setSelected] = useState<TrackObjectFull | null>(null)
     let initalState: currentGame = {
         game: {
@@ -20,6 +21,7 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
         guesses: [],
         finished: false,
         won: false,
+        maxGuesses
     }
     const [gameState, setGameState] = useSavedState<currentGame>("gameState", initalState)
     if (JSON.stringify(gameState.game) !== JSON.stringify(initalState.game)) setGameState(initalState)
@@ -69,7 +71,7 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
                     </button>
                 </div>
             </div>
-            <HeardlePlayer gameState={gameState}/>
+            <HeardlePlayer gameState={gameState} segments={segments} />
         </div>
     )
 }

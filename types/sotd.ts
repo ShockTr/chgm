@@ -10,6 +10,7 @@ export interface currentGame {
         day: number
     }
     track: TrackObjectFull
+    maxGuesses: number
     guesses: sotdGuess[]
     finished: boolean
     won: boolean
