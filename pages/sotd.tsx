@@ -16,7 +16,7 @@ const SongOfTheDay = ({ sotdData }: InferGetServerSidePropsType<typeof getServer
             <div className="flex flex-grow justify-center self-center w-full h-full">
                 <DynamicHeardleGame playlist={sotdData.playlist} sotd={sotdData}/>
             </div>
-            <div className="fixed bottom-0 left-0 text-gray-400 text-[0.5rem]">
+            <div className="hidden sm:block fixed bottom-0 left-0 text-gray-500 text-[0.5rem]">
                 {`Snapshot id: ${sotdData.snapshot_id} | Date: ${DateTime.now().setZone("Asia/Seoul").setLocale("en-GB").toLocaleString({dateStyle: "long"})} Day: ${sotdData?.day}`}
             </div>
         </div>
