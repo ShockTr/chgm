@@ -57,7 +57,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
                                 return (
                                     <div
                                         key={index}
-                                        className={`absolute h-3 border-r border-white max-w-full${gameState.finished? " hidden": ""}`}
+                                        className={`absolute h-3 border-r-2 border-slate-800 max-w-full${gameState.finished? " hidden": ""}`}
                                         style={{width: `${(segment / Math.round((playerRef.current?.audioEl.current?.duration?? 30))) * 100}%`}}
                                     />
                                 )
