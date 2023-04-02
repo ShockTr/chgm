@@ -22,7 +22,12 @@ export interface sotdGuess {
 }
 
 // ISO-DATE, currentGame
-export type previousSotdGames = Record<string, Omit<currentGame, "game"| "track">>
+export type previousSotdGames = Record<string, {
+    maxGuesses: number,
+    guesses: number
+    finished:boolean
+    won: boolean
+}>
 
 //API Response
 export interface sotdAPIResponse extends sotdGameData {

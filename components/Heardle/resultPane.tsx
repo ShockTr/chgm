@@ -39,10 +39,10 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
                             [...Array(gameState.maxGuesses + 1)].map((_, i) => {
                                 let values = Object.values(previousGames)
 
-                                let count = values.filter((game) => (game.guesses.length === i + 1) && game.won).length
+                                let count = values.filter((game) => (game.guesses === i + 1) && game.won).length
                                 if (i + 1 === gameState.maxGuesses + 1) count = values.filter((game) => !game.won).length
 
-                                const result = values.filter((game) => game.won).map((game) => game.guesses.length).reduce((acc: Record<number, number>, curr) => {
+                                const result = values.filter((game) => game.won).map((game) => game.guesses).reduce((acc: Record<number, number>, curr) => {
                                     if (typeof acc[curr] === 'undefined') {
                                         acc[curr] = 1;
                                     } else {

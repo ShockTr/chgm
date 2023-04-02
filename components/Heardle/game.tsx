@@ -56,7 +56,7 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
     }
     useEffect(() => {
     if (gameState.finished) {
-        setPreviousGames({...previousGames, [date]: {guesses: gameState.guesses, won: gameState.won, finished: gameState.finished, maxGuesses: gameState.maxGuesses}})
+        setPreviousGames({...previousGames, [date]: {guesses: gameState.guesses.length, won: gameState.won, finished: gameState.finished, maxGuesses: gameState.maxGuesses}})
         setModalIsOpen(true)
     }
     },[gameState.finished])
