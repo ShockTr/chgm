@@ -21,6 +21,9 @@ export interface sotdGuess {
     track: TrackObjectFull | null
 }
 
+// ISO-DATE, currentGame
+export type previousSotdGames = Record<string, Omit<currentGame, "game"| "track">>
+
 //API Response
 export interface sotdAPIResponse extends sotdGameData {
     day: number

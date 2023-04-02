@@ -1,18 +1,20 @@
 import {PlaylistObjectTransformed} from "../../lib/util/transformPlaylist";
-import {currentGame, sotdAPIResponse} from "../../types/sotd";
+import {currentGame, previousSotdGames, sotdAPIResponse} from "../../types/sotd";
 import {HeardleGuess} from "./guess";
 import {HeardleTypeBox} from "./typeBox";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {Spotify} from "../../types/spotify";
 import TrackObjectFull = Spotify.TrackObjectFull;
 import {useSavedState} from "../../lib/util/useSavedState";
 import {HeardlePlayer} from "./player";
 import {HeardleResultPane} from "./resultPane";
+import {DateTime} from "luxon";
 
 export const maxGuesses = 5 // Maximum number of guesses
 export const segments = [2, 6, 13, 23] // Which second to stop at for each guess
 
 export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransformed, sotd: sotdAPIResponse}){
+    const date = useMemo(() => DateTime.now().setZone("Asia/Seoul").toISODate(), [])
     const [selected, setSelected] = useState<TrackObjectFull | null>(null)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     let initalState: currentGame = {
@@ -27,6 +29,7 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
         maxGuesses
     }
     const [gameState, setGameState] = useSavedState<currentGame>("gameState", initalState)
+    const [previousGames, setPreviousGames] = useSavedState<previousSotdGames>("previousGames", {})
     if (JSON.stringify(gameState.game) !== JSON.stringify(initalState.game)) setGameState(initalState)
 
     function submitGuess(){
@@ -52,12 +55,15 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
         setSelected(null)
     }
     useEffect(() => {
-    if (gameState.finished) setModalIsOpen(true)
+    if (gameState.finished) {
+        setPreviousGames({...previousGames, [date]: {guesses: gameState.guesses, won: gameState.won, finished: gameState.finished, maxGuesses: gameState.maxGuesses}})
+        setModalIsOpen(true)
+    }
     },[gameState.finished])
 
     return (
         <div className="flex flex-col max-w-screen-sm w-full items-center p-3 rounded space-y-3">
-            <HeardleResultPane open={modalIsOpen} setOpen={setModalIsOpen} gameState={gameState}/>
+            <HeardleResultPane open={modalIsOpen} setOpen={setModalIsOpen} gameState={gameState} previousGames={previousGames}/>
             <div className="flex flex-col w-full space-y-3">
                 {
                     [...Array(maxGuesses)].map((_, i) => {
