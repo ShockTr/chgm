@@ -10,6 +10,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
     const currentSegment = useMemo(() => !gameState.finished ? segments[gameState.guesses.length]: Infinity, [segments, gameState])
 
     function numberToHms(number: number) {
+        if (isNaN(number)) return "00:00"
         return Duration.fromObject({seconds: number}).toFormat('mm:ss')
     }
 
@@ -24,7 +25,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
             playerRef.current.audioEl.current.currentTime = 0
             setPlaying(false)
         }
-    }, [gameState.guesses.length])
+    }, [currentSegment])
 
     const onClick = useCallback(() => {
         if (!playerRef.current || !playerRef.current.audioEl.current) return
@@ -43,7 +44,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
     useEffect(() => {
         if (!playerRef.current || !playerRef.current.audioEl.current || !playing) return
         playerRef.current.audioEl.current.ontimeupdate = onTimeupdate
-    }, [onTimeupdate])
+    }, [onTimeupdate, playing])
 
 
     return (

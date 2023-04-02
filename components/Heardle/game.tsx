@@ -2,7 +2,7 @@ import {PlaylistObjectTransformed} from "../../lib/util/transformPlaylist";
 import {currentGame, sotdAPIResponse} from "../../types/sotd";
 import {HeardleGuess} from "./guess";
 import {HeardleTypeBox} from "./typeBox";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Spotify} from "../../types/spotify";
 import TrackObjectFull = Spotify.TrackObjectFull;
 import {useSavedState} from "../../lib/util/useSavedState";
@@ -14,6 +14,7 @@ export const segments = [2, 6, 13, 23] // Which second to stop at for each guess
 
 export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransformed, sotd: sotdAPIResponse}){
     const [selected, setSelected] = useState<TrackObjectFull | null>(null)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
     let initalState: currentGame = {
         game: {
             snapshot_id: sotd.snapshot_id,
@@ -50,10 +51,13 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
         })
         setSelected(null)
     }
+    useEffect(() => {
+    if (gameState.finished) setModalIsOpen(true)
+    },[gameState.finished])
 
     return (
         <div className="flex flex-col max-w-screen-sm w-full items-center p-3 rounded space-y-3">
-            <HeardleResultPane gameState={gameState}/>
+            <HeardleResultPane open={modalIsOpen} setOpen={setModalIsOpen} gameState={gameState}/>
             <div className="flex flex-col w-full space-y-3">
                 {
                     [...Array(maxGuesses)].map((_, i) => {
