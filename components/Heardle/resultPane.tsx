@@ -70,7 +70,7 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-3">
                 {/* The actual dialog panel  */}
-                <Dialog.Panel className=" text-white max-w-screen-sm w-full min-h-fit h-2/3 rounded bg-slate-800 border border-slate-600 p-3 drop-shadow-md space-y-7">
+                <Dialog.Panel className=" text-white max-w-screen-sm w-full h-fit rounded bg-slate-800 border border-slate-600 p-3 drop-shadow-md space-y-7">
                     <div className="space-y-3">
                         <Dialog.Title className="font-medium text-lg">{title}</Dialog.Title>
                         <Dialog.Description>
@@ -89,7 +89,7 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
                                     return (
                                         <div key={i} className="flex flex-col">
                                             <div className="h-60 flex items-end">
-                                                <div className="max-h-60 w-10 bg-slate-600 flex justify-center" style={{height: `${count / maxNumberOfGamesWithXGuess * 100}%` }}>
+                                                <div className="max-h-60 w-7 sm:w-10 bg-slate-600 flex justify-center" style={{height: `${count / maxNumberOfGamesWithXGuess * 100}%` }}>
                                                     {(count === 0)? "": count}
                                                 </div>
                                             </div>
