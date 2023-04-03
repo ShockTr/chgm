@@ -141,8 +141,6 @@ export const endingMessages : Record<number, endingMessage> = {
             "You're the Christian Horse Girl Music equivalent of Indiana Jones, always on the hunt for the next musical treasure. And boy did you find it this time!",
             "Your Christian Horse Girl Music guessing skills are so impressive, I'm pretty sure you're part of the band. Are you a secret member of GFRIEND or something?",
             "Even though some of the groups in the Christian Horse Girl Music genre have disbanded, your love for their music still shines bright like a diamond.",
-            "You're a true Christian Horse Girl Music 'legend,' just like the disbanded groups Lovelyz and GFRIEND. Your name will go down in history!",
-            "It's a 'Rough' time for GFRIEND fans now that the group has disbanded, but at least you have your Christian Horse Girl Music knowledge to keep you going!",
             "Lovelyz may have 'Gone' their separate ways, but your love for Christian Horse Girl Music is here to stay. You're a true 'Now, We' believer!",
             "You have a 'Secret Garden' of Christian Horse Girl Music knowledge, and your guessing skills are 'Closer' than anyone else's!",
             "Your knowledge of Christian Horse Girl Music is 'Mago'ical. You're like a 'Nonstop' guessing machine, never missing a beat!",
