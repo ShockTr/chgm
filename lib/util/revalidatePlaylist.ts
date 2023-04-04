@@ -9,7 +9,7 @@ export async function revalidatePlaylist(collection: Collection<PlaylistData>) {
     let doc = await collection.findOne({
         valid_until: {$gte: new Date()}
     })
-    if (!doc) { //TODO: Maybe untangle this spaghetti.
+    if (!doc) {
         let {access_token: token} = await getAccessToken()
         let playlist = transformPlaylist(await fetchPlaylist(token))
         async function insertNewDoc() {
