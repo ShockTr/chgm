@@ -1,4 +1,4 @@
-import { Dialog } from '@headlessui/react'
+import {Dialog} from '@headlessui/react'
 import {currentGame, previousSotdGames} from "../../types/sotd";
 import {nodeCrypto, shuffle} from "random-js";
 import {endingMessage, endingMessages, maxGuesses} from "./game";
@@ -57,6 +57,18 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
             clearInterval(interval)
         }
     }, [date])
+    const [buttonText, setButtonText] = useState("Share")
+    const shareText = useMemo(() => {
+        let emojis: string[] = [];
+        [...Array(gameState.maxGuesses)].forEach((_, i) => {
+            let guess = gameState.guesses[i]
+            if (guess?.correct) emojis.push("🟩")
+            else if (!guess?.correct && guess?.track) emojis.push("🟥")
+            else emojis.push("⬛")
+        })
+        return `CHGM SOTD - ${DateTime.fromISO(date, {zone: "Asia/Seoul"}).toFormat("dd.MM.yyyy")}\n\n${emojis.join("")}\n\n${window.location.href}`
+
+    }, [gameState.guesses, gameState.maxGuesses, date])
 
     return (
         <Dialog
@@ -128,6 +140,19 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    {/*Share button*/}
+                    <div className="flex items-center justify-center">
+                        <button className="flex p-4 w-36 bg-slate-700 hover:bg-slate-600 rounded text-lg justify-center items-center" onClick={() => {
+                            navigator.clipboard.writeText(shareText)
+                            setButtonText("Copied!")
+                            setTimeout(() => setButtonText("Share"), 2000)
+                        }}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                <path fillRule="evenodd" d="M15.75 4.5a3 3 0 11.825 2.066l-8.421 4.679a3.002 3.002 0 010 1.51l8.421 4.679a3 3 0 11-.729 1.31l-8.421-4.678a3 3 0 110-4.132l8.421-4.679a3 3 0 01-.096-.755z" clipRule="evenodd" />
+                            </svg>
+                            <span className="ml-2">{buttonText}</span>
+                        </button>
                     </div>
                     {/*Next game countdown*/}
                     <div className="flex flex-col items-center justify-center text-lg">
