@@ -17,8 +17,8 @@ export default async function fetchAllAlbums(token?:string) {
     let finalObject: AlbumObjectFull[] = []
     for (let i = remainingIds.length; i > 0; i >= 20 ? i = i-20: i=0) {
         let idsToRequest:string[]
-        idsToRequest = remainingIds.slice(0, i>=20?19:i-1)
-        remainingIds = remainingIds.slice(i>=20?19:i-1)
+        idsToRequest = remainingIds.slice(0, i>=20?20:i)
+        remainingIds = remainingIds.slice(i>=20?20:i)
         let result = await fetchAlbums(idsToRequest, realToken)
         finalObject.push(...result)
     }

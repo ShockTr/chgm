@@ -48,7 +48,7 @@ export function ArtistsGridItem({artist}: {artist: Spotify.ArtistObjectFull}) {
                     <div className="shrink-0 w-40 h-40 flex relative mx-auto">
                         {
                             !!(artist.images[0]?.url)?
-                                <Image src={artist.images[0]?.url} className="object-cover overflow-hidden rounded" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={artist.name + " Photo"} />
+                                <Image src={artist.images[0]?.url} className="object-cover overflow-hidden rounded transition-[filter] duration-300" layout="fill" placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={artist.name + " Photo"} />
                                 :
                                 <div className="flex bg-slate-700 group-hover:bg-slate-600 w-full h-full rounded shadow-inner justify-center items-center transition-colors duration-300">
                                     🙏🐎👧🎵
