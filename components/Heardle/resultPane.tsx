@@ -19,7 +19,7 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
     }, [gameState.guesses.length, gameState.won])
 
     const [countDown, setCountDown] = useState("00:00:00")
-    const date = useMemo(() => DateTime.now().setZone("Asia/Seoul").toISODate(), [])
+    const date = useMemo(() => DateTime.now().setZone("Asia/Seoul").toISODate(), []) as string
     const message = useMemo(() => getRandomEnding("messages"), [getRandomEnding])
     const title = useMemo(() => getRandomEnding("titles"), [getRandomEnding])
     const values = useMemo(() => Object.values(previousGames), [previousGames])

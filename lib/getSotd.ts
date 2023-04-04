@@ -22,7 +22,7 @@ export async function getSotd(): Promise<getSotdResponse>{
     async function insertData (playlist: PlaylistObjectTransformed) {
         await SOTD.insertOne({
             snapshot_id: playlist.snapshot_id,
-            startDate: today.toISODate(),
+            startDate: today.toISODate() as string,
             games: shuffle(nodeCrypto, playlist.tracks.map((track) => {
                 return {
                     track

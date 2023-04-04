@@ -17,7 +17,7 @@ export async function revalidatePlaylist(collection: Collection<PlaylistData>) {
                 snapshot_id: playlist.snapshot_id,
                 added_at: new Date(),
                 playlist,
-                valid_until: DateTime.fromISO(DateTime.now().setZone("Asia/Seoul").plus({day: 1}).toISODate(), {zone: "Asia/Seoul"}).toJSDate()
+                valid_until: DateTime.fromISO(DateTime.now().setZone("Asia/Seoul").plus({day: 1}).toISODate() as string, {zone: "Asia/Seoul"}).toJSDate()
             })
         }
 
@@ -27,7 +27,7 @@ export async function revalidatePlaylist(collection: Collection<PlaylistData>) {
 
         if (oldObject) await collection.updateOne({_id: {$eq: oldObject._id}},{
             $set: {
-                valid_until: DateTime.fromISO(DateTime.now().setZone("Asia/Seoul").plus({day: 1}).toISODate(), {zone: "Asia/Seoul"}).toJSDate()
+                valid_until: DateTime.fromISO(DateTime.now().setZone("Asia/Seoul").plus({day: 1}).toISODate() as string, {zone: "Asia/Seoul"}).toJSDate()
             }
         })
         else await insertNewDoc()
