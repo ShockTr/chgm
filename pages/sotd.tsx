@@ -1,7 +1,5 @@
 import DefaultLayout from "../components/layouts/DefaultLayout";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import {PlaylistData} from "../types/database";
-import clientPromise from "../lib/mongodb";
 import {DateTime} from "luxon";
 import {getSotd, getSotdResponse} from "../lib/getSotd";
 import dynamic from 'next/dynamic'
@@ -24,9 +22,6 @@ const SongOfTheDay = ({ sotdData }: InferGetServerSidePropsType<typeof getServer
 }
 
 export const getServerSideProps: GetServerSideProps<{sotdData:getSotdResponse}> = async ({res}) => {
-    let client = await clientPromise
-    let Playlists = client.db("CHGM").collection<PlaylistData>("playlists")
-    await Playlists.createIndex({snapshot_id: 1}, {unique: true})
     const sotdData = await getSotd()
     res.setHeader(
         'Cache-Control',
