@@ -22,7 +22,6 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
 
         if (currentTime >= currentSegment) {
             playerRef.current.audioEl.current.pause()
-            playerRef.current.audioEl.current.currentTime = 0
             setPlaying(false)
         }
     }, [currentSegment])
@@ -34,12 +33,13 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
             playerRef.current.audioEl.current.pause()
             setPlaying(false)
         } else {
+            if (playerRef.current.audioEl.current.currentTime >= currentSegment) playerRef.current.audioEl.current.currentTime = 0
             playerRef.current.audioEl.current.play()
             setPlaying(true)
             playerRef.current.audioEl.current.ontimeupdate = onTimeupdate
             playerRef.current.audioEl.current.onended = () => setPlaying(false)
         }
-    }, [playing, onTimeupdate])
+    }, [playing, onTimeupdate, currentSegment])
 
     useEffect(() => {
         if (!playerRef.current || !playerRef.current.audioEl.current || !playing) return
