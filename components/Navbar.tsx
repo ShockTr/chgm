@@ -43,7 +43,7 @@ export default function Navbar(){
                     </svg>
                 </div>
             </div>
-            <div className={`${open? "": "hidden"} ${"md:hidden border-t border-slate-800 h-max flex flex-col"}`}>
+            <div className={`${open? "": "hidden"} md:hidden border-t border-slate-800 h-max flex flex-col`}>
                 { Object.entries(NAVBAR_ITEMS).map(([key,data]) => {
                     return (
                         <div key={key} onClick={()=>setOpen(false)} className="my-2">
