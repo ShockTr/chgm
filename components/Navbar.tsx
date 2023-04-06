@@ -67,10 +67,9 @@ export function NavItem(data: {href:string, text:string}) {
 }
 
 const NAVBAR_ITEMS = {
-    HOME: {href: "/", text: "Home"}, //decide whether to keep or not
+    SOTD: {href:"/sotd", text: "Song of the day"},
     TRACKS: {href: "/tracks", text: "Tracks"},
     ALBUMS: {href: "/albums", text: "Albums"},
     ARTISTS: {href: "/artists", text: "Artists"},
-    SOTD: {href:"/sotd", text: "Song of the day"},
     ABOUT: {href: "/about", text: "About"}
 }
