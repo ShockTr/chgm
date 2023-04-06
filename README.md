@@ -17,8 +17,11 @@ It's a reference to a hilarious YouTube video claiming [these kinds of songs](ht
 ## Bugs / Feature requests
 Please make an issue on here.
 
-## Technology Used
+## Technologies Used
 - Tailwind
 - Next.js
 - React.js
 - TypeScript
+- Luxon
+- MongoDB
+- Spotify API

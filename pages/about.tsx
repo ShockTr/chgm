@@ -18,10 +18,10 @@ const About: NextPageWithLayout = () => {
                 <h3 className="font-semibold text-xl">What is chgm?</h3>
                 It&apos;s a reference to a hilarious YouTube video claiming <a className="text-blue-600" href="https://open.spotify.com/playlist/2FONa0A7EaSDvAgck02s5s?si=58599d12695c4706">these kinds of songs</a> as &quot;CHGM songs&quot; because genre didn&apos;t have any specific name before, I stuck with CHGM for this project&apos;s name.<br/>
                 <br/>
-                <h2 className="font-semibold text-2xl">Bugs / Feature requests</h2><br/>
+                <h2 className="font-semibold text-2xl">Bugs / Feature requests</h2>
                 Please make an issue on github.<br/>
                 <br/>
-                <h2 className="font-semibold text-2xl">Technology Used</h2>
+                <h2 className="font-semibold text-2xl">Technologies Used</h2>
                 <ul className="pt-3">
                     <li>Next.js</li>
                     <li>React.js</li>
@@ -29,6 +29,7 @@ const About: NextPageWithLayout = () => {
                     <li>Tailwind</li>
                     <li>MongoDb</li>
                     <li>Luxon</li>
+                    <li>Spotify API</li>
                 </ul>
             </div>
             <div>
