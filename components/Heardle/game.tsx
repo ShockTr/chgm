@@ -14,7 +14,7 @@ export const maxGuesses = 5 // Maximum number of guesses
 export const segments = [2, 6, 13, 23] // Which second to stop at for each guess
 
 export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransformed, sotd: sotdAPIResponse}){
-    const date = useMemo(() => DateTime.now().setZone("Asia/Seoul").toISODate(), []) as string
+    const date = useMemo(() => DateTime.now().setZone("Asia/Seoul").toISODate(), [])
     const [selected, setSelected] = useState<TrackObjectFull | null>(null)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     let initalState: currentGame = {
