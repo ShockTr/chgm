@@ -20,7 +20,7 @@ export default function Navbar(){
     return(
         <nav className={`z-40 bg-slate-900 md:bg-transparent top-0 sticky flex-none w-full transition-all border-b duration-200 border-slate-800 md:border-slate-800/0 ${(scrollPosition > 0) ? "md:bg-slate-900 shadow md:border-slate-800" : ""}`}>
             <div className="flex mx-auto justify-between">
-                <Link href="/" className="md:ml-4">
+                <Link href="/about" className="md:ml-4">
                     <div className="flex items-center select-none hover:cursor-pointer hover:brightness-[.80] py-4 px-4 transition-[filter] duration-300" onClick={() => setOpen(false)}>
                         <Image priority={true} draggable="false" alt="Praying Hands" width="32" height="32" src="/images/el.png"/>
                         <Image priority={true} draggable="false" alt="Horse" width="32" height="32" src="/images/at.png"/>
