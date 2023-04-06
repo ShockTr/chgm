@@ -73,7 +73,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
             albums,
             topTracks,
             chgmTracks
-        }
+        },
+        revalidate: 24 * 60 * 60
     }
 }
 

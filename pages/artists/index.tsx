@@ -33,7 +33,8 @@ export const getStaticProps: GetStaticProps = async () => {
     return {
         props: {
             artists
-        }
+        },
+        revalidate: 24 * 60 * 60
     }
 }
 

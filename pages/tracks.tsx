@@ -35,7 +35,8 @@ export const getStaticProps: GetStaticProps = async () => {
     return {
         props: {
             tracks: playlist.tracks,
-        }
+        },
+        revalidate: 24 * 60 * 60
     }
 }
 

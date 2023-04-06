@@ -36,7 +36,8 @@ export const getStaticProps: GetStaticProps = async () => {
     return {
         props: {
             albums: [...uniqueIds].map(id => albums_array.find((item) => item.id === id))
-        }
+        },
+        revalidate: 24 * 60 * 60
     }
 }
 
