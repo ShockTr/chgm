@@ -6,10 +6,14 @@ import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
 import shimmer from "../../lib/util/shimmer";
 import {Spotify} from "../../types/spotify";
 import AlbumObjectSimplified = Spotify.AlbumObjectSimplified;
+import Head from "next/head";
 
 const Albums = ({ albums }: {albums: AlbumObjectSimplified[]}) => {
     return (
         <div className="p-3 flex-grow flex">
+            <Head>
+                <title>Albums - CHGM</title>
+            </Head>
             <div className="shadow rounded flex-grow">
                 <div className="text-white p-3 grid gap-5 sm:grid-cols-[repeat(auto-fit,_minmax(16rem,_1fr))]">
                     {albums.map((album) => {

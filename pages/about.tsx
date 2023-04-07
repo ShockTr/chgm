@@ -1,11 +1,15 @@
 import {NextPageWithLayout} from "./_app";
 import DefaultLayout from "../components/layouts/DefaultLayout";
 import Link from "next/link";
+import Head from "next/head";
 
 
 const About: NextPageWithLayout = () => {
     return (
         <div className="p-5 space-y-3">
+            <Head>
+                <title>About - CHGM</title>
+            </Head>
             <div className="text-white text-lg whitespace-pre-wrap">
                 <h1 className="text-3xl font-bold">About</h1>
                 <p>

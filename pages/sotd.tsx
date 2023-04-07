@@ -3,6 +3,7 @@ import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {DateTime} from "luxon";
 import {getSotd, getSotdResponse} from "../lib/getSotd";
 import dynamic from 'next/dynamic'
+import Head from "next/head";
 
 const DynamicHeardleGame = dynamic(() => import('../components/Heardle/game').then((mod) => mod.HeardleGame), {
     ssr: false,
@@ -11,6 +12,9 @@ const DynamicHeardleGame = dynamic(() => import('../components/Heardle/game').th
 const SongOfTheDay = ({ sotdData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     return (
         <div className="flex-grow flex flex-col m-3 space-y-3 text-white">
+            <Head>
+                <title>Song of the day - CHGM</title>
+            </Head>
             <div className="flex flex-grow justify-center self-center w-full h-full">
                 <DynamicHeardleGame playlist={sotdData.playlist} sotd={sotdData}/>
             </div>
