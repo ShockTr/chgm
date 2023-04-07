@@ -9,6 +9,7 @@ import {useSavedState} from "../../lib/util/useSavedState";
 import {HeardlePlayer} from "./player";
 import {HeardleResultPane} from "./resultPane";
 import {DateTime} from "luxon";
+import {CorrectAnswer} from "./correctAnswer";
 
 export const maxGuesses = 5 // Maximum number of guesses
 export const segments = [2, 6, 13, 23] // Which second to stop at for each guess
@@ -82,6 +83,14 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
                     <button className="w-full h-10 rounded bg-slate-800 hover:bg-slate-600" onClick={() => skipGuess()}>
                         Skip
                     </button>
+                </div>
+            </div>
+            <div className={`space-y-2 flex flex-col w-full${!gameState.finished || gameState.won? " hidden": ""}`}>
+                <div>
+                    Correct Answer:
+                </div>
+                <div>
+                    <CorrectAnswer track={gameState.track}/>
                 </div>
             </div>
             <HeardlePlayer gameState={gameState} segments={segments}/>

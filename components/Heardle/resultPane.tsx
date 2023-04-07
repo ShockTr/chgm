@@ -4,7 +4,7 @@ import {nodeCrypto, shuffle} from "random-js";
 import {endingMessage, endingMessages, maxGuesses} from "./game";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {DateTime} from "luxon";
-import {HeardleGuess} from "./guess";
+//import {HeardleGuess} from "./guess";
 
 export function HeardleResultPane({gameState, open, setOpen, previousGames}: {gameState: currentGame, open:boolean, setOpen: (open:boolean) => void, previousGames:previousSotdGames}) {
     const getRandomEnding = useCallback((type: keyof endingMessage) => {
@@ -142,15 +142,21 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
                             </div>
                         </div>
                     </div>
-                    {/*Correct answer*/}
-                    <div className={`space-y-2 flex flex-col w-full${gameState.won? " hidden": null}`}>
+                    {
+                        /*
+                        Correct answer
+                        Decide if i wanna show it here or in the game
+
+                        */
+                    }
+                    {/*<div className={`space-y-2 flex flex-col w-full${gameState.won? " hidden": ""}`}>
                         <div>
                             Correct Answer:
                         </div>
                         <div>
                             <HeardleGuess guess={{track: gameState.track, correct: true}}/>
                         </div>
-                    </div>
+                    </div>*/}
                     {/*Share button*/}
                     <div className="flex items-center justify-center">
                         <button className="flex p-4 w-36 bg-slate-700 hover:bg-slate-600 rounded text-lg justify-center items-center" onClick={() => {
