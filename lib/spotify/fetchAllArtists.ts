@@ -17,8 +17,8 @@ export default async function fetchAllArtists(token?:string) {
     let finalObject: ArtistObjectFull[] = []
     for (let i = remainingIds.length; i > 0; i >= 50 ? i = i-50: i=0) {
         let idsToRequest:string[]
-        idsToRequest = remainingIds.slice(0, i>=50?49:i-1)
-        remainingIds = remainingIds.slice(i>=50?49:i-1)
+        idsToRequest = remainingIds.slice(0, i>=50 ? 50 : i)
+        remainingIds = remainingIds.slice(i>=50 ? 50 : i)
         let result = await fetchArtists(idsToRequest, realToken)
         finalObject.push(...result)
     }
