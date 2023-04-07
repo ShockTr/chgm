@@ -47,10 +47,6 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
         if (!playerRef.current || !playerRef.current.audioEl.current || !playing) return
         playerRef.current.audioEl.current.ontimeupdate = onTimeupdate
     }, [onTimeupdate, playing])
-    /*useEffect(() => {
-        playerRef?.current?.updateVolume(userSettings.volume / 100)
-    }, [userSettings.volume])*/
-
 
     return (
         <div className="w-full h-20 bg-slate-800 rounded">
