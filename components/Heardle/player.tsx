@@ -72,7 +72,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
                 <div>
                     {numberToHms(Math.round(currentTime - 0.4))}
                 </div>
-                <button className="hover:text-gray-300" onClick={onClick}>
+                <button aria-label="Play" className="hover:text-gray-300" onClick={onClick}>
                     {playing?
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="currentColor">
