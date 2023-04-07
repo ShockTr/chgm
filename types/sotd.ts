@@ -21,6 +21,10 @@ export interface sotdGuess {
     track: TrackObjectFull | null
 }
 
+export interface userSettings {
+    volume: number
+}
+
 // ISO-DATE, currentGame
 export type previousSotdGames = Record<string, {
     maxGuesses: number,

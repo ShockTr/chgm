@@ -1,12 +1,14 @@
 import {Duration} from "luxon";
 import {useRef, useState, useCallback, useEffect, useMemo} from "react";
 import AudioPlayer from 'react-audio-player';
-import {currentGame} from "../../types/sotd";
+import {currentGame, userSettings} from "../../types/sotd";
+import {useSavedState} from "../../lib/util/useSavedState";
 
 export function HeardlePlayer({gameState, segments}: {gameState: currentGame, segments:number[]}) {
     const playerRef = useRef<AudioPlayer>(null)
     const [playing, setPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
+    const [userSettings] = useSavedState<userSettings>("userSettings", { volume: 20 })
     const currentSegment = useMemo(() => !gameState.finished ? segments[gameState.guesses.length]: Infinity, [segments, gameState])
 
     function numberToHms(number: number) {
@@ -45,11 +47,14 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
         if (!playerRef.current || !playerRef.current.audioEl.current || !playing) return
         playerRef.current.audioEl.current.ontimeupdate = onTimeupdate
     }, [onTimeupdate, playing])
+    /*useEffect(() => {
+        playerRef?.current?.updateVolume(userSettings.volume / 100)
+    }, [userSettings.volume])*/
 
 
     return (
         <div className="w-full h-20 bg-slate-800 rounded">
-            <AudioPlayer preload="auto" volume={0.2} ref={playerRef} src={gameState.track.preview_url as string}/>
+            <AudioPlayer preload="auto" volume={userSettings.volume / 100} ref={playerRef} src={gameState.track.preview_url as string}/>
             <div className=" flex items-end p-3 pb-0">
                 <div aria-hidden={true} className="relative w-full h-3 bg-slate-700 rounded">
                     <div className="h-full bg-green-500 rounded max-w-full" style={{width: `${( Math.round(currentTime - 0.4) / Math.round((playerRef.current?.audioEl.current?.duration?? 30) - 0.4)) * 100}%`}}>
@@ -59,7 +64,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
                                     <div
                                         key={index}
                                         className={`absolute h-3 border-r-2 border-slate-800 max-w-full${gameState.finished? " hidden": ""}`}
-                                        style={{width: `${(segment / Math.round((playerRef.current?.audioEl.current?.duration?? 30))) * 100}%`}}
+                                        style={{width: `${(segment / Math.round((playerRef.current?.audioEl.current?.duration?? 30) - 0.4)) * 100}%`}}
                                     />
                                 )
                             })
