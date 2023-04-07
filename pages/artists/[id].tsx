@@ -22,7 +22,7 @@ const Artists = ({artist, albums, topTracks, chgmTracks}: {artist: ArtistObjectF
     return (
         <div className="flex-grow flex flex-col m-5 space-y-3">
             <Head>
-                <title>{artist.name} - CHGM</title>
+                <title>{`${artist.name} - CHGM`}</title>
             </Head>
             <ArtistHeader artist={artist}/>
             <Header>

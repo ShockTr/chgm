@@ -19,7 +19,7 @@ const Albums = ({album, chgmTracks} : {album: AlbumObjectFull, chgmTracks: Track
     return (
         <div className="flex-grow flex flex-col m-3 sm:m-5 space-y-3">
             <Head>
-                <title>{album.name} - CHGM</title>
+                <title>{`${album.name} - CHGM`}</title>
             </Head>
             <AlbumHeader album={album}/>
             <TrackList tracks={album.tracks.items} chgmTracks={chgmTracks}/>
