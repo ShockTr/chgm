@@ -8,7 +8,7 @@ import {SpotifyIcon} from "../../lib/util/spotifyIcon";
 export function CorrectAnswer({track}: {track: TrackObjectFull}){
     return (
         <div className="h-16 sm:h-24 rounded">
-            <div className="h-full bg-slate-800 hover:bg-slate-700 rounded p-2 transition-colors duration-300">
+            <div className="h-full bg-slate-800 rounded p-2 transition-colors duration-300">
                 <div className="flex justify-between">
                     <div className="flex">
                         <Link href={`/albums/${track.album.id}`} className="shrink flex h-12 w-12 sm:h-fit sm:w-fit my-auto">

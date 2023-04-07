@@ -21,7 +21,7 @@ export function HeardleGuess({guess}: {guess?: sotdGuess}){
     )
     else return (
         <div className={`h-16 sm:h-24 rounded ring ${guess.correct? "ring-green-500": "ring-red-600"} `}>
-            <div className="h-full bg-slate-800 hover:bg-slate-700 rounded p-2 transition-colors duration-300">
+            <div className="h-full bg-slate-800 rounded p-2 transition-colors duration-300">
                 <div className="flex space-x-3">
                     <Link href={`/albums/${guess.track.album.id}`} className="shrink flex h-12 w-12 sm:h-fit sm:w-fit my-auto">
                         <Image
