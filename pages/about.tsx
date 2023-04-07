@@ -22,7 +22,7 @@ const About: NextPageWithLayout = () => {
                 Please make an issue on github.<br/>
                 <br/>
                 <h2 className="font-semibold text-2xl">Technologies Used</h2>
-                <ul className="pt-3">
+                <ul>
                     <li>Next.js</li>
                     <li>React.js</li>
                     <li>TypeScript</li>
