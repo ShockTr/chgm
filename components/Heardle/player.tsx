@@ -52,7 +52,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
             <AudioPlayer preload="auto" volume={0.2} ref={playerRef} src={gameState.track.preview_url as string}/>
             <div className=" flex items-end p-3 pb-0">
                 <div aria-hidden={true} className="relative w-full h-3 bg-slate-700 rounded">
-                    <div className="h-full bg-green-500 rounded max-w-full" style={{width: `${( Math.round(currentTime - 0.4) / Math.round((playerRef.current?.audioEl.current?.duration?? 30))) * 100}%`}}>
+                    <div className="h-full bg-green-500 rounded max-w-full" style={{width: `${( Math.round(currentTime - 0.4) / Math.round((playerRef.current?.audioEl.current?.duration?? 30) - 0.4)) * 100}%`}}>
                         {
                             segments.map((segment, index) => {
                                 return (
