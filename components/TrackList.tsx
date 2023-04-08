@@ -7,8 +7,11 @@ import {useRef, useState} from "react";
 import {SpotifyIcon} from "../lib/util/spotifyIcon"
 import Link from "next/link";
 import AudioPlayer from 'react-audio-player';
+import {useSavedState} from "../lib/util/useSavedState";
+import {userSettings} from "../types/sotd";
 
 export function TrackList({tracks, chgmTracks}: { tracks: TrackObjectFull[] | TrackObjectSimplified[], chgmTracks: TrackObjectFull[] }) : JSX.Element {
+    const [userSettings] = useSavedState<userSettings>("userSettings", { volume: 20 })
     return (
         <div className="flex flex-col space-y-1">
             {tracks.map((track, index) => {
@@ -18,6 +21,7 @@ export function TrackList({tracks, chgmTracks}: { tracks: TrackObjectFull[] | Tr
                         track={track}
                         index={index}
                         chgm={!!chgmTracks.find(trck => (trck.id === track.id) || ("external_ids" in track ? JSON.stringify(trck.external_ids) === JSON.stringify(track.external_ids) : false))}
+                        userSettings={userSettings}
                     />
                 )
             })}
@@ -25,7 +29,7 @@ export function TrackList({tracks, chgmTracks}: { tracks: TrackObjectFull[] | Tr
     )
 }
 
-export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | TrackObjectSimplified, index: number, chgm: boolean}) {
+export function TrackListItem({track, index, chgm, userSettings}: { track: TrackObjectFull | TrackObjectSimplified, index: number, chgm: boolean, userSettings: userSettings}) {
     /*TODO: Make audio players not stack*/
     const [hovering, setHover] = useState(false)
     const [playing, setPlaying] = useState(false)
@@ -44,7 +48,7 @@ export function TrackListItem({track, index, chgm}: { track: TrackObjectFull | T
     }
     return (
         <div className={`flex h-14 text-white px-3 p-1 rounded justify-between group ${chgm? "bg-gradient-to-r from-sky-900 hover:from-sky-800": "hover:bg-slate-800 "}`} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} >
-            <AudioPlayer volume={0.2} src={track.preview_url as string} ref={playerRef} loop/>
+            <AudioPlayer volume={userSettings.volume / 100} src={track.preview_url as string} ref={playerRef} loop/>
             <div className="flex min-w-0 items-center space-x-2">
                 <div className="w-[18px] shrink-0 text-right group-hover:text-white text-gray-400">
                     {

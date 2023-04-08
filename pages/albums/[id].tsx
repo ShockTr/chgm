@@ -13,10 +13,14 @@ import Link from "next/link";
 import {TrackList} from "../../components/TrackList"
 import {FitText} from "../../components/FitText";
 import {useEffect, useState} from "react";
+import Head from "next/head";
 
 const Albums = ({album, chgmTracks} : {album: AlbumObjectFull, chgmTracks: TrackObjectFull[]}) => {
     return (
         <div className="flex-grow flex flex-col m-3 sm:m-5 space-y-3">
+            <Head>
+                <title>{`${album.name} - CHGM`}</title>
+            </Head>
             <AlbumHeader album={album}/>
             <TrackList tracks={album.tracks.items} chgmTracks={chgmTracks}/>
 
@@ -45,7 +49,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         props: {
             album,
             chgmTracks
-        }
+        },
+        revalidate: 24 * 60 * 60
     }
 }
 

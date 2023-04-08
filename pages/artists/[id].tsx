@@ -16,10 +16,14 @@ import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
 import {AlbumsGridItem} from "../albums";
 import {FitText} from "../../components/FitText";
 import {useEffect, useState} from "react";
+import Head from "next/head";
 
 const Artists = ({artist, albums, topTracks, chgmTracks}: {artist: ArtistObjectFull, albums: AlbumObjectSimplified[], topTracks:TrackObjectFull[], chgmTracks:TrackObjectFull[]}) => {
     return (
         <div className="flex-grow flex flex-col m-5 space-y-3">
+            <Head>
+                <title>{`${artist.name} - CHGM`}</title>
+            </Head>
             <ArtistHeader artist={artist}/>
             <Header>
                 Popular Tracks
@@ -73,7 +77,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
             albums,
             topTracks,
             chgmTracks
-        }
+        },
+        revalidate: 24 * 60 * 60
     }
 }
 

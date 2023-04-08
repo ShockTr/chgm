@@ -6,10 +6,14 @@ import shimmer from "../../lib/util/shimmer";
 import {Spotify} from "../../types/spotify";
 import ArtistObjectFull = Spotify.ArtistObjectFull;
 import fetchAllArtists from "../../lib/spotify/fetchAllArtists";
+import Head from "next/head";
 
 const Artists = ({ artists }: {artists: ArtistObjectFull[]}) => {
     return (
         <div className="p-3 flex-grow flex">
+            <Head>
+                <title>Artists - CHGM</title>
+            </Head>
             <div className="shadow rounded flex-grow">
                 <div className="text-white p-3 grid gap-5 grid-cols-[repeat(auto-fit,_minmax(11rem,_1fr))]">
                     {artists.map((artist) => {
@@ -33,7 +37,8 @@ export const getStaticProps: GetStaticProps = async () => {
     return {
         props: {
             artists
-        }
+        },
+        revalidate: 24 * 60 * 60
     }
 }
 
