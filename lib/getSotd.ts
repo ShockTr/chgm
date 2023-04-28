@@ -23,12 +23,12 @@ export async function getSotd(): Promise<getSotdResponse>{
         await SOTD.insertOne({
             snapshot_id: playlist.snapshot_id,
             startDate: today.toISODate(),
+            generationDate: new Date(),
             games: shuffle(nodeCrypto, playlist.tracks.map((track) => {
                 return {
                     track
                 }
             })),
-            generationDate: new Date()
         })
         return await SOTD.findOne({
             snapshot_id: {$eq: playlist.snapshot_id}
@@ -57,8 +57,8 @@ export async function getSotd(): Promise<getSotdResponse>{
             await SOTD.insertOne({
                 snapshot_id: playlist.snapshot_id,
                 startDate: oldSOTD.startDate,
+                generationDate: new Date(),
                 games: alreadyPlayed.concat(shuffle(nodeCrypto, newTracks.map((track) => { return {track} }))),
-                generationDate: new Date()
             })
             document = await SOTD.findOne({
                 snapshot_id: {$eq: playlist.snapshot_id}
