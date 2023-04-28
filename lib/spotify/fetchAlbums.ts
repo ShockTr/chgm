@@ -11,6 +11,7 @@ export default async function fetchAlbums(ids:string[], token?:string) {
     if (ids.length > 20) throw Error("You can only request 20 albums per request.")
     let url = new URL("https://api.spotify.com/v1/albums")
     url.searchParams.set("ids", ids.join(","))
+    url.searchParams.set("market", "US")
     let response = await fetch(url, {headers: {Authorization: `Bearer ${realToken}`}}).then(r => r.json()) as MultipleAlbumsResponse
     return response.albums
 }
