@@ -47,11 +47,9 @@ export async function getSotd(): Promise<getSotdResponse>{
         ]).next() as Nullable<sotdGamesData>
         if (!oldSOTD) document = await insertData(playlist?.playlist)
         else {
-            console.log("yesss baby")
             let oldStartDate = DateTime.fromISO(oldSOTD.startDate, {zone: "Asia/Seoul"})
             let diff = Math.floor(today.diff(oldStartDate, 'days').toObject().days ?? 0)
             let alreadyPlayed = oldSOTD.games.slice(0, diff)
-            console.log(alreadyPlayed.map((game) => game.track.name))
             let newTracks = playlist.playlist.tracks.filter((track) => {
                 return !alreadyPlayed.some((game) => game.track.id === track.id)
             })
