@@ -15,9 +15,9 @@ export async function getSotd(): Promise<getSotdResponse>{
 
     //Init mongo client
     let client = await clientPromise
-    let SOTD = client.db("CHGM").collection<sotdGamesData>("SOTD")
+    let SOTD = client.db(process.env.DBNAME).collection<sotdGamesData>("SOTD")
     await SOTD.createIndex({snapshot_id: 1}, {unique: true})
-    let Playlists = client.db("CHGM").collection<PlaylistData>("playlists")
+    let Playlists = client.db(process.env.DBNAME).collection<PlaylistData>("playlists")
     await Playlists.createIndex({snapshot_id: 1}, {unique: true})
     async function insertData (playlist: PlaylistObjectTransformed) {
         await SOTD.insertOne({
