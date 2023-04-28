@@ -1,4 +1,4 @@
-import {sotdAPIResponse} from "../types/sotd";
+import {Nullable, sotdAPIResponse} from "../types/sotd";
 import {DateTime} from "luxon";
 import clientPromise from "./mongodb";
 import {PlaylistData, sotdGamesData} from "../types/database";
@@ -27,7 +27,8 @@ export async function getSotd(): Promise<getSotdResponse>{
                 return {
                     track
                 }
-            }))
+            })),
+            generationDate: new Date()
         })
         return await SOTD.findOne({
             snapshot_id: {$eq: playlist.snapshot_id}
@@ -38,7 +39,34 @@ export async function getSotd(): Promise<getSotdResponse>{
     let document = await SOTD.findOne({
         snapshot_id: {$eq: playlist?.snapshot_id}
     })
-    if (!document) document = await insertData(playlist?.playlist)
+    if (!document) {
+        let oldSOTD = await SOTD.aggregate([
+            {$addFields: {date: {$dateFromString: {dateString: "$startDate"}}}},
+            {$sort: {date: -1}},
+            {$limit: 1}
+        ]).next() as Nullable<sotdGamesData>
+        if (!oldSOTD) document = await insertData(playlist?.playlist)
+        else {
+            console.log("yesss baby")
+            let oldStartDate = DateTime.fromISO(oldSOTD.startDate, {zone: "Asia/Seoul"})
+            let diff = Math.floor(today.diff(oldStartDate, 'days').toObject().days ?? 0)
+            let alreadyPlayed = oldSOTD.games.slice(0, diff)
+            console.log(alreadyPlayed.map((game) => game.track.name))
+            let newTracks = playlist.playlist.tracks.filter((track) => {
+                return !alreadyPlayed.some((game) => game.track.id === track.id)
+            })
+
+            await SOTD.insertOne({
+                snapshot_id: playlist.snapshot_id,
+                startDate: oldSOTD.startDate,
+                games: alreadyPlayed.concat(shuffle(nodeCrypto, newTracks.map((track) => { return {track} }))),
+                generationDate: new Date()
+            })
+            document = await SOTD.findOne({
+                snapshot_id: {$eq: playlist.snapshot_id}
+            }) as WithId<sotdGamesData>
+        }
+    }
     let startDate = DateTime.fromISO(document.startDate, {zone: "Asia/Seoul"})
     let diff = Math.floor(today.diff(startDate, 'days').toObject().days ?? 0)
     let game = document.games[diff]

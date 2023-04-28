@@ -9,6 +9,7 @@ export interface sotdGamesData {
     snapshot_id: string
     games: sotdGameData[]
     startDate: string // Start of the first game ever played in ISO Date (KST)
+    generationDate: Date
 }
 export interface sotdGameData {
     track: TrackObjectFull
