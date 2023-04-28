@@ -40,29 +40,29 @@ export async function getSotd(): Promise<getSotdResponse>{
         snapshot_id: {$eq: playlist?.snapshot_id}
     })
     if (!document) {
-        let oldSOTD = await SOTD.aggregate([
-            {$addFields: {date: {$dateFromString: {dateString: "$startDate"}}}},
-            {$sort: {date: -1}},
-            {$limit: 1}
-        ]).next() as Nullable<sotdGamesData>
+        let oldSOTD = await SOTD.findOne({}, {sort: {generationDate: -1}}) as Nullable<sotdGamesData>
         if (!oldSOTD) document = await insertData(playlist?.playlist)
         else {
             let oldStartDate = DateTime.fromISO(oldSOTD.startDate, {zone: "Asia/Seoul"})
             let diff = Math.floor(today.diff(oldStartDate, 'days').toObject().days ?? 0)
-            let alreadyPlayed = oldSOTD.games.slice(0, diff)
-            let newTracks = playlist.playlist.tracks.filter((track) => {
-                return !alreadyPlayed.some((game) => game.track.id === track.id)
-            })
+            if (diff > oldSOTD.games.length) {
+                document = await insertData(playlist?.playlist)
+            } else {
+                let alreadyPlayed = oldSOTD.games.slice(0, diff)
+                let newTracks = playlist.playlist.tracks.filter((track) => {
+                    return !alreadyPlayed.some((game) => game.track.id === track.id)
+                })
 
-            await SOTD.insertOne({
-                snapshot_id: playlist.snapshot_id,
-                startDate: oldSOTD.startDate,
-                generationDate: new Date(),
-                games: alreadyPlayed.concat(shuffle(nodeCrypto, newTracks.map((track) => { return {track} }))),
-            })
-            document = await SOTD.findOne({
-                snapshot_id: {$eq: playlist.snapshot_id}
-            }) as WithId<sotdGamesData>
+                await SOTD.insertOne({
+                    snapshot_id: playlist.snapshot_id,
+                    startDate: oldSOTD.startDate,
+                    generationDate: new Date(),
+                    games: alreadyPlayed.concat(shuffle(nodeCrypto, newTracks.map((track) => { return {track} }))),
+                })
+                document = await SOTD.findOne({
+                    snapshot_id: {$eq: playlist.snapshot_id}
+                }) as WithId<sotdGamesData>
+            }
         }
     }
     let startDate = DateTime.fromISO(document.startDate, {zone: "Asia/Seoul"})
