@@ -1,6 +1,6 @@
 import {Spotify} from "./spotify";
-import TrackObjectFull = Spotify.TrackObjectFull;
 import {sotdGameData} from "./database";
+import TrackObjectFull = Spotify.TrackObjectFull;
 
 
 //Clientside objects:
@@ -41,3 +41,8 @@ export interface sotdAPIResponse extends sotdGameData {
 
 export type Nullable<T> = T | null | undefined;
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
+export interface endingMessage {
+    titles: string[],
+    messages: string[]
+}

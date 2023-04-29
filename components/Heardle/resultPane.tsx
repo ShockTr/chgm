@@ -1,9 +1,9 @@
 import {Dialog} from '@headlessui/react'
-import {currentGame, previousSotdGames} from "../../types/sotd";
+import {currentGame, endingMessage, previousSotdGames} from "../../types/sotd";
 import {nodeCrypto, shuffle} from "random-js";
-import {endingMessage, endingMessages, maxGuesses} from "./game";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {DateTime} from "luxon";
+import {endingMessages, maxGuesses} from "./config";
 //import {HeardleGuess} from "./guess";
 
 export function HeardleResultPane({gameState, open, setOpen, previousGames}: {gameState: currentGame, open:boolean, setOpen: (open:boolean) => void, previousGames:previousSotdGames}) {
