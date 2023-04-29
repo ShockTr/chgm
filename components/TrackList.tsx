@@ -3,7 +3,7 @@ import TrackObjectFull = Spotify.TrackObjectFull;
 import TrackObjectSimplified = Spotify.TrackObjectSimplified;
 import shimmer from "../lib/util/shimmer";
 import Image from "next/legacy/image";
-import {useRef, useState} from "react";
+import {Dispatch, SetStateAction, useRef, useState} from "react";
 import {SpotifyIcon} from "../lib/util/spotifyIcon"
 import Link from "next/link";
 import AudioPlayer from 'react-audio-player';
@@ -12,6 +12,7 @@ import {userSettings} from "../types/sotd";
 
 export function TrackList({tracks, chgmTracks}: { tracks: TrackObjectFull[] | TrackObjectSimplified[], chgmTracks: TrackObjectFull[] }) : JSX.Element {
     const [userSettings] = useSavedState<userSettings>("userSettings", { volume: 20 })
+    const [curentPlayer, setCurrentPlayer] = useState<AudioPlayer | null>(null)
     return (
         <div className="flex flex-col space-y-1">
             {tracks.map((track, index) => {
@@ -22,6 +23,8 @@ export function TrackList({tracks, chgmTracks}: { tracks: TrackObjectFull[] | Tr
                         index={index}
                         chgm={!!chgmTracks.find(trck => (trck.id === track.id) || ("external_ids" in track ? JSON.stringify(trck.external_ids) === JSON.stringify(track.external_ids) : false))}
                         userSettings={userSettings}
+                        currentPlayer={curentPlayer}
+                        setCurrentPlayer={setCurrentPlayer}
                     />
                 )
             })}
@@ -29,20 +32,35 @@ export function TrackList({tracks, chgmTracks}: { tracks: TrackObjectFull[] | Tr
     )
 }
 
-export function TrackListItem({track, index, chgm, userSettings}: { track: TrackObjectFull | TrackObjectSimplified, index: number, chgm: boolean, userSettings: userSettings}) {
-    /*TODO: Make audio players not stack*/
+interface TrackListItemProps {
+    track: TrackObjectFull | TrackObjectSimplified,
+    index: number,
+    chgm: boolean,
+    userSettings: userSettings
+    currentPlayer: AudioPlayer | null
+    setCurrentPlayer: Dispatch<SetStateAction<AudioPlayer | null>>
+}
+export function TrackListItem({track, index, chgm, userSettings, currentPlayer, setCurrentPlayer}: TrackListItemProps) {
     const [hovering, setHover] = useState(false)
-    const [playing, setPlaying] = useState(false)
     const playerRef = useRef<AudioPlayer>(null)
+    const playing = !(playerRef.current?.audioEl.current?.paused ?? true)
+
     function onClick(){
         if (playerRef.current) {
             if (playing) {
                 playerRef.current.audioEl.current?.pause()
-                setPlaying(false)
+                setCurrentPlayer(null)
+            }
+            else if(currentPlayer === playerRef.current) {
+                playerRef.current.audioEl.current?.play()
             }
             else {
+                if (currentPlayer) {
+                    currentPlayer.audioEl.current?.pause()
+                    setCurrentPlayer(null)
+                }
                 playerRef.current.audioEl.current?.play()
-                setPlaying(true)
+                setCurrentPlayer(playerRef.current)
             }
         }
     }
