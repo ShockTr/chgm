@@ -28,7 +28,7 @@ export default function Navbar(){
         };
     }, []);
     return(
-        <nav className={`z-40 bg-slate-900 md:bg-transparent top-0 sticky flex-none w-full transition-all border-b duration-200 border-slate-800 md:border-slate-800/0 ${(scrollPosition > 0) ? "md:bg-slate-900 shadow md:border-slate-800" : ""}`}>
+        <nav className={`z-40 bg-slate-900 top-0 sticky flex-none w-full transition-all border-b duration-200 border-slate-800 md:border-slate-800/0 ${(scrollPosition > 0) ? "md:shadow md:border-slate-800" : ""}`}>
             <div className="flex mx-auto justify-between">
                 <Link href="/about" className="md:ml-4">
                     <div className="flex items-center select-none hover:cursor-pointer hover:brightness-[.80] py-4 px-4 transition-[filter] duration-300" onClick={(event) => {
@@ -65,7 +65,7 @@ export default function Navbar(){
                         )
                     }) }
                 </div>
-                <div className="md:hidden mx-3 my-3 py-2 px-2 text-white bg-slate-800 rounded active:bg-slate-600 transition-colors" onClick={()=> setOpen(!open)}>
+                <div className="md:hidden mx-3 my-3 p-2 text-white bg-slate-800 rounded active:bg-slate-600 transition-colors" onClick={()=> setOpen(!open)}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
