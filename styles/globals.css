@@ -5,13 +5,14 @@
 html {
     @apply bg-slate-900
 }
-::-webkit-scrollbar{
+
+#resultPane::-webkit-scrollbar{
     @apply w-1.5;
 }
-::-webkit-scrollbar-thumb{
+#resultPane::-webkit-scrollbar-thumb{
     @apply bg-slate-500;
     @apply rounded;
 }
-::-webkit-scrollbar-thumb:hover{
+#resultPane::-webkit-scrollbar-thumb:hover{
     @apply bg-slate-600;
 }

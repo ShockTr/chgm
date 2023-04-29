@@ -83,7 +83,7 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-3">
                 {/* The actual dialog panel  */}
-                <Dialog.Panel className="text-white max-w-screen-sm w-full h-fit max-h-[90%] overflow-y-auto rounded bg-slate-800 border border-slate-600 p-3 drop-shadow-md space-y-7">
+                <Dialog.Panel id="resultPane" className="text-white max-w-screen-sm w-full h-fit max-h-[90%] overflow-y-auto rounded bg-slate-800 border border-slate-600 p-3 drop-shadow-md space-y-7">
                     <div className="space-y-1">
                         <div className="flex justify-between">
                             <Dialog.Title className="font-medium text-lg">{title}</Dialog.Title>
