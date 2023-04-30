@@ -53,14 +53,14 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
             <AudioPlayer preload="auto" volume={userSettings.volume / 100} ref={playerRef} src={gameState.track.preview_url as string}/>
             <div className=" flex items-end p-3 pb-0">
                 <div aria-hidden={true} className="relative w-full h-3 bg-slate-700 rounded">
-                    <div className="h-full bg-green-500 rounded max-w-full" style={{width: `${( Math.round(currentTime - 0.4) / Math.round((playerRef.current?.audioEl.current?.duration?? 30) - 0.4)) * 100}%`}}>
+                    <div className="h-full bg-green-500 rounded max-w-full" style={{width: `${( Math.round(currentTime - 0.4) / Math.round((playerRef.current?.audioEl.current?.duration?? 29) - 0.4)) * 100}%`}}>
                         {
                             segments.map((segment, index) => {
                                 return (
                                     <div
                                         key={index}
                                         className={`absolute h-3 border-r-2 border-slate-800 max-w-full${gameState.finished? " hidden": ""}`}
-                                        style={{width: `${(segment / Math.round((playerRef.current?.audioEl.current?.duration?? 30) - 0.4)) * 100}%`}}
+                                        style={{width: `${(segment / Math.round((playerRef.current?.audioEl.current?.duration?? 29) - 0.4)) * 100}%`}}
                                     />
                                 )
                             })
@@ -88,7 +88,7 @@ export function HeardlePlayer({gameState, segments}: {gameState: currentGame, se
                     }
                 </button>
                 <div>
-                    {numberToHms(Math.round((playerRef.current?.audioEl.current?.duration?? 30) - 0.4))}
+                    {numberToHms(Math.round((playerRef.current?.audioEl.current?.duration?? 29) - 0.4))}
                 </div>
             </div>
         </div>

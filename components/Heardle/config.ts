@@ -6,7 +6,7 @@ import {endingMessage} from "../../types/sotd";
 
  */
 export const maxGuesses = 5 // Maximum number of guesses
-export const segments = [2, 6, 13, 23] // Which second to stop at for each guess
+export const segments = [2, 6, 12, 20] // Which second to stop at for each guess
 
 /*
 Endining Messages for number of guesses it took to win. 0 is the default message. -1 is the message for when the user loses.
