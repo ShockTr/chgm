@@ -1,9 +1,9 @@
 import {Dialog} from '@headlessui/react'
-import {currentGame, previousSotdGames} from "../../types/sotd";
+import {currentGame, endingMessage, previousSotdGames} from "../../types/sotd";
 import {nodeCrypto, shuffle} from "random-js";
-import {endingMessage, endingMessages, maxGuesses} from "./game";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {DateTime} from "luxon";
+import {endingMessages, maxGuesses} from "./config";
 //import {HeardleGuess} from "./guess";
 
 export function HeardleResultPane({gameState, open, setOpen, previousGames}: {gameState: currentGame, open:boolean, setOpen: (open:boolean) => void, previousGames:previousSotdGames}) {
@@ -83,9 +83,14 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
             {/* Full-screen container to center the panel */}
             <div className="fixed inset-0 flex items-center justify-center p-3">
                 {/* The actual dialog panel  */}
-                <Dialog.Panel className=" text-white max-w-screen-sm w-full h-fit rounded bg-slate-800 border border-slate-600 p-3 drop-shadow-md space-y-7">
-                    <div className="space-y-3">
-                        <Dialog.Title className="font-medium text-lg">{title}</Dialog.Title>
+                <Dialog.Panel id="resultPane" className="text-white max-w-screen-sm w-full h-fit max-h-[95%] overflow-y-auto rounded bg-slate-800 border border-slate-600 p-3 drop-shadow-md space-y-7">
+                    <div className="space-y-1">
+                        <div className="flex justify-between">
+                            <Dialog.Title className="font-medium text-lg">{title}</Dialog.Title>
+                            <button className="p-2 bg-slate-700 rounded w-10 h-10 font-semibold text-center hover:bg-slate-600" onClick={() => setOpen(false)}>
+                                X
+                            </button>
+                        </div>
                         <Dialog.Description>
                             {message}
                         </Dialog.Description>
@@ -134,7 +139,7 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
                             </div>
                             <div className="flex flex-col items-center flex-1">
                                 <div className="text-xl font-semibold">
-                                    %{Math.round(won / (won + lost) * 100)}
+                                    {Math.round(won / (won + lost) * 100)}%
                                 </div>
                                 <div className="text-gray-400 text-sm">
                                     Win Rate

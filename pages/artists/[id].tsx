@@ -25,12 +25,12 @@ const Artists = ({artist, albums, topTracks, chgmTracks}: {artist: ArtistObjectF
                 <title>{`${artist.name} - CHGM`}</title>
             </Head>
             <ArtistHeader artist={artist}/>
-            <Header>
+            <Header id="popular">
                 Popular Tracks
             </Header>
             <TrackList tracks={topTracks} chgmTracks={chgmTracks}/>
             <div className="pt-10">
-                <Header>
+                <Header id="discography">
                     CHGM Discography
                 </Header>
             </div>
@@ -142,9 +142,9 @@ export function ArtistHeader({artist}: {artist: ArtistObjectFull}) {
         </div>
     )
 }
-export function Header({children} : {children:string}) {
+export function Header({children, id} : {children:string, id?:string}) {
     return (
-        <div className="text-white text-2xl font-bold">
+        <div id={id} className="text-white text-2xl font-bold">
             {children}
         </div>
     )
