@@ -46,7 +46,7 @@ export async function getSotd(): Promise<getSotdResponse>{
             break theStatement
         }
         const oldStartDate = DateTime.fromISO(oldSOTD.startDate, {zone: "Asia/Seoul"})
-        const diff = Math.floor(today.diff(oldStartDate, 'days').toObject().days ?? 0)
+        const diff = Math.floor(today.diff(oldStartDate, 'days').toObject().days ?? 0) + 1
         if (diff > oldSOTD.games.length) {
             document = await insertData(playlist?.playlist)
             break theStatement
