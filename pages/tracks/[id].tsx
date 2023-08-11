@@ -39,7 +39,7 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
                 <div className="text-3xl text-white text-center">Statistics</div>
                 <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-white">
                     <div>
-                        Tempo: <Badge colour={"red"}>{Math.round(features.tempo)} BPM</Badge>
+                        Tempo: <Badge hue={getHueFromBPM(features.tempo)} colour={"red"}>{Math.round(features.tempo)} BPM</Badge>
                     </div>
                     <div>
                         Key: <Badge colour={"blue"}>{keys[features.key].join("/")} {(features.mode === 1)? "Major": "Minor"}</Badge>
@@ -54,13 +54,13 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
                         Valence: <Badge colour={"purple"}>{Math.round(features.valence * 100)}%</Badge>
                     </div>
                     <div>
+                        Duration: <Badge colour={"red"}>{Math.round(features.duration_ms / 1000)}s</Badge>
+                    </div>
+                    <div>
                         Acoustic: <Badge colour={"gray"}>{(features.acousticness >= 0.5)? "Yes": "No"}</Badge>
                     </div>
                     <div>
                         Instrumental: <Badge colour={"pink"}>{(features.instrumentalness >= 0.5)? "Yes": "No"}</Badge>
-                    </div>
-                    <div>
-                        Duration: <Badge colour={"yellow"}>{Math.round(features.duration_ms / 1000)}s</Badge>
                     </div>
                 </div>
             </div>
@@ -69,6 +69,15 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
 }
 Tracks.getLayout = DefaultLayout
 
+function getHueFromBPM(bpm: number) {
+    let red = 160
+    let green = 90
+    if (bpm > red) return 0
+    if (bpm < green) return 100
+    let hue = (red - bpm) / (red - green) * 100
+    console.log(hue)
+    return hue
+}
 const keys: Record<number, string[]> = {
     0: ["C"],
     1: ["C♯", "D♭"],
@@ -92,9 +101,12 @@ const colourVariants = {
     purple: "bg-purple-600 hover:bg-purple-500",
     pink: "bg-pink-600 hover:bg-pink-500",
 }
-export const Badge = ({children:text, colour}: {children: any, colour: keyof typeof colourVariants}) => {
+export const Badge = ({children:text, colour, hue}: {children: any, colour: keyof typeof colourVariants, hue?:number}) => {
     return (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium ${colourVariants[colour]}`}>
+        <span
+            className={`inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium ${!hue? `${colourVariants[colour]} text-white`: "text-black"}`}
+            {...( hue && {style: {backgroundColor: `hsl(${hue}, 100%, 50%)`}})}
+        >
         {text}
     </span>
     )
