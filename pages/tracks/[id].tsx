@@ -2,7 +2,6 @@ import DefaultLayout from "../../components/layouts/DefaultLayout";
 import {GetStaticPaths, GetStaticProps} from "next";
 import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
 import {Spotify} from "../../types/spotify";
-import SpotifyPlaylist = Spotify.PlaylistObjectFull
 import {cacheManager} from "../../lib/cache/fileCache";
 import Image from 'next/legacy/image'
 import shimmer from "../../lib/util/shimmer";
@@ -10,6 +9,7 @@ import Link from 'next/link'
 import {transformPlaylist} from "../../lib/util/transformPlaylist";
 import {fetchAllTrackFeatures} from "../../lib/spotify/fetchAllTrackFeatures";
 import getAccessToken from "../../lib/spotify/getAccessToken";
+import SpotifyPlaylist = Spotify.PlaylistObjectFull;
 
 const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Spotify.AudioFeaturesObject}) => {
     return (
@@ -74,10 +74,9 @@ function getHueFromBPM(bpm: number) {
     let green = 90
     if (bpm > red) return 0
     if (bpm < green) return 100
-    let hue = (red - bpm) / (red - green) * 100
-    console.log(hue)
-    return hue
+    return (red - bpm) / (red - green) * 100
 }
+
 const keys: Record<number, string[]> = {
     0: ["C"],
     1: ["C♯", "D♭"],
@@ -92,6 +91,7 @@ const keys: Record<number, string[]> = {
     10: ["A♯", "B♭"],
     11: ["B"],
 }
+
 const colourVariants = {
     green: "bg-green-600 hover:bg-green-500",
     red: "bg-red-600 hover:bg-red-500",
@@ -101,6 +101,7 @@ const colourVariants = {
     purple: "bg-purple-600 hover:bg-purple-500",
     pink: "bg-pink-600 hover:bg-pink-500",
 }
+
 export const Badge = ({children:text, colour, hue}: {children: any, colour: keyof typeof colourVariants, hue?:number}) => {
     return (
         <span
