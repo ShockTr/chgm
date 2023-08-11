@@ -1,10 +1,10 @@
-import DefaultLayout from "../components/layouts/DefaultLayout";
+import DefaultLayout from "../../components/layouts/DefaultLayout";
 import Image from 'next/legacy/image'
 import {GetStaticProps} from "next";
 import Link from "next/link";
-import fetchPlaylist from "../lib/spotify/fetchPlaylist";
-import shimmer from "../lib/util/shimmer";
-import {Spotify} from "../types/spotify";
+import fetchPlaylist from "../../lib/spotify/fetchPlaylist";
+import shimmer from "../../lib/util/shimmer";
+import {Spotify} from "../../types/spotify";
 import PagingObject = Spotify.PagingObject;
 import PlaylistTrackObject = Spotify.PlaylistTrackObject;
 import Head from "next/head";
@@ -55,9 +55,9 @@ export function TracksGridItem({track}: {track: Spotify.TrackObjectFull}) {
                     <Image title={track.album.name} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(80, 80)).toString('base64')}`} alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width="80" height="80" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300"/>
                 </Link>
                 <div className="flex flex-col min-w-0">
-                    <div className="font-semibold text-lg truncate">
+                    <Link href={`/tracks/${track.id}`} className="font-semibold text-lg truncate hover:underline">
                         <span title={track.name}>{track.name}</span>
-                    </div>
+                    </Link>
                     <div className="font-italic text-xs">
                         {track.artists.map((artist,index,array) => {
                         return (

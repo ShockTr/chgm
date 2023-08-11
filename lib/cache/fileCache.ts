@@ -2,10 +2,16 @@ import path from 'path'
 import { readFileSync, writeFileSync } from 'fs'
 import {Spotify} from "../../types/spotify";
 
+export type TrackCache = {
+    track: Spotify.TrackObjectFull
+    features?: Spotify.AudioFeaturesObject
+}
+
 export interface Caches {
     playlist?: Spotify.PlaylistObjectFull
     artists?: Spotify.ArtistObjectFull[]
     albums?: Spotify.AlbumObjectFull[]
+    tracks?: TrackCache[]
 }
 
 export class cacheManager {
