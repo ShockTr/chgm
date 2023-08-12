@@ -19,22 +19,24 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
                 <Link className="relative self-center md:self-auto max-w-sm" href={`/albums/${track.album.id}`}>
                     <Image title={track.album.name} placeholder="blur" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(480, 480)).toString('base64')}`} alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width={track.album.images[0].width} height={track.album.images[0].height}/>
                 </Link>
-                <div className="self-center text-center md:text-start md:self-auto md:flex md:flex-col md:space-y-5 w-full">
-                    <Link href={`/albums/${track.album.id}`} title={track.name} className="text-white">
-                        <div className="text-3xl md:text-5xl font-bold sm:leading-snug hover:underline">
-                            {track.name}
-                        </div>
-                    </Link>
-                    <div className="text-gray-400 font-bold md:text-xl">
-                        {track.artists.map((artist,index,array) => {
-                            return (
-                                <span title={artist.name} key={artist.id}>
+                <div className="self-center text-center md:text-start md:self-auto md:flex md:flex-col space-y-5 w-full">
+                    <div>
+                        <Link href={`/albums/${track.album.id}`} title={track.name} className="text-white">
+                            <div className="text-3xl md:text-5xl font-bold sm:leading-snug hover:underline">
+                                {track.name}
+                            </div>
+                        </Link>
+                        <div className="text-gray-400 font-bold md:text-xl">
+                            {track.artists.map((artist,index,array) => {
+                                return (
+                                    <span title={artist.name} key={artist.id}>
                                     <Link href={`/artists/${artist.id}`}><span className="hover:underline">{artist.name}</span></Link>{((array.length - index - 1) !== 0)? ', ': ''}
                                 </span>
-                            )
-                        })}
+                                )
+                            })}
+                        </div>
                     </div>
-                    <div className="text-white mt-3">
+                    <div className="text-white">
                         <HeardlePlayer gameState={
                             {finished:true, track, won:true, guesses:[], game: {snapshot_id:"", day:31}, maxGuesses: 1 }
                         } segments={[Infinity]}></HeardlePlayer>
@@ -42,7 +44,7 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
                 </div>
             </div>
             <div className="flex flex-col p-3 max-w-2xl w-full md:w-fit md:bg-slate-800 rounded h-fit md:max-h-[95%] space-y-3">
-                <div className="text-3xl text-white font-medium text-center border-b border-b-slate-800">Statistics</div>
+                <div className="text-3xl text-white font-medium text-center border-b border-b-slate-800 pb-3">Statistics</div>
                 <div className="grid sm:grid-cols-2 place-items-center gap-y-3 gap-x-6 text-white">
                     <div>
                         Tempo: <Badge hue={getHueFromBPM(features.tempo)} colour={"red"}>{Math.round(features.tempo)} BPM</Badge>
