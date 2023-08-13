@@ -12,10 +12,14 @@ import getAccessToken from "../../lib/spotify/getAccessToken";
 import SpotifyPlaylist = Spotify.PlaylistObjectFull;
 import { HeardlePlayer } from "../../components/Heardle/player";
 import { SpotifyIcon } from "../../lib/util/spotifyIcon";
+import Head from "next/head";
 
 const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Spotify.AudioFeaturesObject}) => {
     return (
         <div className="flex flex-grow p-3 flex-col items-center space-y-3 md:space-y-0 md:space-x-3 md:flex-row md:justify-between">
+            <Head>
+                <title>{`${track.name} - CHGM`}</title>
+            </Head>
             <div className="flex flex-col space-y-3 md:space-y-0">
                 <Link className="relative self-center md:self-auto max-w-sm" href={`/albums/${track.album.id}`}>
                     <Image title={track.album.name} placeholder="blur" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(480, 480)).toString('base64')}`} alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width={track.album.images[0].width} height={track.album.images[0].height}/>
