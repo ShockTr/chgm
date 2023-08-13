@@ -11,10 +11,11 @@ import {fetchAllTrackFeatures} from "../../lib/spotify/fetchAllTrackFeatures";
 import getAccessToken from "../../lib/spotify/getAccessToken";
 import SpotifyPlaylist = Spotify.PlaylistObjectFull;
 import { HeardlePlayer } from "../../components/Heardle/player";
+import { SpotifyIcon } from "../../lib/util/spotifyIcon";
 
 const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Spotify.AudioFeaturesObject}) => {
     return (
-        <div className="flex flex-grow p-3 flex-col items-center space-y-3 md:space-y-0 md:flex-row md:justify-between">
+        <div className="flex flex-grow p-3 flex-col items-center space-y-3 md:space-y-0 md:space-x-3 md:flex-row md:justify-between">
             <div className="flex flex-col space-y-3 md:space-y-0">
                 <Link className="relative self-center md:self-auto max-w-sm" href={`/albums/${track.album.id}`}>
                     <Image title={track.album.name} placeholder="blur" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(480, 480)).toString('base64')}`} alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width={track.album.images[0].width} height={track.album.images[0].height}/>
@@ -36,16 +37,25 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
                             })}
                         </div>
                     </div>
-                    <div className="text-white">
+                    <div className="text-white flex flex-col rounded bg-slate-800">
+                        <div className="p-3">
+                            Song Preview:
+                        </div>
                         <HeardlePlayer gameState={
                             {finished:true, track, won:true, guesses:[], game: {snapshot_id:"", day:31}, maxGuesses: 1 }
                         } segments={[Infinity]}></HeardlePlayer>
+                        <Link className="text-white flex items-center bg-[#1DB954] w-fit rounded p-3 m-3 hover:brightness-105 space-x-2" href={track.external_urls.spotify}>
+                            <SpotifyIcon/>
+                            <span>Open in Spotify</span>
+                        </Link>
                     </div>
                 </div>
             </div>
             <div className="flex flex-col p-3 max-w-2xl w-full md:w-fit md:bg-slate-800 rounded h-fit md:max-h-[95%] space-y-3">
-                <div className="text-3xl text-white font-medium text-center border-b border-b-slate-800 pb-3">Statistics</div>
-                <div className="grid sm:grid-cols-2 place-items-center gap-y-3 gap-x-6 text-white">
+                <div className="text-3xl text-white font-medium text-center border-b border-b-slate-800 md:border-b-slate-700 pb-3">
+                    Information
+                </div>
+                <div className="grid sm:grid-cols-2 place-items-center gap-y-3 gap-x-6 text-white border-b border-b-slate-800 md:border-b-slate-700 pb-3">
                     <div>
                         Tempo: <Badge hue={getHueFromBPM(features.tempo)} colour={"red"}>{Math.round(features.tempo)} BPM</Badge>
                     </div>
@@ -69,6 +79,34 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
                     </div>
                     <div>
                         Instrumental: <Badge colour={"pink"}>{(features.instrumentalness >= 0.5)? "Yes": "No"}</Badge>
+                    </div>
+                </div>
+                <div className="flex flex-col text-white font-medium space-y-1">
+                    <div>
+                        Track Name: <span className="font-normal text-gray-300">{track.name}</span>
+                    </div>
+                    <div>
+                        Album: <Link href={`/albums/${track.album.id}`} className="font-normal text-gray-300 hover:underline">{track.album.name}</Link>
+                    </div>
+                    <div>
+                        Artist{track.artists.length > 1? "s": ""}: <span className="font-normal text-gray-300">
+                        {track.artists.map((artist,index,array) => {
+                            return (
+                                <span title={artist.name} key={artist.id}>
+                                    <Link href={`/artists/${artist.id}`}><span className="hover:underline">{artist.name}</span></Link>{((array.length - index - 1) !== 0)? ', ': ''}
+                                </span>
+                            )
+                        })}
+                        </span>
+                    </div>
+                    <div>
+                        Release Date: <span className="font-normal text-gray-300">{new Intl.DateTimeFormat('en-gb', {year: "numeric", day: "numeric", month: "long"}).format(new Date(track.album.release_date))}</span>
+                    </div>
+                    <div>
+                        Duration: <span className="font-normal text-gray-300">{new Intl.DateTimeFormat('en-gb', {minute:"numeric", second: "numeric"}).format(track.duration_ms)}</span>
+                    </div>
+                    <div>
+
                     </div>
                 </div>
             </div>
