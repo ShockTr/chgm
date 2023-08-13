@@ -20,7 +20,7 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
                 <Link className="relative self-center md:self-auto max-w-sm" href={`/albums/${track.album.id}`}>
                     <Image title={track.album.name} placeholder="blur" className="overflow-hidden rounded hover:brightness-90 transition-[filter] duration-300" blurDataURL={`data:image/svg+xml;base64,${Buffer.from(shimmer(480, 480)).toString('base64')}`} alt={track.album.name + " Album Cover"} src={track.album.images[0].url} width={track.album.images[0].width} height={track.album.images[0].height}/>
                 </Link>
-                <div className="self-center text-center md:text-start md:self-auto md:flex md:flex-col space-y-5 w-full">
+                <div className="self-center text-center max-w-sm lg:max-w-none md:text-start md:self-auto md:flex md:flex-col space-y-5 w-full">
                     <div>
                         <Link href={`/albums/${track.album.id}`} title={track.name} className="text-white">
                             <div className="text-3xl md:text-5xl font-bold sm:leading-snug hover:underline">
@@ -37,14 +37,14 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
                             })}
                         </div>
                     </div>
-                    <div className="text-white flex flex-col rounded bg-slate-800">
-                        <div className="p-3">
+                    <div className="text-white flex flex-col rounded bg-slate-800 max-w-sm lg:max-w-[85%] lg:rounded-b-none lg:w-full lg:absolute lg:bottom-0 lg:mx-auto lg:inset-x-0">
+                        <div className="pl-3 pt-1 font-medium">
                             Song Preview:
                         </div>
                         <HeardlePlayer gameState={
                             {finished:true, track, won:true, guesses:[], game: {snapshot_id:"", day:31}, maxGuesses: 1 }
                         } segments={[Infinity]}></HeardlePlayer>
-                        <Link className="text-white flex items-center bg-[#1DB954] w-fit rounded p-3 m-3 hover:brightness-105 space-x-2" href={track.external_urls.spotify}>
+                        <Link className="text-white flex items-center bg-[#1DB954] w-fit rounded p-3 my-2 hover:brightness-105 space-x-2 self-center" href={track.external_urls.spotify}>
                             <SpotifyIcon/>
                             <span>Open in Spotify</span>
                         </Link>
