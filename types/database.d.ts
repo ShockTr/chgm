@@ -8,12 +8,19 @@ import AlbumObjectFull = Spotify.AlbumObjectFull;
 export interface sotdGamesData {
     snapshot_id: string
     games: sotdGameData[]
-    startDate: string // Start of the first game ever played in ISO Date (KST)
+    startDate: string // DEPRECATED field: Start of the first game ever played in ISO Date (KST)
     generationDate: Date
 }
 export interface sotdGameData {
     track: TrackObjectFull
     //played: boolean
+}
+export interface SeasonData {
+    currentSeason: number
+    startDate: string // Start of the first game ever played in ISO Date (KST)
+    generationDate: Date
+    sotds: sotdGamesData[]
+    latestSnapshot: string
 }
 
 //Playlist Collection:
