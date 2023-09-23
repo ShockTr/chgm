@@ -18,5 +18,5 @@ export async function getSotd(): Promise<getSotdResponse>{
     if (game === undefined) {
         throw Error("Today's game is undefined")
     }
-    return {...game, snapshot_id: currentSeason.latestSnapshot, day: diff, playlist: playlist}
+    return {...game, snapshot_id: currentSeason.latestSnapshot, day: diff, playlist: playlist, currentSeason: currentSeason.currentSeason}
 }

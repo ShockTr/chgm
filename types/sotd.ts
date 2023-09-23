@@ -37,6 +37,7 @@ export type previousSotdGames = Record<string, {
 export interface sotdAPIResponse extends sotdGameData {
     day: number
     snapshot_id: string
+    currentSeason: number
 }
 
 export type Nullable<T> = T | null | undefined;
