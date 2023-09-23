@@ -2,9 +2,14 @@ import {NextPageWithLayout} from "./_app";
 import DefaultLayout from "../components/layouts/DefaultLayout";
 import Link from "next/link";
 import Head from "next/head";
+import {useState} from "react";
+import {signIn, signOut, useSession} from "next-auth/react";
 
 
 const About: NextPageWithLayout = () => {
+    const [secretLogin, setSecretLogin] = useState(false)
+    const { data: session } = useSession()
+
     return (
         <div className="p-5 space-y-3">
             <Head>
@@ -13,7 +18,9 @@ const About: NextPageWithLayout = () => {
             <div className="text-white text-lg whitespace-pre-wrap">
                 <h1 className="text-3xl font-bold">About</h1>
                 <p>
-                    This is a project built to tribute the now dead &quot;CHGM&quot; genre in K-Pop.
+                    This is a project built to tribute the now dead &quot;<span onClick={(event) => {
+                    if (event.detail === 3) setSecretLogin(true)
+                    }}>CHGM</span>&quot; genre in K-Pop.
                     Also, this is my first project using React and Next.
                     This project includes a heardle game for CHGM songs, and a list page for CHGM songs, artists, and albums.
                     You can check out the project <a className="text-blue-600" href="https://chgm.vercel.app/">here</a>.
@@ -50,6 +57,13 @@ const About: NextPageWithLayout = () => {
                     <span>Check out the source code on Github</span>
                 </Link>
             </div>
+            {
+                (secretLogin || session) && (
+                    <button className="text-white flex items-center bg-[#5865F2] w-fit rounded p-3 hover:brightness-90 space-x-2" onClick={() => {session? signOut(): signIn("discord")}}>
+                        {session? "Sign out": "Sign in with Discord"}
+                    </button>
+                )
+            }
         </div>
     )
 }

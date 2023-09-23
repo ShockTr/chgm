@@ -4,12 +4,14 @@ import {useEffect, useState} from "react";
 import {userSettings} from "../types/sotd";
 import {useSavedState} from "../lib/util/useSavedState";
 import {useRouter} from "next/router";
+import {useSession} from "next-auth/react";
 
 export default function Navbar(){
     const [open, setOpen] = useState(false)
     const [scrollPosition, setScrollPosition] = useState(0);
     const [userSettings, setUserSettings] = useSavedState<userSettings>("userSettings", { volume: 20 })
     const [showSlider, setShowSlider] = useState(false)
+    const { data: session } = useSession()
     const router = useRouter();
     useEffect(() => {
         setShowSlider(false)
@@ -58,8 +60,9 @@ export default function Navbar(){
                 }
                 <div className="hidden md:flex space-x-2 mr-5 whitespace-nowrap items-center">
                     { Object.entries(NAVBAR_ITEMS).map(([key,data]) => {
-                        return (
-                            <div key={key} className="my-3">
+                        if (data.loginOnly && !session) return null
+                        else return (
+                            <div key={key} onClick={()=>setOpen(false)} className="my-2">
                                 <NavItem href={data.href} text={data.text}/>
                             </div>
                         )
@@ -73,7 +76,8 @@ export default function Navbar(){
             </div>
             <div className={`${open? "": "hidden"} md:hidden border-t border-slate-800 h-max flex flex-col`}>
                 { Object.entries(NAVBAR_ITEMS).map(([key,data]) => {
-                    return (
+                    if (data.loginOnly && !session) return null
+                    else return (
                         <div key={key} onClick={()=>setOpen(false)} className="my-2">
                             <NavItem href={data.href} text={data.text}/>
                         </div>
@@ -94,10 +98,17 @@ export function NavItem(data: {href:string, text:string}) {
     )
 }
 
-const NAVBAR_ITEMS = {
+const NAVBAR_ITEMS: Record<string, navbarItem> = {
     SOTD: {href:"/sotd", text: "Song of the day"},
+    LEADERBOARD: {href: "/sotd/leaderboard", text: "Leaderboard", loginOnly: true},
     TRACKS: {href: "/tracks", text: "Tracks"},
     ALBUMS: {href: "/albums", text: "Albums"},
     ARTISTS: {href: "/artists", text: "Artists"},
     ABOUT: {href: "/about", text: "About"}
+}
+
+interface navbarItem {
+    href: string,
+    text: string
+    loginOnly?: boolean
 }
