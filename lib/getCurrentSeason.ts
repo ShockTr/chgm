@@ -6,10 +6,10 @@ import {Nullable} from "../types/sotd";
 import {nodeCrypto, shuffle} from "random-js";
 import {PlaylistObjectTransformed} from "./util/transformPlaylist";
 
-export async function getSeason(returnPlaylist?: false): Promise<{seasonData: SeasonData, playlist: undefined}>
-export async function getSeason(returnPlaylist: true): Promise<{seasonData: SeasonData, playlist: PlaylistObjectTransformed}>
+export async function getCurrentSeason(returnPlaylist?: false): Promise<{seasonData: SeasonData, playlist: undefined}>
+export async function getCurrentSeason(returnPlaylist: true): Promise<{seasonData: SeasonData, playlist: PlaylistObjectTransformed}>
 
-export async function getSeason(returnPlaylist: boolean = false): Promise<{seasonData: SeasonData, playlist: undefined} | { seasonData: SeasonData, playlist: PlaylistObjectTransformed }>
+export async function getCurrentSeason(returnPlaylist: boolean = false): Promise<{seasonData: SeasonData, playlist: undefined} | { seasonData: SeasonData, playlist: PlaylistObjectTransformed }>
 {
     const today = DateTime.now().setZone("Asia/Seoul")
 

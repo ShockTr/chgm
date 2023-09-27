@@ -1,7 +1,7 @@
 import {sotdAPIResponse} from "../types/sotd";
 import {DateTime} from "luxon";
 import {PlaylistObjectTransformed} from "./util/transformPlaylist";
-import {getSeason} from "./getSeason";
+import {getCurrentSeason} from "./getCurrentSeason";
 
 export interface getSotdResponse extends sotdAPIResponse {
     playlist: PlaylistObjectTransformed
@@ -9,7 +9,7 @@ export interface getSotdResponse extends sotdAPIResponse {
 export async function getSotd(): Promise<getSotdResponse>{
     const today = DateTime.now().setZone("Asia/Seoul")
 
-    const {seasonData: currentSeason, playlist} = await getSeason(true)
+    const {seasonData: currentSeason, playlist} = await getCurrentSeason(true)
     const sotd = currentSeason.sotds[currentSeason.sotds.length - 1]
 
     const startDate = DateTime.fromISO(currentSeason.startDate, {zone: "Asia/Seoul"})
