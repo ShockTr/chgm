@@ -1,6 +1,8 @@
 import {Spotify} from "./spotify";
 import {sotdGameData} from "./database";
 import TrackObjectFull = Spotify.TrackObjectFull;
+import { z } from "zod"
+import {maxGuesses} from "../components/Heardle/config";
 
 
 //Clientside objects:
@@ -25,13 +27,26 @@ export interface userSettings {
     volume: number
 }
 
-// ISO-DATE, currentGame
+export const previousSotdGames = z.record(z.string(), z.object(
+    {
+        maxGuesses: z.number(),
+        guesses: z.number().min(1).max(maxGuesses),
+        finished: z.boolean(),
+        won: z.boolean()
+    }
+))
+
+export type previousSotdGames = z.infer<typeof previousSotdGames>
+/* ISO-DATE, currentGame
 export type previousSotdGames = Record<string, {
     maxGuesses: number,
     guesses: number
     finished:boolean
     won: boolean
-}>
+}>*/
+
+export const previousSotdGamesV2 = z.record(z.number().min(0), previousSotdGames)
+export type previousSotdGamesV2 = z.infer<typeof previousSotdGamesV2>
 
 //API Response
 export interface sotdAPIResponse extends sotdGameData {

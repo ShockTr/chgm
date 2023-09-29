@@ -34,6 +34,18 @@ export const authOptions: AuthOptions = {
     }),
     theme: {
         colorScheme: "dark"
+    },
+    callbacks: {
+        session({ session, user }) {
+            // @ts-ignore
+            delete session.user?.email
+            if (session.user) {
+                //session.user.id = user.id
+                // @ts-ignore
+                session.user.displayName = user.global_name
+            }
+            return session
+        }
     }
 }
 
