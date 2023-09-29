@@ -113,7 +113,8 @@ export async function getCurrentSeason(returnPlaylist: boolean = false): Promise
     }
     //we have a season
     else {
-        const diff = Math.floor(today.diff(DateTime.fromISO(currentSeason.startDate, {zone: "Asia/Seoul"})).toObject().days ?? 0) + 1
+        const startDate = DateTime.fromISO(currentSeason.startDate, {zone: "Asia/Seoul"})
+        const diff = Math.floor(today.diff(startDate, "days").toObject().days ?? 0) + 1
         //Game is finished
         if (diff > currentSeason.sotds[currentSeason.sotds.length - 1].games.length) {
             let newSeason: SeasonData = {
