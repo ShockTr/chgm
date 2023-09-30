@@ -26,9 +26,14 @@ export async function getSeasonDates() {
                                     },
                                     unit: 'day',
                                     amount: {
-                                        $size: {
-                                            $last: '$sotds.games'
-                                        }
+                                        $subtract: [
+                                            {
+                                                $size: {
+                                                    $last: '$sotds.games'
+                                                }
+                                            },
+                                            1
+                                        ]
                                     }
                                 }
                             },
@@ -43,6 +48,11 @@ export async function getSeasonDates() {
                         }
                     }
                 }
+            }
+        },
+        {
+            $sort: {
+                season: 1
             }
         },
         {
