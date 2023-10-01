@@ -1,12 +1,12 @@
-import {Dialog} from '@headlessui/react'
-import {currentGame, endingMessage, previousSotdGames} from "../../types/sotd";
+import {Dialog, Listbox} from '@headlessui/react'
+import {currentGame, endingMessage, previousSotdGames, previousSotdGamesV2} from "../../types/sotd";
 import {nodeCrypto, shuffle} from "random-js";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {DateTime} from "luxon";
 import {endingMessages, maxGuesses} from "./config";
 //import {HeardleGuess} from "./guess";
 
-export function HeardleResultPane({gameState, open, setOpen, previousGames}: {gameState: currentGame, open:boolean, setOpen: (open:boolean) => void, previousGames:previousSotdGames}) {
+export function HeardleResultPane({gameState, open, setOpen, previousGames}: {gameState: currentGame, open:boolean, setOpen: (open:boolean) => void, previousGames:previousSotdGamesV2}) {
     const getRandomEnding = useCallback((type: keyof endingMessage) => {
         const guessCount = gameState.guesses.length
         const won = gameState.won
@@ -23,7 +23,16 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
     const date = useMemo(() => DateTime.now().setZone("Asia/Seoul").toISODate(), [])
     const message = useMemo(() => getRandomEnding("messages"), [getRandomEnding])
     const title = useMemo(() => getRandomEnding("titles"), [getRandomEnding])
-    const values = useMemo(() => Object.values(previousGames), [previousGames])
+
+    const [selectedPreviousGame, setSelectedPreviousGame] = useState<previousSotdGames>(previousGames[gameState.game.season])
+    const [selectedSeason, setSelectedSeasonState] = useState<number>(gameState.game.season)
+    const setSelectedSeason = useCallback((selected: number) => {
+        setSelectedSeasonState(selected)
+        if (selected > 0) setSelectedPreviousGame(previousGames[selected])
+        else setSelectedPreviousGame(Object.assign({}, ...Object.values(previousGames)))
+    }, [previousGames])
+
+    const values = useMemo(() => Object.values(selectedPreviousGame), [selectedPreviousGame])
     const occurrences = useMemo(() => {
         return values.filter((game) => game.won).map((game) => game.guesses).reduce((acc: Record<number, number>, curr) => {
             if (typeof acc[curr] === 'undefined') {
@@ -41,6 +50,20 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
         if (lost > max) max = lost
         return max
     }, [lost, occurrences])
+
+    const pr = useMemo(() => new Intl.PluralRules("en-GB", { type: "ordinal" }), [])
+    const suffixes = useMemo(() => new Map([
+        ["one", "st"],
+        ["two", "nd"],
+        ["few", "rd"],
+        ["other", "th"],
+    ]), [])
+    const formatOrdinals = useCallback((n: number) => {
+        const rule = pr.select(n);
+        const suffix = suffixes.get(rule);
+        return `${n}${suffix}`;
+    }, [pr, suffixes])
+
     useEffect(() => {
         const interval = setInterval(() => {
             let tomorrow = DateTime.fromISO(date, {zone: "Asia/Seoul"}).plus({days: 1})
@@ -96,7 +119,34 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
                         </Dialog.Description>
                     </div>
                     {/*Stats*/}
-                    <div className="space-y-6 p-3">
+                    <div className="space-y-6 p-3 flex flex-col">
+                        <div className="self-end">
+                            <Listbox value={selectedSeason} onChange={setSelectedSeason}>
+                                <div className="relative w-32 space-y-1">
+                                    <Listbox.Button className={"rounded bg-slate-700 p-1 w-full"}>
+                                        {selectedSeason !== 0? `${formatOrdinals(selectedSeason)} Season`: "All Seasons"}
+                                    </Listbox.Button>
+                                    <Listbox.Options className={"absolute max-h-32 overflow-auto rounded w-full flex flex-col rounded py-1 bg-slate-700"}>
+                                        {[...Array(gameState.game.season + 1).keys()].map((season) => {
+                                            const disabled = !Object.values(previousGames[season]).length
+                                            const selected = selectedSeason === season
+                                            return (
+                                                <Listbox.Option
+                                                    className={`${!disabled ? "hover:cursor-pointer": "hover:cursor-not-allowed"} ${selected? "bg-slate-600": "hover:bg-slate-600"} w-full px-3 py-1 text-center`}
+                                                    key={season}
+                                                    value={season}
+                                                    disabled={disabled}
+                                                >
+                                                    <span className={disabled ? "text-gray-400": ""}>{
+                                                        season !== 0? `${formatOrdinals(season)} Season`: "All Seasons"
+                                                    }</span>
+                                                </Listbox.Option>
+                                            )
+                                        })}
+                                    </Listbox.Options>
+                                </div>
+                            </Listbox>
+                        </div>
                         {/*Chart*/}
                         <div className="flex flex-row w-full justify-between">
                             {

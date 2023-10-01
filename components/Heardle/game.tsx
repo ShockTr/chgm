@@ -1,5 +1,5 @@
 import {PlaylistObjectTransformed} from "../../lib/util/transformPlaylist";
-import {currentGame, previousSotdGames, sotdAPIResponse} from "../../types/sotd";
+import {currentGame, previousSotdGamesV2, sotdAPIResponse} from "../../types/sotd";
 import {HeardleGuess} from "./guess";
 import {HeardleTypeBox} from "./typeBox";
 import {useEffect, useMemo, useState} from "react";
@@ -11,14 +11,17 @@ import {DateTime} from "luxon";
 import {CorrectAnswer} from "./correctAnswer";
 import {maxGuesses, segments} from "./config";
 import TrackObjectFull = Spotify.TrackObjectFull;
+import {seasonDateObject} from "../../lib/util/getSeasonDates";
+import {transformV1previousGamesToV2} from "../../lib/util/transformV1previousGamesToV2";
 
-export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransformed, sotd: sotdAPIResponse}){
+export function HeardleGame({playlist, sotd, seasons}: {playlist: PlaylistObjectTransformed, sotd: sotdAPIResponse, seasons: seasonDateObject[]}){
     const date = useMemo(() => DateTime.now().setZone("Asia/Seoul").toISODate(), [])
     const [selected, setSelected] = useState<TrackObjectFull | null>(null)
     const [modalIsOpen, setModalIsOpen] = useState(false)
     let initalState: currentGame = {
         game: {
             snapshot_id: sotd.snapshot_id,
+            season: sotd.currentSeason,
             day: sotd.day,
         },
         track: sotd.track,
@@ -28,7 +31,10 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
         maxGuesses
     }
     const [gameState, setGameState] = useSavedState<currentGame>("gameState", initalState)
-    const [previousGames, setPreviousGames] = useSavedState<previousSotdGames>("previousGames", {})
+    const [previousGames, setPreviousGames] = useSavedState<previousSotdGamesV2>(
+        "previousGamesV2",
+        transformV1previousGamesToV2(seasons, JSON.parse(localStorage.getItem("previousGames") ?? "") )
+    )
     if (JSON.stringify(gameState.game) !== JSON.stringify(initalState.game)) setGameState(initalState)
 
     function submitGuess(){
@@ -55,7 +61,18 @@ export function HeardleGame({playlist, sotd}: {playlist: PlaylistObjectTransform
     }
     useEffect(() => {
     if (gameState.finished) {
-        setPreviousGames({...previousGames, [date]: {guesses: gameState.guesses.length, won: gameState.won, finished: gameState.finished, maxGuesses: gameState.maxGuesses}})
+        setPreviousGames({
+            ...previousGames,
+            [sotd.currentSeason]: {
+                ...previousGames[sotd.currentSeason],
+                [date]: {
+                    guesses: gameState.guesses.length,
+                    won: gameState.won,
+                    finished: gameState.finished,
+                    maxGuesses: gameState.maxGuesses
+                }
+            }
+        })
         setModalIsOpen(true)
     }
         // eslint-disable-next-line react-hooks/exhaustive-deps

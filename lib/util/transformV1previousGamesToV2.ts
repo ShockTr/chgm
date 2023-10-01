@@ -1,15 +1,14 @@
 import {previousSotdGames, previousSotdGamesV2} from "../../types/sotd";
-import {getSeasonDates} from "./getSeasonDates";
+import {seasonDateObject} from "./getSeasonDates";
 import {DateTime, Interval} from "luxon";
 
-export async function transformV1previousGamesToV2(previous: previousSotdGames) : Promise<previousSotdGamesV2> {
-    let seasonDates = await  getSeasonDates()
-    let intervals = seasonDates.map((season) => {
+export function transformV1previousGamesToV2(seasons: seasonDateObject[] , previous: previousSotdGames) : previousSotdGamesV2 {
+    let intervals = seasons.map((season) => {
         return Interval.fromDateTimes(DateTime.fromISO(season.startDate), DateTime.fromISO(season.endDate))
     })
 
     let final: previousSotdGamesV2 = {0: {}}
-    seasonDates.forEach((season) => {
+    seasons.forEach((season) => {
         final[season.season] = {}
     })
 

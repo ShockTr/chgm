@@ -9,6 +9,7 @@ import {maxGuesses} from "../components/Heardle/config";
 export interface currentGame {
     game: {
         snapshot_id: string
+        season: number
         day: number
     }
     track: TrackObjectFull
