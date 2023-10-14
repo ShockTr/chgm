@@ -46,7 +46,7 @@ export type previousSotdGames = Record<string, {
     won: boolean
 }>*/
 
-export const previousSotdGamesV2 = z.record(z.number().min(0), previousSotdGames)
+export const previousSotdGamesV2 = z.record(z.coerce.number().min(0), previousSotdGames)
 export type previousSotdGamesV2 = z.infer<typeof previousSotdGamesV2>
 
 //API Response

@@ -24,7 +24,7 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
     const message = useMemo(() => getRandomEnding("messages"), [getRandomEnding])
     const title = useMemo(() => getRandomEnding("titles"), [getRandomEnding])
 
-    const [selectedPreviousGame, setSelectedPreviousGame] = useState<previousSotdGames>(previousGames[gameState.game.season])
+    const [selectedPreviousGame, setSelectedPreviousGame] = useState<previousSotdGames>(previousGames[gameState.game.season] ?? {})
     const [selectedSeason, setSelectedSeasonState] = useState<number>(gameState.game.season)
     const setSelectedSeason = useCallback((selected: number) => {
         setSelectedSeasonState(selected)
@@ -126,9 +126,9 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
                                     <Listbox.Button className={"rounded bg-slate-700 p-1 w-full"}>
                                         {selectedSeason !== 0? `${formatOrdinals(selectedSeason)} Season`: "All Seasons"}
                                     </Listbox.Button>
-                                    <Listbox.Options className={"absolute max-h-32 overflow-auto rounded w-full flex flex-col rounded py-1 bg-slate-700"}>
+                                    <Listbox.Options className={"absolute max-h-32 overflow-auto rounded w-full flex flex-col py-1 bg-slate-700"}>
                                         {[...Array(gameState.game.season + 1).keys()].map((season) => {
-                                            const disabled = !Object.values(previousGames[season]).length
+                                            const disabled = !Object.values(previousGames[season] ?? {}).length
                                             const selected = selectedSeason === season
                                             return (
                                                 <Listbox.Option

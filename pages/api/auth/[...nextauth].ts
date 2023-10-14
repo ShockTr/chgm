@@ -40,7 +40,7 @@ export const authOptions: AuthOptions = {
             // @ts-ignore
             delete session.user?.email
             if (session.user) {
-                //session.user.id = user.id
+                session.user.id = user.id
                 // @ts-ignore
                 session.user.displayName = user.global_name
             }

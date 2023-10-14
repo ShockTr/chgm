@@ -3,6 +3,7 @@ import TrackObjectFull = Spotify.TrackObjectFull;
 import {PlaylistObjectTransformed} from "../lib/util/transformPlaylist";
 import ArtistObjectFull = Spotify.ArtistObjectFull;
 import AlbumObjectFull = Spotify.AlbumObjectFull;
+import type {previousSotdGamesV2} from "./sotd";
 
 //SOTD Collection:
 export interface sotdGamesData {
@@ -45,4 +46,10 @@ export interface AlbumData {
 //Helper:
 export interface updatingData {
     valid_until: Date
+}
+
+// User Collection:
+export interface userData {
+    userID: string
+    games: previousSotdGamesV2
 }
