@@ -33,7 +33,7 @@ export function HeardleGame({playlist, sotd, seasons}: {playlist: PlaylistObject
     const [gameState, setGameState] = useSavedState<currentGame>("gameState", initalState)
     const [previousGames, setPreviousGames] = useSavedState<previousSotdGamesV2>(
         "previousGamesV2",
-        transformV1previousGamesToV2(seasons, JSON.parse(localStorage.getItem("previousGames") ?? "") )
+        transformV1previousGamesToV2(seasons, JSON.parse(localStorage.getItem("previousGames") ?? "{}") )
     )
     if (JSON.stringify(gameState.game) !== JSON.stringify(initalState.game)) setGameState(initalState)
 
