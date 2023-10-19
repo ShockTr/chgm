@@ -17,10 +17,12 @@ export interface currentGame {
     guesses: sotdGuess[]
     finished: boolean
     won: boolean
+    synced: boolean
 }
 
 export interface sotdGuess {
     correct: boolean
+    skipped: boolean
     track: TrackObjectFull | null
 }
 

@@ -1,5 +1,5 @@
 import {PlaylistObjectTransformed} from "../../lib/util/transformPlaylist";
-import {currentGame, previousSotdGamesV2, sotdAPIResponse} from "../../types/sotd";
+import {currentGame, previousSotdGamesV2, sotdAPIResponse, sotdGuess} from "../../types/sotd";
 import {HeardleGuess} from "./guess";
 import {HeardleTypeBox} from "./typeBox";
 import {useEffect, useMemo, useState} from "react";
@@ -13,11 +13,13 @@ import {maxGuesses, segments} from "./config";
 import TrackObjectFull = Spotify.TrackObjectFull;
 import {seasonDateObject} from "../../lib/util/getSeasonDates";
 import {transformV1previousGamesToV2} from "../../lib/util/transformV1previousGamesToV2";
+import {useSession} from "next-auth/react";
 
 export function HeardleGame({playlist, sotd, seasons}: {playlist: PlaylistObjectTransformed, sotd: sotdAPIResponse, seasons: seasonDateObject[]}){
     const date = useMemo(() => DateTime.now().setZone("Asia/Seoul").toISODate(), [])
     const [selected, setSelected] = useState<TrackObjectFull | null>(null)
     const [modalIsOpen, setModalIsOpen] = useState(false)
+    const { data: session, status } = useSession()
     let initalState: currentGame = {
         game: {
             snapshot_id: sotd.snapshot_id,
@@ -28,6 +30,7 @@ export function HeardleGame({playlist, sotd, seasons}: {playlist: PlaylistObject
         guesses: [],
         finished: false,
         won: false,
+        synced: false,
         maxGuesses
     }
     const [gameState, setGameState] = useSavedState<currentGame>("gameState", initalState)
@@ -37,10 +40,55 @@ export function HeardleGame({playlist, sotd, seasons}: {playlist: PlaylistObject
     )
     if (JSON.stringify(gameState.game) !== JSON.stringify(initalState.game)) setGameState(initalState)
 
+    useEffect(() => {
+        if (status === "authenticated" && !gameState.finished) {
+            fetch("/api/leaderboard/user/sync", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                res.json().then(r => {
+                    if (!r.error)  {
+                        const serverGames: previousSotdGamesV2 = r.games
+                        if (
+                            serverGames &&
+                            serverGames[sotd.currentSeason] &&
+                            serverGames[sotd.currentSeason][date] &&
+                            serverGames[sotd.currentSeason][date].finished
+                        ) {
+                            const state =  serverGames[sotd.currentSeason][date]
+                            const modifiedInitial: currentGame = {
+                                ...initalState,
+                                finished: state.finished,
+                                won: state.won,
+                                synced: true,
+                                guesses: [...Array(state.guesses)].map((value, index): sotdGuess => {
+                                    if (index === state.guesses - 1 ) return {
+                                        track: state.won? sotd.track: null,
+                                        skipped:false,
+                                        correct: state.won
+                                    }
+                                    else return {
+                                        track: null,
+                                        skipped: false,
+                                        correct: false
+                                    }
+                                })
+                            }
+                            setGameState(modifiedInitial)
+                        }
+                    }
+                    else console.error(r.error)
+                })
+            })
+        }
+    }, [status]);
+
     function submitGuess(){
         if (selected === null) return
         let correct = selected.id === gameState.track.id
-        let newGuesses = [...gameState.guesses, {correct, track: selected}]
+        let newGuesses = [...gameState.guesses, {correct, track: selected, skipped:false}]
         setGameState({
             ...gameState,
             guesses: newGuesses,
@@ -50,7 +98,7 @@ export function HeardleGame({playlist, sotd, seasons}: {playlist: PlaylistObject
         setSelected(null)
     }
     function skipGuess(){
-        let newGuesses = [...gameState.guesses, {correct: false, track: null}]
+        let newGuesses = [...gameState.guesses, {correct: false, track: null, skipped:true}]
         setGameState({
             ...gameState,
             guesses: newGuesses,
@@ -60,22 +108,38 @@ export function HeardleGame({playlist, sotd, seasons}: {playlist: PlaylistObject
         setSelected(null)
     }
     useEffect(() => {
-    if (gameState.finished) {
-        setPreviousGames({
-            ...previousGames,
-            [sotd.currentSeason]: {
-                ...previousGames[sotd.currentSeason],
-                [date]: {
-                    guesses: gameState.guesses.length,
-                    won: gameState.won,
-                    finished: gameState.finished,
-                    maxGuesses: gameState.maxGuesses
+        if (gameState.finished) {
+            let temporaryState: previousSotdGamesV2 = previousGames
+            if (!gameState.synced) {
+                temporaryState = {
+                    ...previousGames,
+                    [sotd.currentSeason]: {
+                        ...previousGames[sotd.currentSeason],
+                        [date]: {
+                            guesses: gameState.guesses.length,
+                            won: gameState.won,
+                            finished: gameState.finished,
+                            maxGuesses: gameState.maxGuesses
+                        }
+                    }
                 }
+                setPreviousGames(temporaryState)
             }
-        })
-        setModalIsOpen(true)
-    }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+            if (session) {
+                fetch("/api/leaderboard/user/sync", {
+                    method: "POST",
+                    body: JSON.stringify(temporaryState),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((res) => {
+                    res.json().then(r => {
+                        if (!r.error) setPreviousGames(r.games)
+                    })
+                })
+            }
+            setModalIsOpen(true)
+        }
     },[gameState.finished])
 
     return (

@@ -24,7 +24,9 @@ export default async function sync(req: NextApiRequest, res: NextApiResponse){
         const seasonNumbers = [0, ...dates.map((date) => date.season)]
         const oldPrevious = await getPreviousGames(Users, session).then((prev) => prev?.games ?? {})
 
-        let newPrevious : previousSotdGamesV2 = Object.assign({}, oldPrevious)
+        let newPrevious : previousSotdGamesV2 = Object.assign(dates.reduce((accumulator , currentValue) => {
+            return {...accumulator, [currentValue.season]: {}}
+        }, {}), oldPrevious)
         // Populates newPrevious
         for (let season of Object.keys(data.data)) {
             const seasonNumber = Number(season);
