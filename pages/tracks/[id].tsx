@@ -46,7 +46,7 @@ const Tracks = ({track, features}: {track: Spotify.TrackObjectFull, features: Sp
                             Song Preview:
                         </div>
                         <HeardlePlayer gameState={
-                            {finished:true, track, won:true, guesses:[], game: {snapshot_id:"", season:31, day:31}, maxGuesses: 1 }
+                            {finished:true, track, won:true, guesses:[], synced:false, game: {snapshot_id:"", season:31, day:31}, maxGuesses: 1 }
                         } segments={[Infinity]}></HeardlePlayer>
                         <Link className="text-white flex items-center bg-[#1DB954] w-fit rounded p-3 my-2 hover:brightness-105 space-x-2 self-center" href={track.external_urls.spotify}>
                             <SpotifyIcon/>
