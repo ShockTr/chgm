@@ -26,7 +26,7 @@ export function HeardleResultPane({gameState, open, setOpen, previousGames}: {ga
 
     const [selectedPreviousGame, setSelectedPreviousGame] = useState<previousSotdGames>(previousGames[gameState.game.season] ?? {})
     useEffect(() => {
-        setSelectedPreviousGame(previousGames[gameState.game.season])
+        setSelectedPreviousGame(previousGames[gameState.game.season] ?? {})
     }, [previousGames]);
     const [selectedSeason, setSelectedSeasonState] = useState<number>(gameState.game.season)
     const setSelectedSeason = useCallback((selected: number) => {
