@@ -2,12 +2,15 @@ import {NextPageWithLayout} from "./_app";
 import DefaultLayout from "../components/layouts/DefaultLayout";
 import Link from "next/link";
 import Head from "next/head";
+import {userSettings} from "../types/sotd";
 import {useState} from "react";
 import {signIn, signOut, useSession} from "next-auth/react";
+import {useSavedState} from "../lib/util/useSavedState";
 
 
 const About: NextPageWithLayout = () => {
-    const [secretLogin, setSecretLogin] = useState(false)
+    const [showSettings, setShowSettings] = useState(false)
+    const [userSettings, setUserSettings] = useSavedState<userSettings>("userSettings", {volume: 20});
     const { data: session } = useSession()
 
     return (
@@ -19,7 +22,7 @@ const About: NextPageWithLayout = () => {
                 <h1 className="text-3xl font-bold">About</h1>
                 <p>
                     This is a project built to tribute the now dead &quot;<span onClick={(event) => {
-                    if (event.detail === 3) setSecretLogin(true)
+                    if (event.detail === 3) setShowSettings(true)
                     }}>CHGM</span>&quot; genre in K-Pop.
                     Also, this is my first project using React and Next.
                     This project includes a heardle game for CHGM songs, and a list page for CHGM songs, artists, and albums.
@@ -58,11 +61,28 @@ const About: NextPageWithLayout = () => {
                 </Link>
             </div>
             {
-                (secretLogin || session) && (
+                (showSettings || session) && (
                     <button className="text-white flex items-center bg-[#5865F2] w-fit rounded p-3 hover:brightness-90 space-x-2" onClick={() => {session? signOut(): signIn("discord")}}>
                         {session? "Sign out": "Sign in with Discord"}
                     </button>
                 )
+            }
+            {
+                showSettings &&
+                    <div className="flex items-center space-x-2 text-white text-center">
+                        <span>
+                            Volume:
+                        </span>
+                        <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            defaultValue={userSettings.volume}
+                            step="1"
+                            onChange={(event) => {setUserSettings({...userSettings, volume: Number(event.target.value)})}}
+                        />
+                        <span className="text-white w-0">{userSettings.volume}</span>
+                    </div>
             }
         </div>
     )
