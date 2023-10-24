@@ -73,7 +73,7 @@ export function NavItem(data: {href:string, text:string}) {
 
 const NAVBAR_ITEMS: Record<string, navbarItem> = {
     SOTD: {href:"/sotd", text: "Song of the day"},
-    LEADERBOARD: {href: "/sotd/leaderboard", text: "Leaderboard", loginOnly: true},
+    //LEADERBOARD: {href: "/sotd/leaderboard", text: "Leaderboard", loginOnly: true},
     TRACKS: {href: "/tracks", text: "Tracks"},
     ALBUMS: {href: "/albums", text: "Albums"},
     ARTISTS: {href: "/artists", text: "Artists"},
