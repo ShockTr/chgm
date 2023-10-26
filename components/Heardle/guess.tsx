@@ -15,7 +15,7 @@ export function HeardleGuess({guess}: {guess?: sotdGuess}){
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z" />
             </svg>
             <div className="font-medium text-xl">
-                Skipped
+                {guess.skipped? "Skipped": "Synced from another device"}
             </div>
         </div>
     )
@@ -23,7 +23,7 @@ export function HeardleGuess({guess}: {guess?: sotdGuess}){
         <div className={`h-16 sm:h-24 rounded ring ${guess.correct? "ring-green-500": "ring-red-600"} `}>
             <div className="h-full bg-slate-800 rounded p-2 transition-colors duration-300">
                 <div className="flex space-x-3">
-                    <Link href={`/albums/${guess.track.album.id}`} className="shrink flex h-12 w-12 sm:h-fit sm:w-fit my-auto">
+                    <Link href={`/albums/${guess.track.album.id}`} className="shrink-0 h-12 w-12 sm:h-fit sm:w-fit my-auto">
                         <Image
                             title={guess.track.album.name}
                             placeholder="blur"
@@ -38,7 +38,7 @@ export function HeardleGuess({guess}: {guess?: sotdGuess}){
                         <div className="font-semibold text-lg truncate">
                             <Link href={`/albums/${guess.track.album.id}`} title={guess.track.name}>{guess.track.name}</Link>
                         </div>
-                        <div className="font-italic text-xs">
+                        <div className="font-italic truncate text-xs">
                             {guess.track.artists.map((artist,index,array) => {
                                 return (
                                     <span title={artist.name} key={artist.id}>

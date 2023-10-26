@@ -10,8 +10,8 @@ export function CorrectAnswer({track}: {track: TrackObjectFull}){
         <div className="h-16 sm:h-24 rounded">
             <div className="h-full bg-slate-800 rounded p-2 transition-colors duration-300">
                 <div className="flex justify-between">
-                    <div className="flex">
-                        <Link href={`/albums/${track.album.id}`} className="shrink flex h-12 w-12 sm:h-fit sm:w-fit my-auto">
+                    <div className="flex min-w-0">
+                        <Link href={`/albums/${track.album.id}`} className="shrink-0 h-12 w-12 sm:h-20 sm:w-20 my-auto">
                             <Image
                                 title={track.album.name}
                                 placeholder="blur"
@@ -23,10 +23,10 @@ export function CorrectAnswer({track}: {track: TrackObjectFull}){
                             />
                         </Link>
                         <div className="flex flex-col min-w-0 ml-3">
-                            <div className="font-semibold text-lg truncate">
-                                <Link href={`/albums/${track.album.id}`} title={track.name}>{track.name}</Link>
-                            </div>
-                            <div className="font-italic text-xs">
+                            <Link className="font-semibold text-lg truncate" href={`/albums/${track.album.id}`} title={track.name}>
+                                {track.name}
+                            </Link>
+                            <div className="font-italic truncate text-xs">
                                 {track.artists.map((artist,index,array) => {
                                     return (
                                         <span title={artist.name} key={artist.id}>

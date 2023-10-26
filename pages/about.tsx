@@ -2,9 +2,17 @@ import {NextPageWithLayout} from "./_app";
 import DefaultLayout from "../components/layouts/DefaultLayout";
 import Link from "next/link";
 import Head from "next/head";
+import {userSettings} from "../types/sotd";
+import {useState} from "react";
+import {signIn, signOut, useSession} from "next-auth/react";
+import {useSavedState} from "../lib/util/useSavedState";
 
 
 const About: NextPageWithLayout = () => {
+    const [showSettings, setShowSettings] = useState(false)
+    const [userSettings, setUserSettings] = useSavedState<userSettings>("userSettings", {volume: 20});
+    const { data: session } = useSession()
+
     return (
         <div className="p-5 space-y-3">
             <Head>
@@ -13,14 +21,16 @@ const About: NextPageWithLayout = () => {
             <div className="text-white text-lg whitespace-pre-wrap">
                 <h1 className="text-3xl font-bold">About</h1>
                 <p>
-                    This is a project built to tribute the now dead &quot;CHGM&quot; genre in K-Pop.
+                    This is a project built to tribute the now dead &quot;<span onClick={(event) => {
+                    if (event.detail === 3) setShowSettings(true)
+                    }}>CHGM</span>&quot; genre in K-Pop.
                     Also, this is my first project using React and Next.
                     This project includes a heardle game for CHGM songs, and a list page for CHGM songs, artists, and albums.
                     You can check out the project <a className="text-blue-600" href="https://chgm.vercel.app/">here</a>.
                 </p>
                 <br/>
                 <h3 className="font-semibold text-xl">What is chgm?</h3>
-                It&apos;s a reference to a hilarious YouTube video claiming <a className="text-blue-600" href="https://open.spotify.com/playlist/2FONa0A7EaSDvAgck02s5s?si=58599d12695c4706">these kinds of songs</a> as &quot;CHGM songs&quot; because genre didn&apos;t have any specific name before, I stuck with CHGM for this project&apos;s name.<br/>
+                It&apos;s a reference to a funny YouTube video claiming <a className="text-blue-600" href="https://open.spotify.com/playlist/2FONa0A7EaSDvAgck02s5s?si=58599d12695c4706">these kinds of songs</a> as &quot;CHGM songs&quot; and because genre didn&apos;t have any specific name before, I stuck with CHGM for this project&apos;s name.<br/>
                 <br/>
                 <h2 className="font-semibold text-2xl">Bugs / Feature requests</h2>
                 Please make an issue on github.<br/>
@@ -34,6 +44,7 @@ const About: NextPageWithLayout = () => {
                     <li>MongoDb</li>
                     <li>Luxon</li>
                     <li>Spotify API</li>
+                    <li>Next Auth</li>
                 </ul>
             </div>
             <div>
@@ -50,6 +61,30 @@ const About: NextPageWithLayout = () => {
                     <span>Check out the source code on Github</span>
                 </Link>
             </div>
+            {
+                (showSettings || session) && (
+                    <button className="text-white flex items-center bg-[#5865F2] w-fit rounded p-3 hover:brightness-90 space-x-2" onClick={() => {session? signOut(): signIn("discord")}}>
+                        {session? `Sign out (${session.user?.name})`: "Sign in with Discord"}
+                    </button>
+                )
+            }
+            {
+                showSettings &&
+                    <div className="flex items-center space-x-2 text-white text-center">
+                        <span>
+                            Volume:
+                        </span>
+                        <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            defaultValue={userSettings.volume}
+                            step="1"
+                            onChange={(event) => {setUserSettings({...userSettings, volume: Number(event.target.value)})}}
+                        />
+                        <span className="text-white w-0">{userSettings.volume}</span>
+                    </div>
+            }
         </div>
     )
 }
