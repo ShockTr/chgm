@@ -143,19 +143,19 @@ const keys: Record<number, string[]> = {
 }
 
 const colourVariants = {
-    green: "bg-green-600 hover:bg-green-500",
-    red: "bg-red-600 hover:bg-red-500",
-    blue: "bg-blue-600 hover:bg-blue-500",
-    yellow: "bg-yellow-600 hover:bg-yellow-500",
-    gray: "bg-gray-600 hover:bg-gray-500",
-    purple: "bg-purple-600 hover:bg-purple-500",
-    pink: "bg-pink-600 hover:bg-pink-500",
+    green: "bg-green-600",
+    red: "bg-red-600",
+    blue: "bg-blue-600",
+    yellow: "bg-yellow-600",
+    gray: "bg-gray-600",
+    purple: "bg-purple-600",
+    pink: "bg-pink-600",
 }
 
 export const Badge = ({children:text, colour, hue}: {children: any, colour: keyof typeof colourVariants, hue?:number}) => {
     return (
         <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium ${!hue? `${colourVariants[colour]} text-white`: "text-black"}`}
+            className={`inline-flex items-center px-2.5 py-0.5 hover:brightness-110 rounded text-xs font-medium ${!hue? `${colourVariants[colour]} text-white`: "text-black"}`}
             {...( hue && {style: {backgroundColor: `hsl(${hue}, 100%, 50%)`}})}
         >
         {text}

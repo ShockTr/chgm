@@ -6,7 +6,7 @@ You can check out the project [here](https://chgm.vercel.app/).
 
 
 ### What is chgm?
-It's a reference to a hilarious YouTube video claiming [these kinds of songs](https://open.spotify.com/playlist/2FONa0A7EaSDvAgck02s5s?si=58599d12695c4706) as "CHGM songs" because genre didn't have any specific name before, I stuck with CHGM for this project's name.
+It's a reference to a funny YouTube video claiming [these kinds of songs](https://open.spotify.com/playlist/2FONa0A7EaSDvAgck02s5s?si=58599d12695c4706) as "CHGM songs" and because genre didn't have any specific name before, I stuck with CHGM for this project's name.
 
 ### Features
 - Heardle Game for CHGM songs.
@@ -25,3 +25,4 @@ Please make an issue on here.
 - Luxon
 - MongoDB
 - Spotify API
+- Next Auth

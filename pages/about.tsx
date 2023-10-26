@@ -63,7 +63,7 @@ const About: NextPageWithLayout = () => {
             {
                 (showSettings || session) && (
                     <button className="text-white flex items-center bg-[#5865F2] w-fit rounded p-3 hover:brightness-90 space-x-2" onClick={() => {session? signOut(): signIn("discord")}}>
-                        {session? "Sign out": "Sign in with Discord"}
+                        {session? `Sign out (${session.user?.name})`: "Sign in with Discord"}
                     </button>
                 )
             }

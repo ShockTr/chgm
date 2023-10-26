@@ -23,7 +23,7 @@ export function HeardleGuess({guess}: {guess?: sotdGuess}){
         <div className={`h-16 sm:h-24 rounded ring ${guess.correct? "ring-green-500": "ring-red-600"} `}>
             <div className="h-full bg-slate-800 rounded p-2 transition-colors duration-300">
                 <div className="flex space-x-3">
-                    <Link href={`/albums/${guess.track.album.id}`} className="shrink flex h-12 w-12 sm:h-fit sm:w-fit my-auto">
+                    <Link href={`/albums/${guess.track.album.id}`} className="shrink-0 h-12 w-12 sm:h-fit sm:w-fit my-auto">
                         <Image
                             title={guess.track.album.name}
                             placeholder="blur"
@@ -38,7 +38,7 @@ export function HeardleGuess({guess}: {guess?: sotdGuess}){
                         <div className="font-semibold text-lg truncate">
                             <Link href={`/albums/${guess.track.album.id}`} title={guess.track.name}>{guess.track.name}</Link>
                         </div>
-                        <div className="font-italic text-xs">
+                        <div className="font-italic truncate text-xs">
                             {guess.track.artists.map((artist,index,array) => {
                                 return (
                                     <span title={artist.name} key={artist.id}>

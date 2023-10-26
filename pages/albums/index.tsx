@@ -59,7 +59,7 @@ export function AlbumsGridItem({album}: {album: Spotify.AlbumObjectSimplified}) 
                     <Link href={`/albums/${album.id}`} className="font-semibold text-lg truncate hover:underline">
                         <span title={album.name}>{album.name}</span>
                     </Link>
-                    <div className="font-italic text-xs">
+                    <div className="font-italic truncate text-xs">
                         {album.artists.map((artist,index,array) => {
                             if (artist.id === "0LyfQWJT6nXafLPZqxe9Of") return (<span title={artist.name} key={artist.id}>{artist.name}</span>)
                             return (

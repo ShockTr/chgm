@@ -58,7 +58,7 @@ export function TracksGridItem({track}: {track: Spotify.TrackObjectFull}) {
                     <Link href={`/tracks/${track.id}`} className="font-semibold text-lg truncate hover:underline">
                         <span title={track.name}>{track.name}</span>
                     </Link>
-                    <div className="font-italic text-xs">
+                    <div className="font-italic truncate text-xs">
                         {track.artists.map((artist,index,array) => {
                         return (
                             <span title={artist.name} key={artist.id}>
