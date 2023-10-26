@@ -28,17 +28,17 @@ export default async function sync(req: NextApiRequest, res: NextApiResponse){
             return {...accumulator, [currentValue.season]: {}}
         }, {}), oldPrevious)
         // Populates newPrevious
-        for (let season of Object.keys(data.data)) {
+        for (const season of Object.keys(data.data)) {
             const seasonNumber = Number(season);
-            if (!seasonNumbers.includes(seasonNumber)) break
+            if (!seasonNumbers.includes(seasonNumber)) continue
             const seasonDates = dates.find((date) => date.season === seasonNumber)
             const duration: Interval = Interval.fromDateTimes(
                 DateTime.fromISO(seasonDates?.startDate ?? "", {zone: "Asia/Seoul"}),
                 DateTime.fromISO(seasonDates?.endDate ?? "", {zone: "Asia/Seoul"})
             )
 
-            for (let day of Object.keys(data.data[seasonNumber])) {
-                if (Object.keys(oldPrevious[seasonNumber] ?? {}).includes(day)) break
+            for (const day of Object.keys(data.data[seasonNumber])) {
+                if (Object.keys(oldPrevious[seasonNumber] ?? {}).includes(day)) continue
                 const date = DateTime.fromISO(day, {zone: "Asia/Seoul"})
                 const now = DateTime.now()
 

@@ -116,10 +116,10 @@ export function HeardleGame({playlist, sotd, seasons}: {playlist: PlaylistObject
                     [sotd.currentSeason]: {
                         ...previousGames[sotd.currentSeason],
                         [date]: {
+                            maxGuesses: gameState.maxGuesses,
                             guesses: gameState.guesses.length,
-                            won: gameState.won,
                             finished: gameState.finished,
-                            maxGuesses: gameState.maxGuesses
+                            won: gameState.won
                         }
                     }
                 }
